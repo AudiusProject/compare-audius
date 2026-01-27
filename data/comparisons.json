@@ -1,0 +1,362 @@
+[
+  {
+    "id": "audius-decentralized",
+    "platformId": "audius",
+    "featureId": "decentralized",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "audius-rewards-system",
+    "platformId": "audius",
+    "featureId": "rewards-system",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "spotify-scheduled-releases",
+    "platformId": "spotify",
+    "featureId": "scheduled-releases",
+    "status": "partial",
+    "displayValue": null,
+    "context": "Release schedule is controlled by distributor"
+  },
+  {
+    "id": "spotify-streaming-quality",
+    "platformId": "spotify",
+    "featureId": "streaming-quality",
+    "status": "custom",
+    "displayValue": "160 kbps",
+    "context": null
+  },
+  {
+    "id": "soundcloud-ad-free-listening",
+    "platformId": "soundcloud",
+    "featureId": "ad-free-listening",
+    "status": "partial",
+    "displayValue": null,
+    "context": "Premium Subscription Required"
+  },
+  {
+    "id": "soundcloud-ad-free-interface",
+    "platformId": "soundcloud",
+    "featureId": "ad-free-interface",
+    "status": "partial",
+    "displayValue": null,
+    "context": "Premium Subscription Required"
+  },
+  {
+    "id": "spotify-comments",
+    "platformId": "spotify",
+    "featureId": "comments",
+    "status": "no",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "soundcloud-remix-features",
+    "platformId": "soundcloud",
+    "featureId": "remix-features",
+    "status": "no",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "spotify-direct-ugc-upload",
+    "platformId": "spotify",
+    "featureId": "direct-ugc-upload",
+    "status": "no",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "soundcloud-developer-sdk",
+    "platformId": "soundcloud",
+    "featureId": "developer-sdk",
+    "status": "partial",
+    "displayValue": null,
+    "context": "No longer accepting new API applications"
+  },
+  {
+    "id": "spotify-offline-mode",
+    "platformId": "spotify",
+    "featureId": "offline-mode",
+    "status": "partial",
+    "displayValue": null,
+    "context": "Premium Subscription Required"
+  },
+  {
+    "id": "spotify-ad-free-interface",
+    "platformId": "spotify",
+    "featureId": "ad-free-interface",
+    "status": "partial",
+    "displayValue": null,
+    "context": "Premium Subscription Required"
+  },
+  {
+    "id": "soundcloud-decentralized",
+    "platformId": "soundcloud",
+    "featureId": "decentralized",
+    "status": "no",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "spotify-direct-messages",
+    "platformId": "spotify",
+    "featureId": "direct-messages",
+    "status": "no",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "soundcloud-direct-ugc-upload",
+    "platformId": "soundcloud",
+    "featureId": "direct-ugc-upload",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "soundcloud-streaming-quality",
+    "platformId": "soundcloud",
+    "featureId": "streaming-quality",
+    "status": "custom",
+    "displayValue": "128 kbps",
+    "context": null
+  },
+  {
+    "id": "audius-gated-content",
+    "platformId": "audius",
+    "featureId": "gated-content",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "soundcloud-comments",
+    "platformId": "soundcloud",
+    "featureId": "comments",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "audius-unlimited-uploads",
+    "platformId": "audius",
+    "featureId": "unlimited-uploads",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "spotify-decentralized",
+    "platformId": "spotify",
+    "featureId": "decentralized",
+    "status": "no",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "spotify-developer-sdk",
+    "platformId": "spotify",
+    "featureId": "developer-sdk",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "spotify-remix-features",
+    "platformId": "spotify",
+    "featureId": "remix-features",
+    "status": "no",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "audius-ad-free-listening",
+    "platformId": "audius",
+    "featureId": "ad-free-listening",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "spotify-unlimited-uploads",
+    "platformId": "spotify",
+    "featureId": "unlimited-uploads",
+    "status": "no",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "spotify-rewards-system",
+    "platformId": "spotify",
+    "featureId": "rewards-system",
+    "status": "no",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "audius-scheduled-releases",
+    "platformId": "audius",
+    "featureId": "scheduled-releases",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "audius-offline-mode",
+    "platformId": "audius",
+    "featureId": "offline-mode",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "audius-direct-messages",
+    "platformId": "audius",
+    "featureId": "direct-messages",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "spotify-gated-content",
+    "platformId": "spotify",
+    "featureId": "gated-content",
+    "status": "no",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "soundcloud-rewards-system",
+    "platformId": "soundcloud",
+    "featureId": "rewards-system",
+    "status": "no",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "audius-remix-features",
+    "platformId": "audius",
+    "featureId": "remix-features",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "soundcloud-gated-content",
+    "platformId": "soundcloud",
+    "featureId": "gated-content",
+    "status": "partial",
+    "displayValue": null,
+    "context": "Certain tracks (major-label) require Go+ subscription"
+  },
+  {
+    "id": "soundcloud-scheduled-releases",
+    "platformId": "soundcloud",
+    "featureId": "scheduled-releases",
+    "status": "partial",
+    "displayValue": null,
+    "context": "Premium Subscription Required"
+  },
+  {
+    "id": "audius-streaming-quality",
+    "platformId": "audius",
+    "featureId": "streaming-quality",
+    "status": "custom",
+    "displayValue": "320 kbps",
+    "context": null
+  },
+  {
+    "id": "audius-comments",
+    "platformId": "audius",
+    "featureId": "comments",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "audius-direct-ugc-upload",
+    "platformId": "audius",
+    "featureId": "direct-ugc-upload",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "soundcloud-unlimited-uploads",
+    "platformId": "soundcloud",
+    "featureId": "unlimited-uploads",
+    "status": "partial",
+    "displayValue": null,
+    "context": "Premium Subscription Required"
+  },
+  {
+    "id": "soundcloud-direct-messages",
+    "platformId": "soundcloud",
+    "featureId": "direct-messages",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "soundcloud-offline-mode",
+    "platformId": "soundcloud",
+    "featureId": "offline-mode",
+    "status": "partial",
+    "displayValue": null,
+    "context": "Premium Subscription Required"
+  },
+  {
+    "id": "audius-ad-free-interface",
+    "platformId": "audius",
+    "featureId": "ad-free-interface",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "spotify-ad-free-listening",
+    "platformId": "spotify",
+    "featureId": "ad-free-listening",
+    "status": "partial",
+    "displayValue": null,
+    "context": "Premium Subscription Required"
+  },
+  {
+    "id": "audius-developer-sdk",
+    "platformId": "audius",
+    "featureId": "developer-sdk",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "audius-visualizer",
+    "platformId": "audius",
+    "featureId": "visualizer",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "soundcloud-visualizer",
+    "platformId": "soundcloud",
+    "featureId": "visualizer",
+    "status": "no",
+    "displayValue": null,
+    "context": null
+  },
+  {
+    "id": "spotify-visualizer",
+    "platformId": "spotify",
+    "featureId": "visualizer",
+    "status": "yes",
+    "displayValue": null,
+    "context": null
+  }
+]

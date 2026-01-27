@@ -1,0 +1,107 @@
+[
+  {
+    "id": "streaming-quality",
+    "name": "Streaming Quality",
+    "slug": "streaming-quality",
+    "description": "Max streaming audio bitrate offered on free tier.",
+    "sortOrder": 1
+  },
+  {
+    "id": "unlimited-uploads",
+    "name": "Unlimited Uploads",
+    "slug": "unlimited-uploads",
+    "description": "No limits on the number of uploads.",
+    "sortOrder": 2
+  },
+  {
+    "id": "ad-free-interface",
+    "name": "Ad-Free Interface",
+    "slug": "ad-free-interface",
+    "description": "No ads shown in the user interface.",
+    "sortOrder": 3
+  },
+  {
+    "id": "ad-free-listening",
+    "name": "Ad-Free Listening",
+    "slug": "ad-free-listening",
+    "description": "Music playback without ads.",
+    "sortOrder": 4
+  },
+  {
+    "id": "comments",
+    "name": "Comments",
+    "slug": "comments",
+    "description": "Users can comment directly on tracks.",
+    "sortOrder": 5
+  },
+  {
+    "id": "direct-messages",
+    "name": "Direct Messages",
+    "slug": "direct-messages",
+    "description": "Messaging between users on the platform.",
+    "sortOrder": 6
+  },
+  {
+    "id": "scheduled-releases",
+    "name": "Scheduled Releases",
+    "slug": "scheduled-releases",
+    "description": "Set the exact time your music goes live in advance.",
+    "sortOrder": 7
+  },
+  {
+    "id": "offline-mode",
+    "name": "Offline Mode",
+    "slug": "offline-mode",
+    "description": "Ability to listen without an internet connection.",
+    "sortOrder": 8
+  },
+  {
+    "id": "remix-features",
+    "name": "Remix Features",
+    "slug": "remix-features",
+    "description": "Tools for uploading and discovering remixes.",
+    "sortOrder": 9
+  },
+  {
+    "id": "gated-content",
+    "name": "Gated Content",
+    "slug": "gated-content",
+    "description": "Artists control access with pay-to-unlock, follow-to-unlock, or NFT gating.",
+    "sortOrder": 10
+  },
+  {
+    "id": "rewards-system",
+    "name": "Rewards System",
+    "slug": "rewards-system",
+    "description": "Users can earn rewards or incentives.",
+    "sortOrder": 11
+  },
+  {
+    "id": "direct-ugc-upload",
+    "name": "Direct UGC Upload",
+    "slug": "direct-ugc-upload",
+    "description": "Users can upload original or derivative content.",
+    "sortOrder": 12
+  },
+  {
+    "id": "visualizer",
+    "name": "Visualizer",
+    "slug": "visualizer",
+    "description": "A dynamic visual representation of the music you're playing.",
+    "sortOrder": 13
+  },
+  {
+    "id": "decentralized",
+    "name": "Decentralized",
+    "slug": "decentralized",
+    "description": "Not reliant on centralized infrastructure.",
+    "sortOrder": 14
+  },
+  {
+    "id": "developer-sdk",
+    "name": "Developer SDK",
+    "slug": "developer-sdk",
+    "description": "Tools for developers to access platform features.",
+    "sortOrder": 15
+  }
+]

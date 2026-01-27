@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+/* Design System from Figma */
+@theme inline {
+  /* Brand Colors */
+  --color-audius-purple: #7f0cda;
+  --color-audius-purple-dark: #6B18AE;
+  --color-audius-purple-light: #9935E8;
+  
+  /* Text Colors */
+  --color-text-primary: #3c3a45;
+  --color-text-secondary: #595666;
+  --color-text-muted: #9896a1;
+  
+  /* Status Colors */
+  --color-status-yes: #0ac27d;
+  --color-status-no: #e54d4d;
+  --color-status-partial: #9896a1;
+  
+  /* Surface Colors */
+  --color-surface: #ffffff;
+  --color-surface-alt: #fafafa;
+  
+  /* Border Colors */
+  --color-border: #dbdbde;
+  --color-border-light: #f0f0f0;
+  
+  /* Spacing */
+  --spacing-header-height: 80px;
+  
+  /* Border Radius */
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 4px;
+  
+  /* Shadows */
+  --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-header: 0px 0.3px 0.1px 0px rgba(0,0,0,0.02), 0px 0.9px 0.4px 0px rgba(0,0,0,0.04), 0px 2.1px 1.8px 0px rgba(0,0,0,0.03), 0px 5.2px 5.9px 0px rgba(0,0,0,0.03), 0px 14.2px 18.4px 0px rgba(0,0,0,0.04);
+  
+  /* Font Family */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Base Styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+    background: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Component Styles */
+@layer components {
+  /* Container utilities */
+  .container-narrow {
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  
+  .container-wide {
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  
+  /* Purple dotted underline for CompetitorSelector */
+  .competitor-selector-trigger {
+    border-bottom-width: 2px;
+    border-bottom-style: dashed;
+    border-bottom-color: var(--color-audius-purple);
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  
+  .competitor-selector-trigger:hover {
+    border-bottom-color: var(--color-audius-purple-dark);
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  /* Typography utilities */
+  .text-page-title {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 57.6px;
+    color: var(--color-text-primary);
+  }
+  
+  .text-section-title {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 30px;
+    color: var(--color-text-primary);
+  }
+  
+  .text-feature-name {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--color-text-secondary);
+  }
+  
+  .text-feature-desc {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    color: var(--color-text-secondary);
+  }
+  
+  .text-status-context {
+    font-size: 12.8px;
+    font-weight: 600;
+    line-height: 20px;
+    color: var(--color-text-primary);
+  }
+  
+  .text-nav {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    color: var(--color-text-secondary);
+  }
+  
+  .text-badge {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--color-audius-purple);
+  }
+}

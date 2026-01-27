@@ -1,0 +1,23 @@
+[
+  {
+    "id": "audius",
+    "name": "Audius Music",
+    "slug": "audius",
+    "logo": "https://cdn.prod.website-files.com/67fec1eb88ef3de9adf4455c/6802c1954e5d6fc2ec61ccd4_y7vxxCf97wWfwEsRoz9xpn3cAsel2_X60gFP4PQnzF8.webp",
+    "isAudius": true
+  },
+  {
+    "id": "spotify",
+    "name": "Spotify",
+    "slug": "spotify",
+    "logo": "https://cdn.prod.website-files.com/67fec1eb88ef3de9adf4455c/6802c198cf8d0609b1efe254_IWZ1lcJOvgM44SvoFDAxhQ-SzNN_BD4-A5T-0sYEm_8.webp",
+    "isAudius": false
+  },
+  {
+    "id": "soundcloud",
+    "name": "SoundCloud",
+    "slug": "soundcloud",
+    "logo": "https://cdn.prod.website-files.com/67fec1eb88ef3de9adf4455c/6802c19b087bc55f9a37532b_TPcZC0fpDh--_HWFgLXPejJrU1quvQu3jfh9SUzg83U.webp",
+    "isAudius": false
+  }
+]
