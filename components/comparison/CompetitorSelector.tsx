@@ -71,7 +71,7 @@ export function CompetitorSelector({ current, options }: CompetitorSelectorProps
       {/* Dropdown menu */}
       <div 
         className={cn(
-          'absolute left-1/2 -translate-x-1/2 top-full mt-3',
+          'absolute left-1/2 -translate-x-1/2 top-full mt-3 z-50',
           'min-w-[200px] py-2 bg-white rounded-xl border border-border',
           'shadow-lg shadow-black/10',
           'transition-all duration-200 origin-top',
