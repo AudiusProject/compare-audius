@@ -18,6 +18,9 @@ export interface Platform {
   slug: string;
   logo: string;
   isAudius: boolean;
+  isDraft?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 /**
@@ -29,6 +32,9 @@ export interface Feature {
   slug: string;
   description: string;
   sortOrder: number;
+  isDraft?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 /**
@@ -41,6 +47,8 @@ export interface Comparison {
   status: ComparisonStatus;
   displayValue: string | null;
   context: string | null;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 /**

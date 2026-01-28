@@ -7,6 +7,8 @@
 
 ## Related Documents
 
+### Phase 1: Public Site (Complete)
+
 | Document | Purpose | Audience |
 |----------|---------|----------|
 | [PLAN_BACKEND.md](./PLAN_BACKEND.md) | Project setup, data layer, types, utilities | Backend/IC Agent |
@@ -14,12 +16,20 @@
 | [PLAN_FRONTEND.md](./PLAN_FRONTEND.md) | All UI components, styling, responsive design | Frontend/IC Agent |
 | [PLAN_QA.md](./PLAN_QA.md) | Final testing, accessibility, performance, sign-off | QA/Review Agent |
 
+### Phase 2: Admin Interface
+
+| Document | Purpose | Audience |
+|----------|---------|----------|
+| [PROJECT_PLAN_ADMIN.md](./PROJECT_PLAN_ADMIN.md) | Admin UI, auth, database | All Agents |
+
 **Execution Order:** 
 
 ```
+Phase 1 (Complete):
 Backend → Backend QA → Frontend → Final QA → Deploy
-   ↓          ↓            ↓          ↓
- Build     Gate Check    Build    Sign-off
+
+Phase 2 (Admin):
+Database Setup → Auth → Admin UI → Admin QA → Deploy
 ```
 
 ---

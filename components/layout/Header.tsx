@@ -9,11 +9,16 @@ import { MoreDropdown } from './MoreDropdown';
 import { MobileNav } from './MobileNav';
 import { EXTERNAL_URLS } from '@/lib/constants';
 import { MenuIcon } from '@/components/ui/Icon';
+import type { Platform } from '@/types';
 
 // Audius logo from CDN (same as in platforms.json)
 const AUDIUS_LOGO_URL = 'https://cdn.prod.website-files.com/67fec1eb88ef3de9adf4455c/6802c1954e5d6fc2ec61ccd4_y7vxxCf97wWfwEsRoz9xpn3cAsel2_X60gFP4PQnzF8.webp';
 
-export function Header() {
+interface HeaderProps {
+  competitors: Platform[];
+}
+
+export function Header({ competitors }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -37,7 +42,7 @@ export function Header() {
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center">
-            <CompareDropdown />
+            <CompareDropdown competitors={competitors} />
             <MoreDropdown />
             
             {/* CTA Button */}
@@ -65,7 +70,8 @@ export function Header() {
       {/* Mobile Navigation */}
       <MobileNav 
         isOpen={isMobileMenuOpen} 
-        onClose={() => setIsMobileMenuOpen(false)} 
+        onClose={() => setIsMobileMenuOpen(false)}
+        competitors={competitors}
       />
     </header>
   );

@@ -3,13 +3,16 @@
 
 import { useRouter, usePathname } from 'next/navigation';
 import { Dropdown, type DropdownSection } from '@/components/ui/Dropdown';
-import { getCompetitors } from '@/lib/data';
 import { DEFAULT_COMPETITOR } from '@/lib/constants';
+import type { Platform } from '@/types';
 
-export function CompareDropdown() {
+interface CompareDropdownProps {
+  competitors: Platform[];
+}
+
+export function CompareDropdown({ competitors }: CompareDropdownProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const competitors = getCompetitors();
   
   // Determine current competitor from pathname
   const currentSlug = pathname === '/' ? DEFAULT_COMPETITOR : pathname.slice(1);

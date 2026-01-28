@@ -1,89 +1,155 @@
 // lib/data.ts
 
-import platformsData from '@/data/platforms.json';
-import featuresData from '@/data/features.json';
-import comparisonsData from '@/data/comparisons.json';
-import type { Platform, Feature, Comparison, FeatureComparison } from '@/types';
+import { db } from '@/db';
+import { platforms, features, comparisons } from '@/db/schema';
+import { eq, and, asc } from 'drizzle-orm';
+import type { Platform, Feature, Comparison } from '@/db/schema';
 
-// Type assertions for imported JSON
-const platforms = platformsData as Platform[];
-const features = featuresData as Feature[];
-const comparisons = comparisonsData as Comparison[];
+// Re-export types for components
+export type { Platform, Feature, Comparison };
+
+export interface FeatureComparison {
+  feature: Feature;
+  audius: Comparison;
+  competitor: Comparison;
+}
 
 /**
- * Get all platforms
+ * Get all published platforms
  */
-export function getPlatforms(): Platform[] {
-  return platforms;
+export async function getPlatforms(): Promise<Platform[]> {
+  return db.select().from(platforms).where(eq(platforms.isDraft, false));
+}
+
+/**
+ * Get all platforms (including drafts) - for admin
+ */
+export async function getAllPlatforms(): Promise<Platform[]> {
+  return db.select().from(platforms);
 }
 
 /**
  * Get a single platform by slug
  */
-export function getPlatform(slug: string): Platform | undefined {
-  return platforms.find(p => p.slug === slug);
+export async function getPlatform(slug: string): Promise<Platform | undefined> {
+  const results = await db.select().from(platforms).where(eq(platforms.slug, slug));
+  return results[0];
+}
+
+/**
+ * Get a single platform by ID
+ */
+export async function getPlatformById(id: string): Promise<Platform | undefined> {
+  const results = await db.select().from(platforms).where(eq(platforms.id, id));
+  return results[0];
 }
 
 /**
  * Get Audius platform
  */
-export function getAudius(): Platform {
-  const audius = platforms.find(p => p.isAudius);
-  if (!audius) throw new Error('Audius platform not found in data');
-  return audius;
+export async function getAudius(): Promise<Platform> {
+  const results = await db.select().from(platforms).where(eq(platforms.isAudius, true));
+  if (!results[0]) throw new Error('Audius platform not found');
+  return results[0];
 }
 
 /**
- * Get all competitor platforms (non-Audius)
+ * Get published competitor platforms (non-Audius)
  */
-export function getCompetitors(): Platform[] {
-  return platforms.filter(p => !p.isAudius);
+export async function getCompetitors(): Promise<Platform[]> {
+  return db.select().from(platforms).where(
+    and(
+      eq(platforms.isAudius, false),
+      eq(platforms.isDraft, false)
+    )
+  );
 }
 
 /**
- * Get all features sorted by sortOrder
+ * Get all published features sorted by sortOrder
  */
-export function getFeatures(): Feature[] {
-  return [...features].sort((a, b) => a.sortOrder - b.sortOrder);
+export async function getFeatures(): Promise<Feature[]> {
+  return db.select().from(features)
+    .where(eq(features.isDraft, false))
+    .orderBy(asc(features.sortOrder));
+}
+
+/**
+ * Get all features (including drafts) - for admin
+ */
+export async function getAllFeatures(): Promise<Feature[]> {
+  return db.select().from(features).orderBy(asc(features.sortOrder));
 }
 
 /**
  * Get a single feature by slug
  */
-export function getFeature(slug: string): Feature | undefined {
-  return features.find(f => f.slug === slug);
+export async function getFeature(slug: string): Promise<Feature | undefined> {
+  const results = await db.select().from(features).where(eq(features.slug, slug));
+  return results[0];
+}
+
+/**
+ * Get a single feature by ID
+ */
+export async function getFeatureById(id: string): Promise<Feature | undefined> {
+  const results = await db.select().from(features).where(eq(features.id, id));
+  return results[0];
+}
+
+/**
+ * Get all comparisons
+ */
+export async function getAllComparisons(): Promise<Comparison[]> {
+  return db.select().from(comparisons);
+}
+
+/**
+ * Get comparisons for a specific feature
+ */
+export async function getComparisonsByFeature(featureId: string): Promise<Comparison[]> {
+  return db.select().from(comparisons).where(eq(comparisons.featureId, featureId));
 }
 
 /**
  * Get comparison for a specific platform and feature
  */
-export function getComparison(platformId: string, featureId: string): Comparison | undefined {
-  return comparisons.find(
-    c => c.platformId === platformId && c.featureId === featureId
+export async function getComparison(platformId: string, featureId: string): Promise<Comparison | undefined> {
+  const results = await db.select().from(comparisons).where(
+    and(
+      eq(comparisons.platformId, platformId),
+      eq(comparisons.featureId, featureId)
+    )
   );
+  return results[0];
 }
 
 /**
- * Get full comparison data for a competitor
- * Returns array of FeatureComparison objects ready for rendering
+ * Get full comparison data for a competitor (public site)
+ * Only includes published features and platforms
  */
-export function getComparisonData(competitorSlug: string): FeatureComparison[] {
-  const audius = getAudius();
-  const competitor = getPlatform(competitorSlug);
+export async function getComparisonData(competitorSlug: string): Promise<FeatureComparison[]> {
+  const audius = await getAudius();
+  const competitor = await getPlatform(competitorSlug);
   
   if (!competitor) {
     throw new Error(`Unknown competitor: ${competitorSlug}`);
   }
   
-  if (competitor.isAudius) {
-    throw new Error('Cannot compare Audius to itself');
+  if (competitor.isDraft) {
+    throw new Error(`Competitor is in draft mode: ${competitorSlug}`);
   }
   
-  const featureList = getFeatures();
+  const featureList = await getFeatures(); // Already filtered to published
+  const allComparisons = await getAllComparisons();
   
   return featureList.map(feature => {
-    const audiusComparison = getComparison(audius.id, feature.id);
-    const competitorComparison = getComparison(competitor.id, feature.id);
+    const audiusComparison = allComparisons.find(
+      c => c.platformId === audius.id && c.featureId === feature.id
+    );
+    const competitorComparison = allComparisons.find(
+      c => c.platformId === competitor.id && c.featureId === feature.id
+    );
     
     if (!audiusComparison) {
       throw new Error(`Missing Audius comparison for feature: ${feature.id}`);
@@ -101,15 +167,17 @@ export function getComparisonData(competitorSlug: string): FeatureComparison[] {
 }
 
 /**
- * Check if a slug is a valid competitor
+ * Check if a slug is a valid published competitor
  */
-export function isValidCompetitor(slug: string): boolean {
-  return getCompetitors().some(c => c.slug === slug);
+export async function isValidCompetitor(slug: string): Promise<boolean> {
+  const competitors = await getCompetitors();
+  return competitors.some(c => c.slug === slug);
 }
 
 /**
  * Get all valid competitor slugs (for generateStaticParams)
  */
-export function getCompetitorSlugs(): string[] {
-  return getCompetitors().map(c => c.slug);
+export async function getCompetitorSlugs(): Promise<string[]> {
+  const competitors = await getCompetitors();
+  return competitors.map(c => c.slug);
 }

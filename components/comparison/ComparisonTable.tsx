@@ -1,16 +1,15 @@
 // components/comparison/ComparisonTable.tsx
 import { PlatformHeader } from './PlatformHeader';
-import { getAudius } from '@/lib/data';
 import type { Platform, FeatureComparison, ComparisonStatus } from '@/types';
 import { CheckIcon, XIcon, MinusIcon } from '@/components/ui/Icon';
 
 interface ComparisonTableProps {
+  audius: Platform;
   competitor: Platform;
   comparisons: FeatureComparison[];
 }
 
-export function ComparisonTable({ competitor, comparisons }: ComparisonTableProps) {
-  const audius = getAudius();
+export function ComparisonTable({ audius, competitor, comparisons }: ComparisonTableProps) {
   
   return (
     <div className="relative">

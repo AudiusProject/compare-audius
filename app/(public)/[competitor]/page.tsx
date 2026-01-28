@@ -1,4 +1,4 @@
-// app/[competitor]/page.tsx
+// app/(public)/[competitor]/page.tsx
 import { notFound } from 'next/navigation';
 import { ComparisonPage } from '@/components/comparison/ComparisonPage';
 import { 
@@ -12,7 +12,8 @@ import type { Metadata } from 'next';
 
 // Static params for all competitors
 export async function generateStaticParams() {
-  return getCompetitorSlugs().map(slug => ({ competitor: slug }));
+  const slugs = await getCompetitorSlugs();
+  return slugs.map(slug => ({ competitor: slug }));
 }
 
 // Dynamic metadata
@@ -20,7 +21,7 @@ export async function generateMetadata(props: {
   params: Promise<{ competitor: string }> 
 }): Promise<Metadata> {
   const params = await props.params;
-  const competitor = getPlatform(params.competitor);
+  const competitor = await getPlatform(params.competitor);
   if (!competitor) return {};
   
   return {
@@ -34,13 +35,18 @@ export default async function CompetitorPage(props: {
 }) {
   const params = await props.params;
   
-  if (!isValidCompetitor(params.competitor)) {
+  const isValid = await isValidCompetitor(params.competitor);
+  if (!isValid) {
     notFound();
   }
   
-  const competitor = getPlatform(params.competitor)!;
-  const competitors = getCompetitors();
-  const comparisons = getComparisonData(params.competitor);
+  const competitor = await getPlatform(params.competitor);
+  const competitors = await getCompetitors();
+  const comparisons = await getComparisonData(params.competitor);
+  
+  if (!competitor) {
+    notFound();
+  }
   
   return (
     <ComparisonPage 

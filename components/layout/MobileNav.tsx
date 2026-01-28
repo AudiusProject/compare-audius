@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { EXTERNAL_URLS } from '@/lib/constants';
-import { getCompetitors } from '@/lib/data';
 import Image from 'next/image';
 import { 
   CloseIcon, 
@@ -15,6 +14,7 @@ import {
   TelegramIcon,
   TikTokIcon 
 } from '@/components/ui/Icon';
+import type { Platform } from '@/types';
 
 // Audius logo from CDN
 const AUDIUS_LOGO_URL = 'https://cdn.prod.website-files.com/67fec1eb88ef3de9adf4455c/6802c1954e5d6fc2ec61ccd4_y7vxxCf97wWfwEsRoz9xpn3cAsel2_X60gFP4PQnzF8.webp';
@@ -22,11 +22,11 @@ const AUDIUS_LOGO_URL = 'https://cdn.prod.website-files.com/67fec1eb88ef3de9adf4
 interface MobileNavProps {
   isOpen: boolean;
   onClose: () => void;
+  competitors: Platform[];
 }
 
-export function MobileNav({ isOpen, onClose }: MobileNavProps) {
+export function MobileNav({ isOpen, onClose, competitors }: MobileNavProps) {
   const router = useRouter();
-  const competitors = getCompetitors();
 
   // Close on Escape
   useEffect(() => {

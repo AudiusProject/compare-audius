@@ -1,16 +1,15 @@
 // components/comparison/FeatureCard.tsx
 import Image from 'next/image';
 import { StatusIndicator } from './StatusIndicator';
-import { getAudius } from '@/lib/data';
 import type { Platform, FeatureComparison } from '@/types';
 
 interface FeatureCardProps {
+  audius: Platform;
   comparison: FeatureComparison;
   competitor: Platform;
 }
 
-export function FeatureCard({ comparison, competitor }: FeatureCardProps) {
-  const audius = getAudius();
+export function FeatureCard({ audius, comparison, competitor }: FeatureCardProps) {
   const { feature, audius: audiusStatus, competitor: competitorStatus } = comparison;
   
   return (
