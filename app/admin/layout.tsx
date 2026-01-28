@@ -19,9 +19,9 @@ export default async function AdminLayout({
   
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-gray-50 flex">
-        {/* Sidebar */}
-        <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
+      <div className="min-h-screen bg-gray-50">
+        {/* Sidebar - Fixed */}
+        <aside className="fixed top-0 left-0 w-64 h-screen bg-white border-r border-gray-200 flex flex-col">
           {/* Logo */}
           <div className="p-4 border-b border-gray-200">
             <span className="text-xl font-bold text-audius-purple">Compare Admin</span>
@@ -63,8 +63,8 @@ export default async function AdminLayout({
           </div>
         </aside>
         
-        {/* Main content */}
-        <main className="flex-1 overflow-auto">
+        {/* Main content - offset by sidebar width */}
+        <main className="ml-64 min-h-screen">
           <div className="p-8">
             {children}
           </div>
