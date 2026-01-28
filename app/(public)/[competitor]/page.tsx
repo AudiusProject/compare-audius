@@ -41,12 +41,12 @@ export default async function CompetitorPage(props: {
   }
   
   const competitor = await getPlatform(params.competitor);
-  const competitors = await getCompetitors();
-  const comparisons = await getComparisonData(params.competitor);
-  
   if (!competitor) {
     notFound();
   }
+  
+  const competitors = await getCompetitors();
+  const comparisons = await getComparisonData(params.competitor);
   
   return (
     <ComparisonPage 

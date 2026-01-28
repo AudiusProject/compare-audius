@@ -10,11 +10,16 @@ export default async function FeaturesPage() {
   const comparisons = await getAllComparisons();
   const platforms = await getAllPlatforms();
   
-  const publishedPlatformCount = platforms.filter(p => !p.isDraft).length;
+  const publishedPlatforms = platforms.filter(p => !p.isDraft);
+  const publishedPlatformIds = new Set(publishedPlatforms.map(p => p.id));
+  const publishedPlatformCount = publishedPlatforms.length;
   
   // Calculate comparison completeness per feature
+  // Only count comparisons for PUBLISHED platforms
   const completeness = features.map(feature => {
-    const featureComparisons = comparisons.filter(c => c.featureId === feature.id);
+    const featureComparisons = comparisons.filter(c => 
+      c.featureId === feature.id && publishedPlatformIds.has(c.platformId)
+    );
     return {
       featureId: feature.id,
       count: featureComparisons.length,
