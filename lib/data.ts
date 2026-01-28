@@ -126,44 +126,46 @@ export async function getComparison(platformId: string, featureId: string): Prom
 
 /**
  * Get full comparison data for a competitor (public site)
- * Only includes published features and platforms
+ * Only includes published features that have comparisons for BOTH platforms.
+ * Features without comparison data for either platform are omitted.
  */
 export async function getComparisonData(competitorSlug: string): Promise<FeatureComparison[]> {
   const audius = await getAudius();
   const competitor = await getPlatform(competitorSlug);
-  
+
   if (!competitor) {
     throw new Error(`Unknown competitor: ${competitorSlug}`);
   }
-  
+
   if (competitor.isDraft) {
     throw new Error(`Competitor is in draft mode: ${competitorSlug}`);
   }
-  
+
   const featureList = await getFeatures(); // Already filtered to published
   const allComparisons = await getAllComparisons();
-  
-  return featureList.map(feature => {
+
+  // Filter to features that have comparisons for BOTH Audius and the competitor
+  const result: FeatureComparison[] = [];
+
+  for (const feature of featureList) {
     const audiusComparison = allComparisons.find(
       c => c.platformId === audius.id && c.featureId === feature.id
     );
     const competitorComparison = allComparisons.find(
       c => c.platformId === competitor.id && c.featureId === feature.id
     );
-    
-    if (!audiusComparison) {
-      throw new Error(`Missing Audius comparison for feature: ${feature.id}`);
+
+    // Only include features with comparisons for both platforms
+    if (audiusComparison && competitorComparison) {
+      result.push({
+        feature,
+        audius: audiusComparison,
+        competitor: competitorComparison,
+      });
     }
-    if (!competitorComparison) {
-      throw new Error(`Missing ${competitor.name} comparison for feature: ${feature.id}`);
-    }
-    
-    return {
-      feature,
-      audius: audiusComparison,
-      competitor: competitorComparison,
-    };
-  });
+  }
+
+  return result;
 }
 
 /**
