@@ -43,7 +43,7 @@ export function FeatureList({ features: initialFeatures, completeness }: Feature
 
   const handleDrop = async (e: React.DragEvent, dropIndex: number) => {
     e.preventDefault();
-    
+
     if (draggedIndex === null || draggedIndex === dropIndex) {
       setDraggedIndex(null);
       setDragOverIndex(null);
@@ -54,7 +54,7 @@ export function FeatureList({ features: initialFeatures, completeness }: Feature
     const newFeatures = [...features];
     const [draggedItem] = newFeatures.splice(draggedIndex, 1);
     newFeatures.splice(dropIndex, 0, draggedItem);
-    
+
     setFeatures(newFeatures);
     setDraggedIndex(null);
     setDragOverIndex(null);
@@ -77,13 +77,13 @@ export function FeatureList({ features: initialFeatures, completeness }: Feature
       }));
 
       const res = await fetch('/api/features/reorder', {
-        method: 'PUT',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ order }),
       });
 
       if (!res.ok) throw new Error('Failed to save order');
-      
+
       showToast('Order saved', 'success');
       router.refresh();
     } catch {
@@ -118,7 +118,7 @@ export function FeatureList({ features: initialFeatures, completeness }: Feature
             const comp = completeness.find(c => c.featureId === feature.id)!;
             const isDragging = draggedIndex === index;
             const isDragOver = dragOverIndex === index;
-            
+
             return (
               <tr
                 key={feature.id}
