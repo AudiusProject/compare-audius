@@ -4,8 +4,7 @@ import { NextRequest } from 'next/server';
 import { db } from '@/db';
 import { features } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-import { requireAuth, successResponse, errorResponse } from '@/lib/api-helpers';
-import { revalidatePath } from 'next/cache';
+import { requireAuth, successResponse, errorResponse, revalidatePublicPages } from '@/lib/api-helpers';
 
 // POST /api/features/reorder
 // Body: { order: [{ id: string, sortOrder: number }] }
@@ -27,9 +26,7 @@ export async function POST(request: NextRequest) {
         .where(eq(features.id, item.id));
     }
     
-    revalidatePath('/');
-    revalidatePath('/soundcloud');
-    revalidatePath('/spotify');
+    await revalidatePublicPages();
     
     return successResponse({ success: true });
   } catch {

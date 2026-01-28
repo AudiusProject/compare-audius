@@ -4,8 +4,7 @@ import { NextRequest } from 'next/server';
 import { db } from '@/db';
 import { features } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-import { requireAuth, successResponse, errorResponse } from '@/lib/api-helpers';
-import { revalidatePath } from 'next/cache';
+import { requireAuth, successResponse, errorResponse, revalidatePublicPages } from '@/lib/api-helpers';
 
 // GET /api/features/[id]
 export async function GET(
@@ -49,9 +48,7 @@ export async function PUT(
     await db.update(features).set(updateData).where(eq(features.id, id));
     
     if (isDraft === false) {
-      revalidatePath('/');
-      revalidatePath('/soundcloud');
-      revalidatePath('/spotify');
+      await revalidatePublicPages();
     }
     
     const updated = await db.select().from(features).where(eq(features.id, id));
@@ -77,9 +74,7 @@ export async function DELETE(
   
   await db.delete(features).where(eq(features.id, id));
   
-  revalidatePath('/');
-  revalidatePath('/soundcloud');
-  revalidatePath('/spotify');
+  await revalidatePublicPages();
   
   return successResponse({ success: true });
 }

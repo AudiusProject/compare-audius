@@ -4,8 +4,7 @@ import { NextRequest } from 'next/server';
 import { db } from '@/db';
 import { comparisons } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-import { requireAuth, successResponse, errorResponse } from '@/lib/api-helpers';
-import { revalidatePath } from 'next/cache';
+import { requireAuth, successResponse, errorResponse, revalidatePublicPages } from '@/lib/api-helpers';
 
 // PUT /api/comparisons/[id]
 export async function PUT(
@@ -28,9 +27,7 @@ export async function PUT(
     
     await db.update(comparisons).set(updateData).where(eq(comparisons.id, id));
     
-    revalidatePath('/');
-    revalidatePath('/soundcloud');
-    revalidatePath('/spotify');
+    await revalidatePublicPages();
     
     const updated = await db.select().from(comparisons).where(eq(comparisons.id, id));
     return successResponse(updated[0]);

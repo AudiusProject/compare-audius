@@ -4,8 +4,7 @@ import { NextRequest } from 'next/server';
 import { db } from '@/db';
 import { comparisons } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-import { requireAuth, successResponse, errorResponse } from '@/lib/api-helpers';
-import { revalidatePath } from 'next/cache';
+import { requireAuth, successResponse, errorResponse, revalidatePublicPages } from '@/lib/api-helpers';
 import { nanoid } from 'nanoid';
 
 // GET /api/comparisons?featureId=xxx
@@ -73,9 +72,7 @@ export async function POST(request: NextRequest) {
       }
     }
     
-    revalidatePath('/');
-    revalidatePath('/soundcloud');
-    revalidatePath('/spotify');
+    await revalidatePublicPages();
     
     return successResponse({ success: true });
   } catch (err) {

@@ -4,8 +4,7 @@ import { NextRequest } from 'next/server';
 import { db } from '@/db';
 import { platforms } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-import { requireAuth, successResponse, errorResponse } from '@/lib/api-helpers';
-import { revalidatePath } from 'next/cache';
+import { requireAuth, successResponse, errorResponse, revalidatePublicPages } from '@/lib/api-helpers';
 
 // GET /api/platforms/[id]
 export async function GET(
@@ -50,9 +49,7 @@ export async function PUT(
     
     // Revalidate public pages if publishing
     if (isDraft === false) {
-      revalidatePath('/');
-      revalidatePath('/soundcloud');
-      revalidatePath('/spotify');
+      await revalidatePublicPages();
     }
     
     const updated = await db.select().from(platforms).where(eq(platforms.id, id));
@@ -85,9 +82,7 @@ export async function DELETE(
   // Delete (comparisons will cascade due to foreign key)
   await db.delete(platforms).where(eq(platforms.id, id));
   
-  revalidatePath('/');
-  revalidatePath('/soundcloud');
-  revalidatePath('/spotify');
+  await revalidatePublicPages();
   
   return successResponse({ success: true });
 }
