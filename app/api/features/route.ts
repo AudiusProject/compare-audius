@@ -23,18 +23,22 @@ export async function POST(request: NextRequest) {
   
   try {
     const body = await request.json();
-    const { name, slug, description, sortOrder } = body;
+    const { name, slug, description } = body;
     
-    if (!name || !slug || !description || sortOrder === undefined) {
-      return errorResponse('Name, slug, description, and sortOrder are required');
+    if (!name || !slug || !description) {
+      return errorResponse('Name, slug, and description are required');
     }
+    
+    // Auto-calculate sortOrder (place at end of list)
+    const allFeatures = await db.select().from(features);
+    const maxSortOrder = Math.max(0, ...allFeatures.map(f => f.sortOrder));
     
     const newFeature = {
       id: nanoid(),
       name,
       slug,
       description,
-      sortOrder,
+      sortOrder: maxSortOrder + 1,
       isDraft: true,
       createdAt: new Date(),
       updatedAt: new Date(),

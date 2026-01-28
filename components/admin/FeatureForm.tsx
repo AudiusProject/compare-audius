@@ -7,10 +7,9 @@ import type { Feature } from '@/db/schema';
 
 interface FeatureFormProps {
   feature?: Feature;
-  nextSortOrder?: number;
 }
 
-export function FeatureForm({ feature, nextSortOrder = 1 }: FeatureFormProps) {
+export function FeatureForm({ feature }: FeatureFormProps) {
   const router = useRouter();
   const { showToast } = useToast();
   const isEditing = !!feature;
@@ -18,7 +17,6 @@ export function FeatureForm({ feature, nextSortOrder = 1 }: FeatureFormProps) {
   const [name, setName] = useState(feature?.name ?? '');
   const [slug, setSlug] = useState(feature?.slug ?? '');
   const [description, setDescription] = useState(feature?.description ?? '');
-  const [sortOrder, setSortOrder] = useState(feature?.sortOrder ?? nextSortOrder);
   const [saving, setSaving] = useState(false);
   
   const handleNameChange = (value: string) => {
@@ -37,7 +35,6 @@ export function FeatureForm({ feature, nextSortOrder = 1 }: FeatureFormProps) {
         name,
         slug,
         description,
-        sortOrder,
         ...(publish ? { isDraft: false } : {}),
       };
       
@@ -81,7 +78,7 @@ export function FeatureForm({ feature, nextSortOrder = 1 }: FeatureFormProps) {
           />
         </div>
         
-<div>
+        <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
           <textarea
             value={description}
@@ -90,18 +87,6 @@ export function FeatureForm({ feature, nextSortOrder = 1 }: FeatureFormProps) {
             maxLength={500}
             rows={3}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-audius-purple focus:border-transparent"
-          />
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
-          <input
-            type="number"
-            value={sortOrder}
-            onChange={(e) => setSortOrder(parseInt(e.target.value) || 0)}
-            required
-            min={1}
-            className="w-32 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-audius-purple focus:border-transparent"
           />
         </div>
       </div>
