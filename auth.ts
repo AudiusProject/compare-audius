@@ -26,19 +26,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return false;
     },
     redirect({ url, baseUrl }) {
-      // Always redirect to /admin after sign in
-      if (url.includes('/api/auth/callback')) {
+      // Handle callback - redirect to admin
+      if (url.includes('callback')) {
         return `${baseUrl}/admin`;
       }
-      // Allow relative URLs
+      // Handle relative URLs
       if (url.startsWith('/')) {
         return `${baseUrl}${url}`;
       }
-      // Allow URLs on the same origin
-      if (url.startsWith(baseUrl)) {
+      // Handle same-origin URLs
+      if (new URL(url).origin === baseUrl) {
         return url;
       }
-      return baseUrl;
+      // Default to admin
+      return `${baseUrl}/admin`;
     },
     session({ session, token }) {
       // Add user id to session

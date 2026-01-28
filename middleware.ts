@@ -12,16 +12,19 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
   
-  // Always allow login page
-  if (pathname === '/login') {
-    return NextResponse.next();
-  }
-  
   // Check for session token
   const token = await getToken({ 
     req: request,
     secret: process.env.AUTH_SECRET,
   });
+  
+  // Redirect authenticated users away from login page
+  if (pathname === '/login') {
+    if (token) {
+      return NextResponse.redirect(new URL('/admin', request.url));
+    }
+    return NextResponse.next();
+  }
   
   // Protect other admin routes
   if (pathname.startsWith('/admin')) {
