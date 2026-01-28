@@ -1,45 +1,36 @@
 // middleware.ts
 
+import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { getToken } from 'next-auth/jwt';
 
-export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  
-  // Always allow auth API routes
-  if (pathname.startsWith('/api/auth')) {
-    return NextResponse.next();
-  }
-  
-  // Check for session token
-  const token = await getToken({ 
-    req: request,
-    secret: process.env.AUTH_SECRET,
-  });
+export default auth((req) => {
+  const { pathname } = req.nextUrl;
+  const isAuthenticated = !!req.auth;
   
   // Redirect authenticated users away from login page
   if (pathname === '/login') {
-    if (token) {
-      return NextResponse.redirect(new URL('/admin', request.url));
+    if (isAuthenticated) {
+      return NextResponse.redirect(new URL('/admin', req.url));
     }
     return NextResponse.next();
   }
   
-  // Protect other admin routes
+  // Protect admin routes
   if (pathname.startsWith('/admin')) {
-    if (!token) {
-      return NextResponse.redirect(new URL('/login', request.url));
+    if (!isAuthenticated) {
+      return NextResponse.redirect(new URL('/login', req.url));
     }
   }
   
-  // Protect admin API routes
-  if (pathname.startsWith('/api/') && !token) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  // Protect admin API routes (except auth routes)
+  if (pathname.startsWith('/api/') && !pathname.startsWith('/api/auth')) {
+    if (!isAuthenticated) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
   }
   
   return NextResponse.next();
-}
+});
 
 export const config = {
   matcher: [
