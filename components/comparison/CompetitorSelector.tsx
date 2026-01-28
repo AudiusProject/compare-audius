@@ -62,7 +62,7 @@ export function CompetitorSelector({ current, options }: CompetitorSelectorProps
         <span>{current.name}</span>
         <ChevronDownIcon 
           className={cn(
-            'w-7 h-7 transition-transform duration-200',
+            'w-6 h-6 md:w-7 md:h-7 transition-transform duration-200',
             isOpen && 'rotate-180'
           )} 
         />

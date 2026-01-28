@@ -8,19 +8,25 @@ interface StatusIndicatorProps {
   displayValue?: string | null;
   context?: string | null;
   className?: string;
+  /** Compact mode for mobile - smaller text, constrained width */
+  compact?: boolean;
 }
 
 export function StatusIndicator({ 
   status, 
   displayValue, 
   context,
-  className 
+  className,
+  compact = false
 }: StatusIndicatorProps) {
   return (
-    <div className={cn('flex flex-col items-center gap-2', className)}>
+    <div className={cn('flex flex-col items-center gap-1.5', className)}>
       {/* Custom value (like "320 kbps") */}
       {status === 'custom' && displayValue && (
-        <span className="text-lg font-semibold text-text-primary">
+        <span className={cn(
+          'font-semibold text-text-primary',
+          compact ? 'text-sm' : 'text-lg'
+        )}>
           {displayValue}
         </span>
       )}
@@ -46,7 +52,12 @@ export function StatusIndicator({
             <MinusIcon className="text-white w-4 h-4" />
           </div>
           {context && (
-            <span className="text-status-context text-center max-w-[200px]">
+            <span className={cn(
+              'text-center',
+              compact 
+                ? 'text-xs leading-snug max-w-[130px] text-text-secondary' 
+                : 'text-status-context max-w-[200px]'
+            )}>
               {context}
             </span>
           )}

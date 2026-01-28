@@ -24,7 +24,7 @@ export function FeatureCard({ comparison, competitor }: FeatureCardProps) {
       </div>
       
       {/* Audius section */}
-      <div className="p-4 border-b border-border flex items-center justify-between gap-4">
+      <div className="p-4 border-b border-border flex items-center gap-4">
         <div className="relative w-[80px] h-[32px] shrink-0">
           <Image
             src={audius.logo}
@@ -34,15 +34,19 @@ export function FeatureCard({ comparison, competitor }: FeatureCardProps) {
             sizes="80px"
           />
         </div>
-        <StatusIndicator
-          status={audiusStatus.status}
-          displayValue={audiusStatus.displayValue}
-          context={audiusStatus.context}
-        />
+        <div className="flex-1" />
+        <div className="w-[140px] flex justify-center shrink-0">
+          <StatusIndicator
+            status={audiusStatus.status}
+            displayValue={audiusStatus.displayValue}
+            context={audiusStatus.context}
+            compact
+          />
+        </div>
       </div>
       
       {/* Competitor section */}
-      <div className="p-4 flex items-center justify-between gap-4">
+      <div className="p-4 flex items-center gap-4">
         <div className="relative w-[80px] h-[32px] shrink-0">
           <Image
             src={competitor.logo}
@@ -52,11 +56,15 @@ export function FeatureCard({ comparison, competitor }: FeatureCardProps) {
             sizes="80px"
           />
         </div>
-        <StatusIndicator
-          status={competitorStatus.status}
-          displayValue={competitorStatus.displayValue}
-          context={competitorStatus.context}
-        />
+        <div className="flex-1" />
+        <div className="w-[140px] flex justify-center shrink-0">
+          <StatusIndicator
+            status={competitorStatus.status}
+            displayValue={competitorStatus.displayValue}
+            context={competitorStatus.context}
+            compact
+          />
+        </div>
       </div>
     </div>
   );
