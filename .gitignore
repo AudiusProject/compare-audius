@@ -42,6 +42,23 @@ yarn-error.log*
 next-env.d.ts
 
 # project plans (internal)
-PROJECT_PLAN.md
-PROJECT_PLAN_ADMIN.md
-PLAN_*.md
+*PLAN*.md
+!CHANGELOG.md
+
+# database
+*.db
+*.sqlite
+*.sqlite3
+/drizzle/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# logs
+*.log
+
+# OS files
+Thumbs.db
