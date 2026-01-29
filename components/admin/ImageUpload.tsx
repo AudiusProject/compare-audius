@@ -168,7 +168,7 @@ export function ImageUpload({
         {isUploading ? (
           // Uploading state
           <div className="flex flex-col items-center gap-3">
-            <div className="w-10 h-10 border-3 border-audius-purple border-t-transparent rounded-full animate-spin" />
+            <div className="w-10 h-10 border-[3px] border-audius-purple border-t-transparent rounded-full animate-spin" />
             <span className="text-sm text-gray-600 font-medium">Uploading...</span>
           </div>
         ) : value ? (

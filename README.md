@@ -22,6 +22,7 @@ This application serves two purposes:
 | Database | Turso (SQLite Edge) |
 | ORM | Drizzle ORM |
 | Authentication | NextAuth.js v5 (Google OAuth) |
+| Image Hosting | Cloudinary |
 | Styling | Tailwind CSS |
 | Deployment | Vercel |
 
@@ -47,7 +48,8 @@ compare-audius/
 │   │   ├── auth/              # NextAuth endpoints
 │   │   ├── comparisons/       # Comparison CRUD
 │   │   ├── features/          # Feature CRUD
-│   │   └── platforms/         # Platform CRUD
+│   │   ├── platforms/         # Platform CRUD
+│   │   └── upload/            # Image upload to Cloudinary
 │   ├── login/                 # Login page
 │   └── layout.tsx             # Root layout
 ├── components/
@@ -60,6 +62,7 @@ compare-audius/
 │   └── schema.ts              # Database schema
 ├── lib/
 │   ├── api-helpers.ts         # API utility functions
+│   ├── cloudinary.ts          # Cloudinary SDK configuration
 │   ├── constants.ts           # App constants (URLs, defaults)
 │   ├── data.ts                # Data access layer
 │   └── utils.ts               # Shared utilities
@@ -242,6 +245,53 @@ npx tsx scripts/seed-db.ts
 
 ---
 
+## Image Hosting (Cloudinary)
+
+Platform logos are hosted on Cloudinary for reliable CDN delivery and automatic optimization.
+
+### Setup
+
+1. Create account at [cloudinary.com](https://cloudinary.com) (free tier)
+2. Get credentials from Dashboard → Product Environment Credentials
+3. Add to `.env.local`:
+
+```env
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
+```
+
+### How It Works
+
+- **Upload**: Admin uploads image via drag-and-drop in platform form
+- **Processing**: Server-side API route uploads to Cloudinary with transformations
+- **Storage**: Images stored in `compare-audius/logos/` folder
+- **Delivery**: Served via Cloudinary CDN with automatic format optimization
+
+### Image Transformations
+
+Uploaded images are automatically:
+- Resized to max 200×200px (maintaining aspect ratio)
+- Optimized for quality (`q_auto`)
+- Converted to best format for browser (`f_auto` → WebP where supported)
+
+### Upload API
+
+```
+POST /api/upload
+Content-Type: multipart/form-data
+Body: file (image)
+
+Response: { url, publicId, width, height, format }
+```
+
+**Constraints**:
+- Max file size: 2MB
+- Allowed types: PNG, JPG, WebP, SVG
+- Requires authentication
+
+---
+
 ## Development
 
 ### Prerequisites
@@ -307,6 +357,11 @@ AUTH_SECRET=generated-secret
 AUTH_URL=https://compare.audius.co
 AUTH_GOOGLE_ID=your-client-id
 AUTH_GOOGLE_SECRET=your-client-secret
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
 ```
 
 ---
@@ -344,6 +399,12 @@ All API routes are under `/api/` and require authentication for write operations
 | POST | `/api/comparisons` | Bulk upsert comparisons |
 | DELETE | `/api/comparisons/[id]` | Delete comparison |
 
+### Uploads
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/upload` | Upload image to Cloudinary |
+
 ---
 
 ## Component Architecture
@@ -370,6 +431,7 @@ AdminLayout
 ├── AdminNav
 └── [Page Content]
     ├── PlatformForm / FeatureForm
+    │   └── ImageUpload (drag-and-drop)
     ├── DeleteConfirm (modal)
     ├── Toast (notifications)
     └── FeatureComparisonCard
