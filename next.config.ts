@@ -11,6 +11,14 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com', // For Google profile pics
       },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com', // Cloudinary CDN
+      },
+      {
+        protocol: 'https',
+        hostname: 'logos-world.net', // External logo (Bandcamp)
+      },
     ],
   },
 };

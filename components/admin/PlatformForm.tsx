@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { useToast } from './Toast';
+import { ImageUpload } from './ImageUpload';
 import type { Platform } from '@/db/schema';
 
 interface PlatformFormProps {
@@ -14,13 +14,12 @@ export function PlatformForm({ platform }: PlatformFormProps) {
   const router = useRouter();
   const { showToast } = useToast();
   const isEditing = !!platform;
-  
+
   const [name, setName] = useState(platform?.name ?? '');
   const [slug, setSlug] = useState(platform?.slug ?? '');
   const [logo, setLogo] = useState(platform?.logo ?? '');
   const [saving, setSaving] = useState(false);
-  const [logoError, setLogoError] = useState(false);
-  
+
   // Auto-generate slug from name
   const handleNameChange = (value: string) => {
     setName(value);
@@ -28,11 +27,11 @@ export function PlatformForm({ platform }: PlatformFormProps) {
       setSlug(value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''));
     }
   };
-  
+
   const handleSubmit = async (e: React.FormEvent, publish = false) => {
     e.preventDefault();
     setSaving(true);
-    
+
     try {
       const body = {
         name,
@@ -40,21 +39,21 @@ export function PlatformForm({ platform }: PlatformFormProps) {
         logo,
         ...(publish ? { isDraft: false } : {}),
       };
-      
+
       const url = isEditing ? `/api/platforms/${platform.id}` : '/api/platforms';
       const method = isEditing ? 'PUT' : 'POST';
-      
+
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-      
+
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || 'Failed to save');
       }
-      
+
       showToast(isEditing ? 'Platform updated' : 'Platform created', 'success');
       router.push('/admin/platforms');
       router.refresh();
@@ -65,7 +64,7 @@ export function PlatformForm({ platform }: PlatformFormProps) {
       setSaving(false);
     }
   };
-  
+
   return (
     <form onSubmit={handleSubmit} className="max-w-xl">
       <div className="space-y-6">
@@ -83,7 +82,7 @@ export function PlatformForm({ platform }: PlatformFormProps) {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-audius-purple focus:border-transparent"
           />
         </div>
-        
+
         {/* Slug */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -101,40 +100,20 @@ export function PlatformForm({ platform }: PlatformFormProps) {
             URL-safe identifier (lowercase, hyphens only)
           </p>
         </div>
-        
-        {/* Logo URL */}
+
+        {/* Logo */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Logo URL
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Logo
           </label>
-          <input
-            type="url"
+          <ImageUpload
             value={logo}
-            onChange={(e) => {
-              setLogo(e.target.value);
-              setLogoError(false);
-            }}
-            required
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-audius-purple focus:border-transparent"
+            onChange={setLogo}
+            disabled={saving}
           />
-          {logo && !logoError && (
-            <div className="mt-2 p-4 bg-gray-100 rounded-lg inline-block">
-              <Image
-                src={logo}
-                alt="Logo preview"
-                width={120}
-                height={40}
-                className="object-contain"
-                onError={() => setLogoError(true)}
-              />
-            </div>
-          )}
-          {logoError && (
-            <p className="mt-2 text-sm text-red-600">Failed to load logo preview</p>
-          )}
         </div>
       </div>
-      
+
       {/* Actions */}
       <div className="mt-8 flex gap-3">
         <button
