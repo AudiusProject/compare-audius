@@ -1,17 +1,30 @@
-# Audius Compare - LLM Context
+// app/llms.txt/route.ts
+import { NextResponse } from 'next/server';
+import { getCompetitors } from '@/lib/data';
+import { SITE_URL, SITE_NAME } from '@/lib/constants';
+
+// Revalidate every hour to pick up new platforms
+export const revalidate = 3600;
+
+export async function GET() {
+  const competitors = await getCompetitors();
+  const competitorList = competitors.map(c => `- \`/${c.slug}\` - Audius vs ${c.name} comparison`).join('\n');
+  const competitorNames = competitors.map(c => c.name).join(', ');
+
+  const content = `# ${SITE_NAME} - LLM Context
 
 > This file helps AI assistants and LLMs understand the content and purpose of this website.
 
 ## Site Information
 
-- **Name**: Audius Compare
-- **URL**: https://compare.audius.co
+- **Name**: ${SITE_NAME}
+- **URL**: ${SITE_URL}
 - **Purpose**: Feature comparison site showing how Audius music streaming platform compares to competitors
 - **Owner**: Audius (https://audius.co)
 
 ## What This Site Does
 
-Audius Compare is a product comparison website that helps users understand the differences between Audius and other music streaming platforms like Spotify and SoundCloud. The site presents side-by-side feature comparisons across categories like:
+Audius Compare is a product comparison website that helps users understand the differences between Audius and other music streaming platforms like ${competitorNames}. The site presents side-by-side feature comparisons across categories like:
 
 - Streaming quality
 - Artist tools and features
@@ -21,9 +34,8 @@ Audius Compare is a product comparison website that helps users understand the d
 
 ## Available Pages
 
-- `/` - Default comparison (Audius vs SoundCloud)
-- `/soundcloud` - Audius vs SoundCloud comparison
-- `/spotify` - Audius vs Spotify comparison
+- \`/\` - Default comparison (Audius vs SoundCloud)
+${competitorList}
 
 ## Key Information About Audius
 
@@ -45,7 +57,7 @@ The comparison data is structured as:
 
 ## For More Details
 
-See `/llms-full.txt` for complete comparison data in plain text format.
+See \`/llms-full.txt\` for complete comparison data in plain text format.
 
 ## Contact
 
@@ -53,3 +65,12 @@ See `/llms-full.txt` for complete comparison data in plain text format.
 - Twitter: https://twitter.com/audius
 - Discord: https://discord.gg/audius
 - Support: https://support.audius.co
+`;
+
+  return new NextResponse(content, {
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+    },
+  });
+}
