@@ -2,6 +2,7 @@
 import { PageHeader } from './PageHeader';
 import { ComparisonTable } from './ComparisonTable';
 import { ComparisonCards } from './ComparisonCards';
+import { ComparisonSchema } from '@/components/seo/StructuredData';
 import type { ComparisonPageProps } from '@/types';
 
 export async function ComparisonPage({ 
@@ -14,31 +15,34 @@ export async function ComparisonPage({
   const audius = await getAudius();
   
   return (
-    <div className="bg-surface-alt min-h-screen">
-      <div className="container-narrow">
-        <PageHeader 
-          competitor={competitor}
-          competitors={competitors}
-        />
-        
-        {/* Desktop view - table */}
-        <div className="hidden md:block pb-16">
-          <ComparisonTable 
-            audius={audius}
+    <>
+      <ComparisonSchema competitor={competitor} comparisons={comparisons} />
+      <div className="bg-surface-alt min-h-screen">
+        <div className="container-narrow">
+          <PageHeader 
             competitor={competitor}
-            comparisons={comparisons}
+            competitors={competitors}
           />
-        </div>
-        
-        {/* Mobile view - cards */}
-        <div className="md:hidden pb-8">
-          <ComparisonCards 
-            audius={audius}
-            competitor={competitor}
-            comparisons={comparisons}
-          />
+          
+          {/* Desktop view - table */}
+          <div className="hidden md:block pb-16">
+            <ComparisonTable 
+              audius={audius}
+              competitor={competitor}
+              comparisons={comparisons}
+            />
+          </div>
+          
+          {/* Mobile view - cards */}
+          <div className="md:hidden pb-8">
+            <ComparisonCards 
+              audius={audius}
+              competitor={competitor}
+              comparisons={comparisons}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

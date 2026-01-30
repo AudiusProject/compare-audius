@@ -1,0 +1,55 @@
+# Audius Compare - LLM Context
+
+> This file helps AI assistants and LLMs understand the content and purpose of this website.
+
+## Site Information
+
+- **Name**: Audius Compare
+- **URL**: https://compare.audius.co
+- **Purpose**: Feature comparison site showing how Audius music streaming platform compares to competitors
+- **Owner**: Audius (https://audius.co)
+
+## What This Site Does
+
+Audius Compare is a product comparison website that helps users understand the differences between Audius and other music streaming platforms like Spotify and SoundCloud. The site presents side-by-side feature comparisons across categories like:
+
+- Streaming quality
+- Artist tools and features
+- Monetization options
+- User experience features
+- Platform openness and decentralization
+
+## Available Pages
+
+- `/` - Default comparison (Audius vs SoundCloud)
+- `/soundcloud` - Audius vs SoundCloud comparison
+- `/spotify` - Audius vs Spotify comparison
+
+## Key Information About Audius
+
+Audius is a decentralized music streaming platform that prioritizes artist control and fair compensation. Key differentiators include:
+
+- **Decentralized**: Built on blockchain technology, not controlled by a single company
+- **Artist-First**: Artists keep control of their music and rights
+- **Free High-Quality Streaming**: 320 kbps streaming for all users
+- **No Ads**: Completely ad-free experience
+- **Unlimited Uploads**: Artists can upload unlimited content
+- **Direct Monetization**: Gated content, tips, and $AUDIO token rewards
+
+## Data Format
+
+The comparison data is structured as:
+- **Platforms**: Music streaming services being compared
+- **Features**: Specific capabilities being evaluated
+- **Comparisons**: Status of each feature per platform (yes/no/partial/custom value)
+
+## For More Details
+
+See `/llms-full.txt` for complete comparison data in plain text format.
+
+## Contact
+
+- Website: https://audius.co
+- Twitter: https://twitter.com/audius
+- Discord: https://discord.gg/audius
+- Support: https://support.audius.co

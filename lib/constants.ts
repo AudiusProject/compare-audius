@@ -1,6 +1,13 @@
 // lib/constants.ts
 
 /**
+ * Site configuration
+ */
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://compare.audius.co';
+export const SITE_NAME = 'Audius Compare';
+export const SITE_DESCRIPTION = 'See how Audius compares to Spotify, SoundCloud, and more. Compare streaming quality, features, and discover why artists choose Audius.';
+
+/**
  * Default competitor shown on the root URL (/)
  */
 export const DEFAULT_COMPETITOR = 'soundcloud';
