@@ -366,6 +366,56 @@ CLOUDINARY_API_SECRET=your-api-secret
 
 ---
 
+## SEO & LLM Optimization
+
+The site includes comprehensive SEO features to maximize search engine visibility and AI/LLM readability.
+
+### Technical SEO
+
+| File | Purpose |
+|------|---------|
+| `/robots.txt` | Allows crawling of public pages, blocks `/admin`, `/api`, `/login` |
+| `/sitemap.xml` | Dynamic sitemap with all competitor pages (revalidates hourly) |
+
+### Metadata
+
+- **OpenGraph**: Full OG tags for rich social sharing previews
+- **Twitter Cards**: Summary large image cards with `@audius` attribution
+- **Canonical URLs**: Proper canonical tags to prevent duplicate content issues
+- **Keywords**: Relevant keywords per page for search discovery
+
+### JSON-LD Structured Data
+
+Each page includes structured data for rich search results:
+
+| Schema | Location | Purpose |
+|--------|----------|---------|
+| Organization | Root layout | Audius company info with social links |
+| WebSite | Root layout | Site metadata and publisher info |
+| FAQPage | Comparison pages | Each feature as a Q&A for rich snippets |
+| ItemList | Comparison pages | Feature list structure |
+| WebPage | Comparison pages | Page context and relationships |
+
+### LLM-Friendly Content
+
+Two dynamic routes provide machine-readable content:
+
+| Route | Purpose | Update Frequency |
+|-------|---------|------------------|
+| `/llms.txt` | Quick overview for AI assistants | Hourly |
+| `/llms-full.txt` | Complete comparison data in plain text | Hourly |
+
+These routes pull directly from the database, so new platforms and features are automatically included within 1 hour of being published.
+
+### Verification Tools
+
+After deployment, verify SEO with:
+- [Google Rich Results Test](https://search.google.com/test/rich-results)
+- [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/)
+- [Twitter Card Validator](https://cards-dev.twitter.com/validator)
+
+---
+
 ## API Reference
 
 All API routes are under `/api/` and require authentication for write operations.
