@@ -35,7 +35,9 @@ compare-audius/
 ├── app/
 │   ├── (public)/              # Public site routes (grouped)
 │   │   ├── [competitor]/      # Dynamic competitor pages
-│   │   │   └── page.tsx       # /soundcloud, /spotify, etc.
+│   │   │   ├── page.tsx       # /soundcloud, /spotify, etc.
+│   │   │   ├── opengraph-image.tsx  # Dynamic OG images
+│   │   │   └── twitter-image.tsx    # Dynamic Twitter images
 │   │   ├── layout.tsx         # Public layout with header/footer
 │   │   └── page.tsx           # Root redirect to default competitor
 │   ├── admin/                 # Admin interface (protected)
@@ -50,12 +52,17 @@ compare-audius/
 │   │   ├── features/          # Feature CRUD
 │   │   ├── platforms/         # Platform CRUD
 │   │   └── upload/            # Image upload to Cloudinary
+│   ├── llms.txt/              # LLM context (dynamic route)
+│   ├── llms-full.txt/         # Full LLM data (dynamic route)
+│   ├── robots.ts              # Robots.txt generator
+│   ├── sitemap.ts             # Dynamic sitemap
 │   ├── login/                 # Login page
 │   └── layout.tsx             # Root layout
 ├── components/
 │   ├── admin/                 # Admin-specific components
 │   ├── comparison/            # Comparison display components
 │   ├── layout/                # Header, footer, navigation
+│   ├── seo/                   # SEO components (structured data)
 │   └── ui/                    # Shared UI primitives
 ├── db/
 │   ├── index.ts               # Drizzle client
