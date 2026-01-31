@@ -3,16 +3,7 @@ compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".open-next"
 
-# R2 binding for Next.js incremental cache
 [[r2_buckets]]
 binding = "NEXT_INC_CACHE_R2_BUCKET"
 bucket_name = "next-inc-cache"
 preview_bucket_name = "next-inc-cache-preview"
-
-[env.production]
-name = "compare-audius"
-
-[env.preview]
-name = "compare-audius-preview"
-
-
