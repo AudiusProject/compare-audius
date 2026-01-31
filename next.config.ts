@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Ensure @libsql/client is bundled instead of externalized
+  // This is needed for Cloudflare Pages/Workers deployment
+  serverExternalPackages: [],
+  // Add empty turbopack config to silence the warning
+  turbopack: {},
 };
 
 export default nextConfig;
