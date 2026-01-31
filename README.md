@@ -334,7 +334,9 @@ npm run dev
 | Script | Description |
 |--------|-------------|
 | `npm run dev` | Start development server |
-| `npm run build` | Production build |
+| `npm run build` | Production build (Next.js) |
+| `npm run build:cf` | Build for Cloudflare Pages (uses @opennextjs/cloudflare) |
+| `npm run preview` | Preview Cloudflare Pages build locally |
 | `npm run start` | Start production server |
 | `npm run lint` | Run ESLint |
 | `npx drizzle-kit studio` | Open database GUI |
@@ -344,7 +346,57 @@ npm run dev
 
 ## Deployment
 
-### Vercel (Recommended)
+### Cloudflare Pages
+
+1. **Install dependencies** (if not already done):
+   ```bash
+   npm install
+   ```
+
+2. **Connect to Cloudflare Pages**:
+   - Go to [Cloudflare Dashboard](https://dash.cloudflare.com/) → Pages
+   - Click "Create a project" → "Connect to Git"
+   - Select your repository
+
+3. **Configure build settings**:
+   - **Build command**: `npm run build:cf`
+   - **Build output directory**: `.open-next`
+   - **Root directory**: `/` (or leave empty)
+   - **Node.js version**: 18 or higher
+
+4. **Set environment variables** in Cloudflare Pages dashboard:
+   - Go to Settings → Environment Variables
+   - Add all variables from `.dev.vars.example`
+   - **Important**: Update `AUTH_URL` to your Cloudflare Pages domain (e.g., `https://your-project.pages.dev`)
+
+5. **Update Google OAuth redirect URI**:
+   - In Google Cloud Console, add your Cloudflare Pages callback URL:
+     `https://your-project.pages.dev/api/auth/callback/google`
+
+6. **Deploy**: Cloudflare Pages will automatically deploy on every push to your main branch
+
+### Local Development with Cloudflare
+
+**Note**: Local preview with `wrangler pages dev` is not fully supported due to bundling limitations with OpenNext Cloudflare's output structure. Use Cloudflare Pages preview deployments for testing instead.
+
+For building:
+
+```bash
+# Build for Cloudflare Pages (this runs Next.js build + OpenNext transformation)
+npm run build:cf
+```
+
+**Testing**: Use Cloudflare Pages preview deployments:
+- Push to a branch or create a PR to trigger a preview deployment
+- Preview deployments are automatically created for non-production branches
+- This is the recommended way to test your Cloudflare Pages deployment
+
+**R2 Buckets Setup**: For production deployments, you'll need to create R2 buckets in your Cloudflare dashboard:
+1. Go to Cloudflare Dashboard → R2
+2. Create buckets named `next-inc-cache` (production) and `next-inc-cache-preview` (previews)
+3. In Cloudflare Pages project settings, bind these R2 buckets with the binding name `NEXT_INC_CACHE_R2_BUCKET`
+
+### Vercel (Alternative)
 
 1. Connect repository to Vercel
 2. Configure environment variables in Vercel dashboard
