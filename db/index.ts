@@ -1,11 +1,12 @@
 // db/index.ts
 
 import { drizzle } from 'drizzle-orm/libsql';
-import { createClient } from '@libsql/client';
+// Use the web-compatible version for Cloudflare Workers
+// This prevents externalization issues with OpenNext Cloudflare
+import { createClient } from '@libsql/client/web';
 import * as schema from './schema';
 
 // Lazy initialization to prevent build-time errors if env vars aren't available
-// This also helps with OpenNext Cloudflare bundling
 let client: ReturnType<typeof createClient> | null = null;
 let dbInstance: ReturnType<typeof drizzle> | null = null;
 
