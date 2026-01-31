@@ -364,16 +364,27 @@ npm run dev
    - **Root directory**: `/` (or leave empty)
    - **Node.js version**: 18 or higher
 
-4. **Set environment variables** in Cloudflare Pages dashboard:
+4. **Enable compatibility flags** in Cloudflare Pages dashboard:
+   - Go to Settings → Functions → Compatibility Flags
+   - Enable `nodejs_compat` compatibility flag
+   - **This is required** for OpenNext Cloudflare to work properly
+
+5. **Set environment variables** in Cloudflare Pages dashboard:
    - Go to Settings → Environment Variables
    - Add all variables from `.dev.vars.example`
    - **Important**: Update `AUTH_URL` to your Cloudflare Pages domain (e.g., `https://your-project.pages.dev`)
 
-5. **Update Google OAuth redirect URI**:
+6. **Update Google OAuth redirect URI**:
    - In Google Cloud Console, add your Cloudflare Pages callback URL:
      `https://your-project.pages.dev/api/auth/callback/google`
 
-6. **Deploy**: Cloudflare Pages will automatically deploy on every push to your main branch
+7. **Deploy**: Cloudflare Pages will automatically deploy on every push to your main branch
+
+**Troubleshooting "Hello world" response:**
+- Verify `nodejs_compat` compatibility flag is enabled (Settings → Functions → Compatibility Flags)
+- Check that `_worker.js` exists in `.open-next` directory after build
+- Verify R2 bucket is bound correctly (Settings → Functions → R2 Bucket Bindings)
+- Check build logs to ensure `_worker.js` was created successfully
 
 ### Local Development with Cloudflare
 
