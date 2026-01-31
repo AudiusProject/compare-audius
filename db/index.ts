@@ -1,28 +1,29 @@
 // db/index.ts
+// IMPORTANT: Must use @libsql/client/web for Cloudflare Workers
+// See: https://developers.cloudflare.com/workers/databases/third-party-integrations/turso/
 
 import { drizzle } from 'drizzle-orm/libsql';
-// Use the web-compatible version for Cloudflare Workers
-// This prevents externalization issues with OpenNext Cloudflare
-import { createClient } from '@libsql/client/web';
+import { createClient, Client as LibsqlClient } from '@libsql/client/web';
 import * as schema from './schema';
 
 // Lazy initialization to prevent build-time errors if env vars aren't available
-let client: ReturnType<typeof createClient> | null = null;
+let client: LibsqlClient | null = null;
 let dbInstance: ReturnType<typeof drizzle> | null = null;
 
-function getClient() {
+function getClient(): LibsqlClient {
   if (!client) {
-    const url = process.env.TURSO_DATABASE_URL;
-    const authToken = process.env.TURSO_AUTH_TOKEN;
+    const url = process.env.TURSO_DATABASE_URL?.trim();
+    const authToken = process.env.TURSO_AUTH_TOKEN?.trim();
     
     if (!url) {
-      throw new Error('TURSO_DATABASE_URL is not set. Make sure it is configured in your environment variables.');
+      throw new Error('TURSO_DATABASE_URL env var is not defined');
     }
     
-    client = createClient({
-      url,
-      authToken,
-    });
+    if (!authToken) {
+      throw new Error('TURSO_AUTH_TOKEN env var is not defined');
+    }
+    
+    client = createClient({ url, authToken });
   }
   return client;
 }
