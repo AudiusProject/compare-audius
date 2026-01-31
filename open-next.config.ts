@@ -4,7 +4,4 @@ import r2IncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cac
 
 export default defineCloudflareConfig({
 	incrementalCache: r2IncrementalCache,
-	// Configure edge externals - only node:crypto should be external
-	// This ensures @libsql/client is bundled
-	edgeExternals: ["node:crypto"],
 });
