@@ -1,0 +1,10 @@
+name = "compare-audius"
+main = ".open-next/worker.js"
+
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[r2_buckets]]
+binding = "NEXT_INC_CACHE_R2_BUCKET"
+bucket_name = "next-inc-cache"
+preview_bucket_name = "next-inc-cache"
