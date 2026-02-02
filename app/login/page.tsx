@@ -31,7 +31,7 @@ export default async function LoginPage(props: {
         <form
           action={async () => {
             'use server';
-            const origin = getRequestOrigin();
+            const origin = await getRequestOrigin();
             const redirectTo = origin ? `${origin}/admin` : '/admin';
             await signIn('google', { redirectTo });
           }}

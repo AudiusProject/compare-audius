@@ -51,7 +51,7 @@ export default async function AdminLayout({
             <form
               action={async () => {
                 'use server';
-                const origin = getRequestOrigin();
+                const origin = await getRequestOrigin();
                 const redirectTo = origin ? `${origin}/login` : '/login';
                 await signOut({ redirectTo });
               }}

@@ -6,8 +6,8 @@ import { headers } from 'next/headers';
  * Build the request origin from forwarded headers.
  * Falls back to null if no host is available.
  */
-export function getRequestOrigin(): string | null {
-  const headerList = headers();
+export async function getRequestOrigin(): Promise<string | null> {
+  const headerList = await headers();
   const proto = headerList
     .get('x-forwarded-proto')
     ?.split(',')[0]
