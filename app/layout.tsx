@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/constants';
 import { LayoutStructuredData } from '@/components/seo/StructuredData';
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -76,6 +77,7 @@ export default function RootLayout({
       </head>
       <body style={{ fontFamily: 'var(--font-inter), var(--font-sans)' }}>
         {children}
+        <Analytics />
       </body>
     </html>
   );
