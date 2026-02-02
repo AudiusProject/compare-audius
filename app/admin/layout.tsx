@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { AdminNav } from '@/components/admin/AdminNav';
 import { ToastProvider } from '@/components/admin/Toast';
 import Image from 'next/image';
+import { getRequestOrigin } from '@/lib/origin';
 
 export default async function AdminLayout({
   children,
@@ -50,7 +51,9 @@ export default async function AdminLayout({
             <form
               action={async () => {
                 'use server';
-                await signOut({ redirectTo: '/login' });
+                const origin = getRequestOrigin();
+                const redirectTo = origin ? `${origin}/login` : '/login';
+                await signOut({ redirectTo });
               }}
             >
               <button

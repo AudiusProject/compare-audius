@@ -1,6 +1,7 @@
 // app/admin/login/page.tsx
 
 import { signIn } from '@/auth';
+import { getRequestOrigin } from '@/lib/origin';
 
 export default async function LoginPage(props: {
   searchParams: Promise<{ error?: string }>;
@@ -30,7 +31,9 @@ export default async function LoginPage(props: {
         <form
           action={async () => {
             'use server';
-            await signIn('google', { redirectTo: '/admin' });
+            const origin = getRequestOrigin();
+            const redirectTo = origin ? `${origin}/admin` : '/admin';
+            await signIn('google', { redirectTo });
           }}
         >
           <button

@@ -191,8 +191,8 @@ AUTH_SECRET=your-generated-secret
 AUTH_URL=https://your-domain.com
 
 # Google OAuth
-AUTH_GOOGLE_ID=your-google-client-id
-AUTH_GOOGLE_SECRET=your-google-client-secret
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
 ```
 
 ### Domain Restriction
