@@ -11,8 +11,8 @@ export function StatusBadge({ isDraft, className }: StatusBadgeProps) {
       className={cn(
         'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium',
         isDraft
-          ? 'bg-yellow-100 text-yellow-800'
-          : 'bg-green-100 text-green-800',
+          ? 'bg-status-warn-bg text-status-warn'
+          : 'bg-status-yes-bg text-status-yes',
         className
       )}
     >

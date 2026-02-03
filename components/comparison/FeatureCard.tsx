@@ -13,7 +13,7 @@ export function FeatureCard({ audius, comparison, competitor }: FeatureCardProps
   const { feature, audius: audiusStatus, competitor: competitorStatus } = comparison;
   
   return (
-    <div className="border border-border rounded-xl overflow-hidden bg-white">
+    <div className="border border-border rounded-2xl overflow-hidden bg-surface-alt-85 backdrop-blur shadow-[var(--shadow-panel)]">
       {/* Feature header */}
       <div className="p-4 border-b border-border">
         <h3 className="text-feature-name">{feature.name}</h3>
@@ -24,12 +24,12 @@ export function FeatureCard({ audius, comparison, competitor }: FeatureCardProps
       
       {/* Audius section */}
       <div className="p-4 border-b border-border flex items-center gap-4">
-        <div className="relative w-[80px] h-[32px] shrink-0">
+        <div className="relative w-[80px] h-[32px] shrink-0 logo-white">
           <Image
             src={audius.logo}
             alt={audius.name}
             fill
-            className="object-contain object-left"
+            className="object-contain object-left logo-white"
             sizes="80px"
           />
         </div>
@@ -46,12 +46,12 @@ export function FeatureCard({ audius, comparison, competitor }: FeatureCardProps
       
       {/* Competitor section */}
       <div className="p-4 flex items-center gap-4">
-        <div className="relative w-[80px] h-[32px] shrink-0">
+        <div className="relative w-[80px] h-[32px] shrink-0 logo-white">
           <Image
             src={competitor.logo}
             alt={competitor.name}
             fill
-            className="object-contain object-left"
+            className="object-contain object-left logo-white"
             sizes="80px"
           />
         </div>

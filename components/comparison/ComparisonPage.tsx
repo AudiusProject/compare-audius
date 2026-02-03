@@ -17,8 +17,8 @@ export async function ComparisonPage({
   return (
     <>
       <ComparisonSchema competitor={competitor} comparisons={comparisons} />
-      <div className="bg-surface-alt min-h-screen">
-        <div className="container-narrow">
+      <div className="relative min-h-screen pb-16 md:pb-24">
+        <div className="container-narrow relative z-10">
           <PageHeader 
             competitor={competitor}
             competitors={competitors}

@@ -60,7 +60,7 @@ export function FeatureActions({ feature, canPublish }: FeatureActionsProps) {
       <button
         onClick={handlePublishToggle}
         disabled={feature.isDraft && !canPublish}
-        className="text-sm text-gray-600 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="text-sm text-text-secondary hover:text-text-primary disabled:opacity-50 disabled:cursor-not-allowed"
         title={feature.isDraft && !canPublish ? 'Complete all comparisons first' : undefined}
       >
         {feature.isDraft ? 'Publish' : 'Unpublish'}
@@ -78,7 +78,7 @@ export function FeatureActions({ feature, canPublish }: FeatureActionsProps) {
         message={`Are you sure you want to delete "${feature.name}"? This will also delete all comparisons for this feature.`}
         onConfirm={handleDelete}
         trigger={
-          <button className="text-sm text-red-600 hover:underline">
+          <button className="text-sm text-status-no hover:underline">
             Delete
           </button>
         }

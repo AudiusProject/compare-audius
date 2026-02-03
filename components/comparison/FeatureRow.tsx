@@ -27,7 +27,7 @@ export function FeatureRow({ comparison, isAlternate }: FeatureRowProps) {
       </div>
       
       {/* Audius status */}
-      <div className="p-5 flex items-center justify-center border-l border-r border-border bg-white">
+      <div className="p-5 flex items-center justify-center border-l border-r border-border bg-surface-raised">
         <StatusIndicator
           status={audius.status}
           displayValue={audius.displayValue}

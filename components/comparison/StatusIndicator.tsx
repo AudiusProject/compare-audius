@@ -34,14 +34,14 @@ export function StatusIndicator({
       {/* Yes - green checkmark */}
       {status === 'yes' && (
         <div className="w-6 h-6 rounded-full bg-status-yes flex items-center justify-center">
-          <CheckIcon className="text-white w-4 h-4" />
+          <CheckIcon className="text-on-status w-4 h-4" />
         </div>
       )}
       
       {/* No - red X */}
       {status === 'no' && (
         <div className="w-6 h-6 rounded-full bg-status-no flex items-center justify-center">
-          <XIcon className="text-white w-4 h-4" />
+          <XIcon className="text-on-status w-4 h-4" />
         </div>
       )}
       
@@ -49,7 +49,7 @@ export function StatusIndicator({
       {status === 'partial' && (
         <>
           <div className="w-6 h-6 rounded-full bg-status-partial flex items-center justify-center">
-            <MinusIcon className="text-white w-4 h-4" />
+            <MinusIcon className="text-on-status w-4 h-4" />
           </div>
           {context && (
             <span className={cn(

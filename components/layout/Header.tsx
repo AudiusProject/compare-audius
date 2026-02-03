@@ -1,18 +1,14 @@
 // components/layout/Header.tsx
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { CompareDropdown } from './CompareDropdown';
 import { MoreDropdown } from './MoreDropdown';
 import { MobileNav } from './MobileNav';
 import { EXTERNAL_URLS } from '@/lib/constants';
-import { MenuIcon } from '@/components/ui/Icon';
+import { AudiusLogo, CloseIcon, MenuIcon } from '@/components/ui/Icon';
 import type { Platform } from '@/types';
-
-// Audius logo from CDN (same as in platforms.json)
-const AUDIUS_LOGO_URL = 'https://cdn.prod.website-files.com/67fec1eb88ef3de9adf4455c/6802c1954e5d6fc2ec61ccd4_y7vxxCf97wWfwEsRoz9xpn3cAsel2_X60gFP4PQnzF8.webp';
 
 interface HeaderProps {
   competitors: Platform[];
@@ -20,28 +16,30 @@ interface HeaderProps {
 
 export function Header({ competitors }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50">
-      {/* Header background with blur and shadow */}
-      <div className="absolute inset-0 bg-white/95 backdrop-blur-sm border-b border-border shadow-[var(--shadow-header)]" />
-      
-      <div className="container-wide relative">
-        <div className="flex items-center justify-between h-[var(--spacing-header-height)]">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
+        scrolled
+          ? 'bg-overlay-80 backdrop-blur-xl border-border py-3 md:py-4'
+          : 'bg-transparent border-transparent py-4 md:py-6'
+      }`}
+    >
+      <div className="container-wide flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <Image
-              src={AUDIUS_LOGO_URL}
-              alt="Audius"
-              width={146}
-              height={28}
-              className="object-contain"
-              priority
-            />
+          <Link href="/" className="flex items-center text-text-primary hover:text-audius-purple transition-colors">
+            <AudiusLogo className="h-5 sm:h-6 md:h-7 w-auto" />
           </Link>
           
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-10">
             <CompareDropdown competitors={competitors} />
             <MoreDropdown />
             
@@ -50,7 +48,7 @@ export function Header({ competitors }: HeaderProps) {
               href={EXTERNAL_URLS.audiusApp}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-6 px-5 py-3 bg-white border border-border text-audius-purple rounded-lg text-base font-medium hover:bg-surface-alt transition-colors"
+              className="inline-flex items-center gap-2 px-4 xl:px-5 py-2 bg-cta text-cta-text font-bold uppercase text-fluid-small tracking-widest hover:bg-audius-purple hover:text-text-primary transition-all whitespace-nowrap"
             >
               Open Audius
             </a>
@@ -58,13 +56,16 @@ export function Header({ competitors }: HeaderProps) {
           
           {/* Mobile menu button */}
           <button 
-            className="md:hidden p-2 -mr-2" 
-            aria-label="Open menu"
-            onClick={() => setIsMobileMenuOpen(true)}
+            className="lg:hidden p-2 -mr-2 text-text-primary hover:text-audius-purple transition-colors" 
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            <MenuIcon className="text-text-secondary" />
+            {isMobileMenuOpen ? (
+              <CloseIcon className="text-current" />
+            ) : (
+              <MenuIcon className="text-current" />
+            )}
           </button>
-        </div>
       </div>
       
       {/* Mobile Navigation */}

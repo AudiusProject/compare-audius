@@ -73,17 +73,17 @@ export function Dropdown({
         aria-expanded={isOpen}
         aria-haspopup="true"
         className={cn(
-          'flex items-center gap-1.5 px-4 py-4',
-          'text-base font-medium transition-colors duration-150',
+          'flex items-center gap-2 py-2',
+          'text-fluid-small font-bold uppercase tracking-wider transition-colors duration-150',
           isOpen 
-            ? 'text-audius-purple' 
-            : 'text-text-secondary hover:text-text-primary'
+            ? 'text-text-primary' 
+            : 'text-text-secondary hover:text-audius-purple'
         )}
       >
         {trigger}
         <ChevronDownIcon 
           className={cn(
-            'w-5 h-5 transition-transform duration-200',
+            'w-4 h-4 transition-transform duration-200',
             isOpen && 'rotate-180'
           )} 
         />
@@ -93,8 +93,8 @@ export function Dropdown({
       <div 
         className={cn(
           'absolute z-50 mt-1 min-w-[220px] py-2',
-          'bg-white rounded-xl border border-border',
-          'shadow-lg shadow-black/10',
+          'bg-surface-alt-95 backdrop-blur rounded-2xl border border-border',
+          'shadow-[var(--shadow-dropdown)]',
           'transition-all duration-200 origin-top',
           alignmentClasses[align],
           isOpen 
@@ -112,7 +112,7 @@ export function Dropdown({
             
             {/* Section title */}
             {section.title && (
-              <div className="px-4 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider">
+              <div className="px-4 py-2 text-xs font-semibold text-text-muted uppercase tracking-widest">
                 {section.title}
               </div>
             )}
@@ -150,8 +150,8 @@ function DropdownItemComponent({
     'flex items-center gap-3 w-full px-4 py-2.5 text-left',
     'transition-colors duration-150',
     item.isActive
-      ? 'bg-audius-purple/5 text-audius-purple font-medium'
-      : 'text-text-secondary hover:bg-surface-alt hover:text-text-primary'
+      ? 'bg-audius-purple/15 text-text-primary font-medium'
+      : 'text-text-secondary hover:bg-tint-05 hover:text-text-primary'
   );
   
   if (item.href) {

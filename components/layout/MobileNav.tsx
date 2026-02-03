@@ -5,19 +5,14 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { EXTERNAL_URLS } from '@/lib/constants';
-import Image from 'next/image';
-import { 
-  CloseIcon, 
-  InstagramIcon, 
-  TwitterIcon, 
-  DiscordIcon, 
+import {
+  InstagramIcon,
+  TwitterIcon,
+  DiscordIcon,
   TelegramIcon,
-  TikTokIcon 
+  AudiusLogo,
 } from '@/components/ui/Icon';
 import type { Platform } from '@/types';
-
-// Audius logo from CDN
-const AUDIUS_LOGO_URL = 'https://cdn.prod.website-files.com/67fec1eb88ef3de9adf4455c/6802c1954e5d6fc2ec61ccd4_y7vxxCf97wWfwEsRoz9xpn3cAsel2_X60gFP4PQnzF8.webp';
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -28,26 +23,23 @@ interface MobileNavProps {
 export function MobileNav({ isOpen, onClose, competitors }: MobileNavProps) {
   const router = useRouter();
 
-  // Close on Escape
   useEffect(() => {
     function handleEscape(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         onClose();
       }
     }
-    
+
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
     }
-    
+
     return () => {
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = '';
     };
   }, [isOpen, onClose]);
-
-  if (!isOpen) return null;
 
   const handleNavigation = (path: string) => {
     router.push(path);
@@ -55,139 +47,103 @@ export function MobileNav({ isOpen, onClose, competitors }: MobileNavProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 md:hidden">
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/50" 
+    <div
+      className={`fixed inset-0 z-40 bg-overlay-95 backdrop-blur-xl flex flex-col justify-center px-6 sm:px-8 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] lg:hidden ${
+        isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+      }`}
+      aria-hidden={!isOpen}
+    >
+      <Link
+        href="/"
         onClick={onClose}
-        aria-hidden="true"
-      />
-      
-      {/* Menu panel */}
-      <div className="absolute inset-y-0 right-0 w-full max-w-sm bg-white shadow-xl">
-        <div className="flex flex-col h-full">
-          {/* Header */}
-          <div className="flex items-center justify-between px-6 py-5 border-b border-border">
-            <Image
-              src={AUDIUS_LOGO_URL}
-              alt="Audius"
-              width={146}
-              height={28}
-              className="object-contain"
-            />
-            <button 
-              onClick={onClose}
-              className="p-2 -mr-2"
-              aria-label="Close menu"
-            >
-              <CloseIcon className="text-text-secondary" />
-            </button>
-          </div>
-          
-          {/* Content */}
-          <div className="flex-1 overflow-y-auto py-6 px-6">
-            {/* Compare section */}
-            <div className="mb-8">
-              <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-4">
-                Compare
-              </h3>
-              <nav className="space-y-1">
-                {competitors.map(competitor => (
-                  <button
-                    key={competitor.slug}
-                    onClick={() => handleNavigation(`/${competitor.slug}`)}
-                    className="block w-full text-left px-3 py-3 text-base text-text-secondary hover:text-text-primary hover:bg-surface-alt rounded-lg transition-colors"
-                  >
-                    Audius vs. {competitor.name}
-                  </button>
-                ))}
-              </nav>
-            </div>
-            
-            {/* More section */}
-            <div className="mb-8">
-              <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-4">
-                More
-              </h3>
-              <nav className="space-y-1">
-                <a 
-                  href={EXTERNAL_URLS.blog}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block px-3 py-3 text-base text-text-secondary hover:text-text-primary hover:bg-surface-alt rounded-lg transition-colors"
-                >
-                  Read The Blog
-                </a>
-                <a 
-                  href={EXTERNAL_URLS.helpCenter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block px-3 py-3 text-base text-text-secondary hover:text-text-primary hover:bg-surface-alt rounded-lg transition-colors"
-                >
-                  Help Center
-                </a>
-              </nav>
-            </div>
-            
-            {/* Social links */}
-            <div>
-              <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-4">
-                Follow Us
-              </h3>
-              <div className="flex gap-4">
-                <a 
-                  href={EXTERNAL_URLS.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 text-text-muted hover:text-text-primary transition-colors"
-                  aria-label="Instagram"
-                >
-                  <InstagramIcon className="w-6 h-6" />
-                </a>
-                <a 
-                  href={EXTERNAL_URLS.twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 text-text-muted hover:text-text-primary transition-colors"
-                  aria-label="Twitter"
-                >
-                  <TwitterIcon className="w-6 h-6" />
-                </a>
-                <a 
-                  href={EXTERNAL_URLS.discord}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 text-text-muted hover:text-text-primary transition-colors"
-                  aria-label="Discord"
-                >
-                  <DiscordIcon className="w-6 h-6" />
-                </a>
-                <a 
-                  href={EXTERNAL_URLS.telegram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 text-text-muted hover:text-text-primary transition-colors"
-                  aria-label="Telegram"
-                >
-                  <TelegramIcon className="w-6 h-6" />
-                </a>
-              </div>
-            </div>
-          </div>
-          
-          {/* Footer CTA */}
-          <div className="p-6 border-t border-border">
-            <a
-              href={EXTERNAL_URLS.audiusApp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full px-6 py-4 bg-audius-purple text-white text-center rounded-lg text-base font-medium hover:bg-audius-purple-dark transition-colors"
-            >
-              Open Audius
-            </a>
-          </div>
-        </div>
+        className="absolute top-4 left-4 sm:top-6 sm:left-6"
+      >
+        <AudiusLogo className="h-5 sm:h-6 w-auto text-text-muted-30 hover:text-text-primary transition-colors" />
+      </Link>
+
+      <nav className="flex flex-col gap-4 sm:gap-6 mb-12">
+        {competitors.map((competitor, index) => (
+          <button
+            key={competitor.slug}
+            onClick={() => handleNavigation(`/${competitor.slug}`)}
+            className="text-left text-fluid-title font-black uppercase tracking-tighter transition-all duration-300 text-text-primary hover:text-audius-purple"
+            style={{
+              transitionDelay: isOpen ? `${index * 50}ms` : '0ms',
+              transform: isOpen ? 'translateX(0)' : 'translateX(-20px)',
+              opacity: isOpen ? 1 : 0,
+            }}
+          >
+            Audius vs. {competitor.name}
+          </button>
+        ))}
+      </nav>
+
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-8">
+        <a
+          href={EXTERNAL_URLS.blog}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-fluid-small text-text-muted uppercase tracking-widest hover:text-audius-purple transition-colors"
+        >
+          Read The Blog
+        </a>
+        <a
+          href={EXTERNAL_URLS.helpCenter}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-fluid-small text-text-muted uppercase tracking-widest hover:text-audius-purple transition-colors"
+        >
+          Help Center
+        </a>
       </div>
+
+      <div className="flex items-center gap-5">
+        <a
+          href={EXTERNAL_URLS.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-text-secondary hover:text-text-primary transition-colors"
+          aria-label="Instagram"
+        >
+          <InstagramIcon className="w-5 h-5" />
+        </a>
+        <a
+          href={EXTERNAL_URLS.twitter}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-text-secondary hover:text-text-primary transition-colors"
+          aria-label="Twitter"
+        >
+          <TwitterIcon className="w-5 h-5" />
+        </a>
+        <a
+          href={EXTERNAL_URLS.discord}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-text-secondary hover:text-text-primary transition-colors"
+          aria-label="Discord"
+        >
+          <DiscordIcon className="w-5 h-5" />
+        </a>
+        <a
+          href={EXTERNAL_URLS.telegram}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-text-secondary hover:text-text-primary transition-colors"
+          aria-label="Telegram"
+        >
+          <TelegramIcon className="w-5 h-5" />
+        </a>
+      </div>
+
+      <a
+        href={EXTERNAL_URLS.audiusApp}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-8 inline-flex items-center justify-center gap-2 px-6 py-3 bg-cta text-cta-text font-bold uppercase text-xs tracking-widest hover:bg-audius-purple hover:text-text-primary transition-all self-start"
+      >
+        Open Audius
+      </a>
     </div>
   );
 }

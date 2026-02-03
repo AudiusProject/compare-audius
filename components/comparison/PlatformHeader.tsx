@@ -20,12 +20,12 @@ export function PlatformHeader({ platform, className, size = 'lg' }: PlatformHea
 
   return (
     <div className={cn('flex items-center justify-center w-full px-4', className)}>
-      <div className={cn('relative', sizeClasses[size])}>
+      <div className={cn('relative logo-white', sizeClasses[size])}>
         <Image
           src={platform.logo}
           alt={platform.name}
           fill
-          className="object-contain"
+          className="object-contain logo-white"
           sizes="(max-width: 768px) 100px, (max-width: 1024px) 150px, 200px"
         />
       </div>

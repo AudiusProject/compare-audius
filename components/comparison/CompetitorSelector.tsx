@@ -50,11 +50,11 @@ export function CompetitorSelector({ current, options }: CompetitorSelectorProps
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          'inline-flex items-center gap-1',
-          'border-b-2 border-dashed transition-all duration-200',
+          'inline-flex items-center gap-2 pb-1',
+          'border-b transition-all duration-200',
           isOpen 
-            ? 'border-audius-purple text-audius-purple' 
-            : 'border-audius-purple/60 hover:border-audius-purple'
+            ? 'border-audius-purple text-text-primary' 
+            : 'border-border-light text-audius-purple hover:text-text-primary hover:border-border'
         )}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
@@ -72,8 +72,8 @@ export function CompetitorSelector({ current, options }: CompetitorSelectorProps
       <div 
         className={cn(
           'absolute left-1/2 -translate-x-1/2 top-full mt-3 z-50',
-          'min-w-[200px] py-2 bg-white rounded-xl border border-border',
-          'shadow-lg shadow-black/10',
+          'min-w-[220px] py-2 bg-surface-alt-95 backdrop-blur rounded-2xl border border-border',
+          'shadow-[var(--shadow-dropdown)]',
           'transition-all duration-200 origin-top',
           isOpen 
             ? 'opacity-100 scale-100 translate-y-0' 
@@ -81,7 +81,7 @@ export function CompetitorSelector({ current, options }: CompetitorSelectorProps
         )}
         role="listbox"
       >
-        <div className="px-3 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider">
+        <div className="px-3 py-2 text-xs font-semibold text-text-muted uppercase tracking-widest">
           Compare with
         </div>
         
@@ -96,8 +96,8 @@ export function CompetitorSelector({ current, options }: CompetitorSelectorProps
                 'w-full px-3 py-2.5 text-left flex items-center justify-between gap-3',
                 'transition-colors duration-150',
                 isSelected 
-                  ? 'bg-audius-purple/5 text-audius-purple font-medium' 
-                  : 'text-text-secondary hover:bg-surface-alt hover:text-text-primary'
+                  ? 'bg-audius-purple/15 text-text-primary font-medium' 
+                  : 'text-text-secondary hover:bg-tint-05 hover:text-text-primary'
               )}
               role="option"
               aria-selected={isSelected}

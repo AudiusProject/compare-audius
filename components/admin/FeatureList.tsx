@@ -96,24 +96,24 @@ export function FeatureList({ features: initialFeatures, completeness }: Feature
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <div className="bg-surface-alt rounded-lg border border-border overflow-hidden">
       {saving && (
         <div className="px-4 py-2 bg-audius-purple/10 text-audius-purple text-sm">
           Saving order...
         </div>
       )}
       <table className="w-full">
-        <thead className="bg-gray-50 border-b border-gray-200">
+        <thead className="bg-surface border-b border-border">
           <tr>
             <th className="w-10 px-2 py-3"></th>
-            <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Name</th>
-            <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Description</th>
-            <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Status</th>
-            <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Comparisons</th>
-            <th className="px-4 py-3 text-right text-sm font-medium text-gray-500">Actions</th>
+            <th className="px-4 py-3 text-left text-sm font-medium text-text-muted">Name</th>
+            <th className="px-4 py-3 text-left text-sm font-medium text-text-muted">Description</th>
+            <th className="px-4 py-3 text-left text-sm font-medium text-text-muted">Status</th>
+            <th className="px-4 py-3 text-left text-sm font-medium text-text-muted">Comparisons</th>
+            <th className="px-4 py-3 text-right text-sm font-medium text-text-muted">Actions</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-200">
+        <tbody className="divide-y divide-border">
           {features.map((feature, index) => {
             const comp = completeness.find(c => c.featureId === feature.id)!;
             const isDragging = draggedIndex === index;
@@ -130,7 +130,7 @@ export function FeatureList({ features: initialFeatures, completeness }: Feature
                 onDragEnd={handleDragEnd}
                 className={cn(
                   'transition-colors',
-                  feature.isDraft ? 'bg-yellow-50/50' : '',
+                  feature.isDraft ? 'bg-tint-05' : '',
                   isDragging && 'opacity-50',
                   isDragOver && 'bg-audius-purple/10'
                 )}
@@ -139,14 +139,14 @@ export function FeatureList({ features: initialFeatures, completeness }: Feature
                   <DragHandle />
                 </td>
                 <td className="px-4 py-3 font-medium">{feature.name}</td>
-                <td className="px-4 py-3 text-gray-500 text-sm max-w-xs truncate">
+                <td className="px-4 py-3 text-text-muted text-sm max-w-xs truncate">
                   {feature.description}
                 </td>
                 <td className="px-4 py-3">
                   <StatusBadge isDraft={feature.isDraft} />
                 </td>
                 <td className="px-4 py-3">
-                  <span className={comp.complete ? 'text-green-600' : 'text-yellow-600'}>
+                  <span className={comp.complete ? 'text-status-yes' : 'text-status-warn'}>
                     {comp.count}/{comp.total}
                   </span>
                 </td>
@@ -164,7 +164,7 @@ export function FeatureList({ features: initialFeatures, completeness }: Feature
 
 function DragHandle() {
   return (
-    <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+    <svg className="w-5 h-5 text-text-muted" fill="currentColor" viewBox="0 0 20 20">
       <path d="M7 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM7 8a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM7 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM13 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM13 8a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM13 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
     </svg>
   );

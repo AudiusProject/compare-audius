@@ -15,38 +15,38 @@ export default async function PlatformsPage() {
         <h1 className="text-2xl font-bold">Platforms</h1>
         <Link
           href="/admin/platforms/new"
-          className="px-4 py-2 bg-audius-purple text-white rounded-lg hover:bg-audius-purple-dark transition-colors"
+          className="px-4 py-2 bg-audius-purple text-text-primary rounded-lg hover:bg-audius-purple-dark transition-colors"
         >
           Add Platform
         </Link>
       </div>
       
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+      <div className="bg-surface-alt rounded-lg border border-border overflow-hidden">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="bg-surface border-b border-border">
             <tr>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Logo</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Name</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Slug</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Status</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Type</th>
-              <th className="px-4 py-3 text-right text-sm font-medium text-gray-500">Actions</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-text-muted">Logo</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-text-muted">Name</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-text-muted">Slug</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-text-muted">Status</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-text-muted">Type</th>
+              <th className="px-4 py-3 text-right text-sm font-medium text-text-muted">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-border">
             {platforms.map((platform) => (
-              <tr key={platform.id} className={platform.isDraft ? 'bg-yellow-50/50' : ''}>
+              <tr key={platform.id} className={platform.isDraft ? 'bg-tint-05' : ''}>
                 <td className="px-4 py-3">
                   <Image
                     src={platform.logo}
                     alt={platform.name}
                     width={40}
                     height={40}
-                    className="object-contain"
+                    className="object-contain logo-white"
                   />
                 </td>
                 <td className="px-4 py-3 font-medium">{platform.name}</td>
-                <td className="px-4 py-3 text-gray-500 text-sm">{platform.slug}</td>
+                <td className="px-4 py-3 text-text-muted text-sm">{platform.slug}</td>
                 <td className="px-4 py-3">
                   <StatusBadge isDraft={platform.isDraft} />
                 </td>
@@ -54,7 +54,7 @@ export default async function PlatformsPage() {
                   {platform.isAudius ? (
                     <span className="text-audius-purple font-medium text-sm">Audius</span>
                   ) : (
-                    <span className="text-gray-500 text-sm">Competitor</span>
+                    <span className="text-text-muted text-sm">Competitor</span>
                   )}
                 </td>
                 <td className="px-4 py-3 text-right">

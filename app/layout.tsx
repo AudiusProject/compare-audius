@@ -1,15 +1,8 @@
 // app/layout.tsx
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/constants';
 import { LayoutStructuredData } from '@/components/seo/StructuredData';
-
-const inter = Inter({ 
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -70,11 +63,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en">
       <head>
         <LayoutStructuredData />
       </head>
-      <body style={{ fontFamily: 'var(--font-inter), var(--font-sans)' }}>
+      <body>
         {children}
       </body>
     </html>

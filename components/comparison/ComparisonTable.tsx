@@ -12,18 +12,18 @@ interface ComparisonTableProps {
 export function ComparisonTable({ audius, competitor, comparisons }: ComparisonTableProps) {
   
   return (
-    <div className="relative">
+    <div className="relative z-10 animate-slide-up">
       {/* Sticky platform header row */}
-      <div className="sticky top-[var(--spacing-header-height)] z-20 bg-surface-alt pb-px">
+      <div className="sticky top-[var(--spacing-header-height)] z-20 bg-surface-90 backdrop-blur pb-px border-b border-border-light">
         {/* Background extension to cover any gaps */}
-        <div className="absolute inset-x-0 -top-4 h-4 bg-surface-alt" />
+        <div className="absolute inset-x-0 -top-4 h-4 bg-surface-90" />
         
         <div className="grid grid-cols-[minmax(180px,1fr)_minmax(140px,1fr)_minmax(140px,1fr)] lg:grid-cols-[minmax(200px,320px)_minmax(200px,360px)_minmax(200px,360px)]">
           {/* Empty cell for feature column */}
-          <div className="h-[100px] lg:h-[120px] bg-surface-alt" />
+          <div className="h-[100px] lg:h-[120px] bg-surface" />
           
           {/* Audius platform header */}
-          <div className="h-[100px] lg:h-[120px] border-l border-r border-t border-border rounded-t-xl bg-white flex items-center justify-center overflow-hidden">
+          <div className="h-[100px] lg:h-[120px] border border-border rounded-t-2xl bg-surface-raised flex items-center justify-center overflow-hidden ring-1 ring-audius-purple/20 shadow-[var(--shadow-panel)]">
             <PlatformHeader platform={audius} />
           </div>
           
@@ -38,7 +38,7 @@ export function ComparisonTable({ audius, competitor, comparisons }: ComparisonT
       <div className="relative z-10">
         <div className="grid grid-cols-[minmax(180px,1fr)_minmax(140px,1fr)_minmax(140px,1fr)] lg:grid-cols-[minmax(200px,320px)_minmax(200px,360px)_minmax(200px,360px)]">
           {/* Feature column */}
-          <div className="bg-surface-alt">
+          <div className="bg-surface">
             {comparisons.map((comparison) => (
               <div 
                 key={`feature-${comparison.feature.id}`}
@@ -53,7 +53,7 @@ export function ComparisonTable({ audius, competitor, comparisons }: ComparisonT
           </div>
           
           {/* Audius column - white background with borders */}
-          <div className="bg-white border-l border-r border-b border-border rounded-b-xl">
+          <div className="bg-surface-raised border-l border-r border-b border-border rounded-b-2xl ring-1 ring-audius-purple/20 shadow-[var(--shadow-panel)]">
             {comparisons.map((comparison) => (
               <div 
                 key={`audius-${comparison.feature.id}`}
@@ -109,20 +109,20 @@ function StatusCell({
       
       {status === 'yes' && (
         <div className="w-6 h-6 rounded-full bg-status-yes flex items-center justify-center">
-          <CheckIcon className="text-white w-4 h-4" />
+          <CheckIcon className="text-on-status w-4 h-4" />
         </div>
       )}
       
       {status === 'no' && (
         <div className="w-6 h-6 rounded-full bg-status-no flex items-center justify-center">
-          <XIcon className="text-white w-4 h-4" />
+          <XIcon className="text-on-status w-4 h-4" />
         </div>
       )}
       
       {status === 'partial' && (
         <>
           <div className="w-6 h-6 rounded-full bg-status-partial flex items-center justify-center">
-            <MinusIcon className="text-white w-4 h-4" />
+            <MinusIcon className="text-on-status w-4 h-4" />
           </div>
           {context && (
             <span className="text-xs lg:text-status-context text-center max-w-[120px] lg:max-w-[200px]">

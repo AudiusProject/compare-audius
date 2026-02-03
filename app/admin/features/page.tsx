@@ -27,11 +27,11 @@ export default async function FeaturesPage() {
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold">Features</h1>
-          <p className="text-sm text-gray-500 mt-1">Drag to reorder</p>
+          <p className="text-sm text-text-secondary mt-1">Drag to reorder</p>
         </div>
         <Link
           href="/admin/features/new"
-          className="px-4 py-2 bg-audius-purple text-white rounded-lg hover:bg-audius-purple-dark transition-colors"
+          className="px-4 py-2 bg-audius-purple text-text-primary rounded-lg hover:bg-audius-purple-dark transition-colors"
         >
           Add Feature
         </Link>
