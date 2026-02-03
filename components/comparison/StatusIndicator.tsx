@@ -10,6 +10,7 @@ interface StatusIndicatorProps {
   className?: string;
   /** Compact mode for mobile - smaller text, constrained width */
   compact?: boolean;
+  align?: 'center' | 'end';
 }
 
 export function StatusIndicator({ 
@@ -17,15 +18,19 @@ export function StatusIndicator({
   displayValue, 
   context,
   className,
-  compact = false
+  compact = false,
+  align = 'center'
 }: StatusIndicatorProps) {
+  const alignment = align === 'end' ? 'items-end text-right' : 'items-center text-center';
+  const contextAlignment = align === 'end' ? 'text-right' : 'text-center';
+
   return (
-    <div className={cn('flex flex-col items-center gap-1.5', className)}>
+    <div className={cn('flex flex-col gap-1.5', alignment, className)}>
       {/* Custom value (like "320 kbps") */}
       {status === 'custom' && displayValue && (
         <span className={cn(
           'font-semibold text-text-primary',
-          compact ? 'text-sm' : 'text-lg'
+          compact ? 'text-sm font-mono' : 'text-lg font-mono'
         )}>
           {displayValue}
         </span>
@@ -53,9 +58,9 @@ export function StatusIndicator({
           </div>
           {context && (
             <span className={cn(
-              'text-center',
+              contextAlignment,
               compact 
-                ? 'text-xs leading-snug max-w-[130px] text-text-secondary' 
+                ? 'text-xs leading-snug max-w-[160px] sm:max-w-[200px] text-text-secondary' 
                 : 'text-status-context max-w-[200px]'
             )}>
               {context}

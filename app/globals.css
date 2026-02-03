@@ -63,6 +63,8 @@
   --tracking-tighter: -0.04em;
   --tracking-widest: 0.1em;
   --leading-tight: 1.2;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
 
   /* Static sizes (fallbacks) */
   --text-5xl: 2.5rem;
@@ -82,7 +84,7 @@
   --text-fluid-small: clamp(0.625rem, 0.5rem + 0.2vw, 0.75rem);
 
   /* Spacing */
-  --spacing-header-height: 76px;
+  --spacing-header-height: 44px;
 
   /* Border Radius */
   --radius-xl: 20px;
@@ -110,6 +112,18 @@
     scroll-behavior: smooth;
     background-color: var(--color-audius-bg);
     color: var(--color-text-primary);
+  }
+
+  @media (min-width: 640px) {
+    :root {
+      --spacing-header-height: 48px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --spacing-header-height: 60px;
+    }
   }
 
   body {
@@ -262,10 +276,17 @@
   }
 
   .text-feature-name {
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.45;
+    font-size: clamp(2rem, 1.5rem + 2.8vw, 3rem);
+    font-weight: 400;
+    line-height: 1.1;
     color: var(--color-text-primary);
+    font-family: 'titular', 'Titular', 'Bebas Neue', sans-serif;
+  }
+
+  @media (min-width: 768px) {
+    .text-feature-name {
+      font-size: clamp(1.5rem, 1.15rem + 1vw, 2rem);
+    }
   }
 
   .text-feature-desc {
@@ -273,6 +294,7 @@
     font-weight: 400;
     line-height: 1.5;
     color: var(--color-text-muted);
+    font-family: var(--font-mono);
   }
 
   .text-status-context {
@@ -280,6 +302,7 @@
     font-weight: 600;
     line-height: 1.6;
     color: var(--color-text-secondary);
+    font-family: var(--font-mono);
   }
 
   .text-nav {
@@ -298,5 +321,15 @@
     color: var(--color-audius-purple);
     text-transform: uppercase;
     letter-spacing: 0.2em;
+  }
+
+  .font-titular-heavy {
+    font-family: 'titular', 'Titular', 'Bebas Neue', sans-serif;
+    font-weight: 800;
+  }
+
+  .font-titular {
+    font-family: 'titular', 'Titular', 'Bebas Neue', sans-serif;
+    font-weight: 400;
   }
 }

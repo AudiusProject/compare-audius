@@ -14,16 +14,16 @@ export function ComparisonTable({ audius, competitor, comparisons }: ComparisonT
   return (
     <div className="relative z-10 animate-slide-up">
       {/* Sticky platform header row */}
-      <div className="sticky top-[var(--spacing-header-height)] z-20 bg-surface-90 backdrop-blur pb-px border-b border-border-light">
-        {/* Background extension to cover any gaps */}
-        <div className="absolute inset-x-0 -top-4 h-4 bg-surface-90" />
+      <div className="sticky top-[var(--spacing-header-height)] z-20 bg-surface-90 backdrop-blur pb-px">
+        {/* Background extension to mask content under header */}
+        <div className="absolute inset-x-0 -top-4 h-4 bg-surface" />
         
         <div className="grid grid-cols-[minmax(180px,1fr)_minmax(140px,1fr)_minmax(140px,1fr)] lg:grid-cols-[minmax(200px,320px)_minmax(200px,360px)_minmax(200px,360px)]">
           {/* Empty cell for feature column */}
           <div className="h-[100px] lg:h-[120px] bg-surface" />
           
           {/* Audius platform header */}
-          <div className="h-[100px] lg:h-[120px] border border-border rounded-t-2xl bg-surface-raised flex items-center justify-center overflow-hidden ring-1 ring-audius-purple/20 shadow-[var(--shadow-panel)]">
+          <div className="h-[100px] lg:h-[120px] border-l border-r border-border bg-surface-raised flex items-center justify-center overflow-hidden">
             <PlatformHeader platform={audius} />
           </div>
           
@@ -44,16 +44,16 @@ export function ComparisonTable({ audius, competitor, comparisons }: ComparisonT
                 key={`feature-${comparison.feature.id}`}
                 className="h-[100px] p-4 lg:p-5 flex flex-col justify-center border-t border-border"
               >
-                <h3 className="text-feature-name text-sm lg:text-base">{comparison.feature.name}</h3>
-                <p className="text-feature-desc text-xs lg:text-sm mt-1 line-clamp-2 lg:line-clamp-none">
+                <h3 className="text-feature-name tracking-[0.05em]">{comparison.feature.name}</h3>
+                <p className="text-feature-desc text-xs lg:text-sm mt-0.5 line-clamp-2 lg:line-clamp-none">
                   {comparison.feature.description}
                 </p>
               </div>
             ))}
           </div>
           
-          {/* Audius column - white background with borders */}
-          <div className="bg-surface-raised border-l border-r border-b border-border rounded-b-2xl ring-1 ring-audius-purple/20 shadow-[var(--shadow-panel)]">
+          {/* Audius column - matches header styling */}
+          <div className="bg-surface-raised border-l border-r border-b border-border">
             {comparisons.map((comparison) => (
               <div 
                 key={`audius-${comparison.feature.id}`}
@@ -100,7 +100,7 @@ function StatusCell({
   context?: string | null;
 }) {
   return (
-    <div className="flex flex-col items-center gap-2 text-center">
+    <div className="flex flex-col items-center gap-2 text-center font-mono">
       {status === 'custom' && displayValue && (
         <span className="text-base lg:text-lg font-semibold text-text-primary">
           {displayValue}

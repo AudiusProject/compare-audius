@@ -73,8 +73,8 @@ export function Dropdown({
         aria-expanded={isOpen}
         aria-haspopup="true"
         className={cn(
-          'flex items-center gap-2 py-2',
-          'text-fluid-small font-bold uppercase tracking-wider transition-colors duration-150',
+          'flex items-center gap-2 py-2 font-titular-heavy',
+          'text-fluid-body-lg font-bold uppercase tracking-wider transition-colors duration-150',
           isOpen 
             ? 'text-text-primary' 
             : 'text-text-secondary hover:text-audius-purple'
@@ -93,7 +93,7 @@ export function Dropdown({
       <div 
         className={cn(
           'absolute z-50 mt-1 min-w-[220px] py-2',
-          'bg-surface-alt-95 backdrop-blur rounded-2xl border border-border',
+          'bg-surface-alt-95 backdrop-blur rounded-2xl border border-border font-mono',
           'shadow-[var(--shadow-dropdown)]',
           'transition-all duration-200 origin-top',
           alignmentClasses[align],
@@ -147,10 +147,10 @@ function DropdownItemComponent({
   };
   
   const itemClassName = cn(
-    'flex items-center gap-3 w-full px-4 py-2.5 text-left',
-    'transition-colors duration-150',
+    'flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm',
+    'transition-colors duration-150 font-mono font-normal',
     item.isActive
-      ? 'bg-audius-purple/15 text-text-primary font-medium'
+      ? 'bg-audius-purple/15 text-text-primary'
       : 'text-text-secondary hover:bg-tint-05 hover:text-text-primary'
   );
   
@@ -165,7 +165,7 @@ function DropdownItemComponent({
         onClick={onSelect}
       >
         {item.icon && <span className="text-text-muted">{item.icon}</span>}
-        <span className="text-base">{item.label}</span>
+        <span className="text-sm font-normal">{item.label}</span>
       </a>
     );
   }
@@ -173,7 +173,7 @@ function DropdownItemComponent({
   return (
     <button className={itemClassName} role="menuitem" onClick={handleClick}>
       {item.icon && <span className="text-text-muted">{item.icon}</span>}
-      <span className="text-base">{item.label}</span>
+      <span className="text-sm font-normal">{item.label}</span>
     </button>
   );
 }

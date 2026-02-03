@@ -20,7 +20,7 @@ export function FeatureRow({ comparison, isAlternate }: FeatureRowProps) {
     >
       {/* Feature info */}
       <div className="p-5 flex flex-col gap-1">
-        <h3 className="text-feature-name">{feature.name}</h3>
+        <h3 className="text-feature-name tracking-[0.05em]">{feature.name}</h3>
         <p className="text-feature-desc">
           {feature.description}
         </p>

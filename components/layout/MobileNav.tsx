@@ -48,7 +48,7 @@ export function MobileNav({ isOpen, onClose, competitors }: MobileNavProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-40 bg-overlay-95 backdrop-blur-xl flex flex-col justify-center px-6 sm:px-8 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] lg:hidden ${
+      className={`fixed inset-0 z-40 bg-overlay-95 backdrop-blur-xl flex flex-col justify-center px-6 sm:px-8 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] lg:hidden overflow-y-auto ${
         isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}
       aria-hidden={!isOpen}
@@ -61,12 +61,12 @@ export function MobileNav({ isOpen, onClose, competitors }: MobileNavProps) {
         <AudiusLogo className="h-5 sm:h-6 w-auto text-text-muted-30 hover:text-text-primary transition-colors" />
       </Link>
 
-      <nav className="flex flex-col gap-4 sm:gap-6 mb-12">
+      <nav className="flex flex-col gap-2 sm:gap-3 mb-10 font-titular-heavy">
         {competitors.map((competitor, index) => (
           <button
             key={competitor.slug}
             onClick={() => handleNavigation(`/${competitor.slug}`)}
-            className="text-left text-fluid-title font-black uppercase tracking-tighter transition-all duration-300 text-text-primary hover:text-audius-purple"
+            className="text-left text-[clamp(2.75rem,1.25rem+8vw,6.5rem)] font-black uppercase tracking-normal leading-[0.9] transition-all duration-300 text-text-primary hover:text-audius-purple"
             style={{
               transitionDelay: isOpen ? `${index * 50}ms` : '0ms',
               transform: isOpen ? 'translateX(0)' : 'translateX(-20px)',
@@ -78,12 +78,12 @@ export function MobileNav({ isOpen, onClose, competitors }: MobileNavProps) {
         ))}
       </nav>
 
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-8">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-8 font-titular-heavy">
         <a
           href={EXTERNAL_URLS.blog}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-fluid-small text-text-muted uppercase tracking-widest hover:text-audius-purple transition-colors"
+          className="text-fluid-body-lg text-text-muted uppercase tracking-widest hover:text-audius-purple transition-colors"
         >
           Read The Blog
         </a>
@@ -91,7 +91,7 @@ export function MobileNav({ isOpen, onClose, competitors }: MobileNavProps) {
           href={EXTERNAL_URLS.helpCenter}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-fluid-small text-text-muted uppercase tracking-widest hover:text-audius-purple transition-colors"
+          className="text-fluid-body-lg text-text-muted uppercase tracking-widest hover:text-audius-purple transition-colors"
         >
           Help Center
         </a>
@@ -140,7 +140,7 @@ export function MobileNav({ isOpen, onClose, competitors }: MobileNavProps) {
         href={EXTERNAL_URLS.audiusApp}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-8 inline-flex items-center justify-center gap-2 px-6 py-3 bg-cta text-cta-text font-bold uppercase text-xs tracking-widest hover:bg-audius-purple hover:text-text-primary transition-all self-start"
+        className="mt-8 inline-flex items-center justify-center gap-2 px-6 py-3 bg-cta text-cta-text font-titular-heavy font-bold uppercase text-[clamp(1.1rem,0.95rem+1.6vw,1.4rem)] tracking-widest hover:bg-audius-purple hover:text-text-primary transition-all self-start"
       >
         Open Audius
       </a>

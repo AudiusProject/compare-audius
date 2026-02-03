@@ -50,7 +50,7 @@ export function CompetitorSelector({ current, options }: CompetitorSelectorProps
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          'inline-flex items-center gap-2 pb-1',
+          'inline-flex items-center gap-2 pb-1 font-titular-heavy',
           'border-b transition-all duration-200',
           isOpen 
             ? 'border-audius-purple text-text-primary' 
@@ -72,7 +72,7 @@ export function CompetitorSelector({ current, options }: CompetitorSelectorProps
       <div 
         className={cn(
           'absolute left-1/2 -translate-x-1/2 top-full mt-3 z-50',
-          'min-w-[220px] py-2 bg-surface-alt-95 backdrop-blur rounded-2xl border border-border',
+          'min-w-[220px] py-2 bg-surface-alt-95 backdrop-blur rounded-2xl border border-border tracking-normal font-mono',
           'shadow-[var(--shadow-dropdown)]',
           'transition-all duration-200 origin-top',
           isOpen 
@@ -94,15 +94,15 @@ export function CompetitorSelector({ current, options }: CompetitorSelectorProps
               onClick={() => handleSelect(option.slug)}
               className={cn(
                 'w-full px-3 py-2.5 text-left flex items-center justify-between gap-3',
-                'transition-colors duration-150',
+                'transition-colors duration-150 tracking-normal font-mono text-sm font-normal',
                 isSelected 
-                  ? 'bg-audius-purple/15 text-text-primary font-medium' 
+                  ? 'bg-audius-purple/15 text-text-primary' 
                   : 'text-text-secondary hover:bg-tint-05 hover:text-text-primary'
               )}
               role="option"
               aria-selected={isSelected}
             >
-              <span className="text-base">{option.name}</span>
+              <span className="text-sm font-normal">{option.name}</span>
               {isSelected && (
                 <CheckIcon className="w-5 h-5 text-audius-purple" />
               )}

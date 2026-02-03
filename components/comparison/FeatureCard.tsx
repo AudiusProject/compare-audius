@@ -16,8 +16,10 @@ export function FeatureCard({ audius, comparison, competitor }: FeatureCardProps
     <div className="border border-border rounded-2xl overflow-hidden bg-surface-alt-85 backdrop-blur shadow-[var(--shadow-panel)]">
       {/* Feature header */}
       <div className="p-4 border-b border-border">
-        <h3 className="text-feature-name">{feature.name}</h3>
-        <p className="text-feature-desc mt-1">
+        <h3 className="text-feature-name !text-[clamp(2rem,1.5rem+3vw,2.8rem)] md:!text-[clamp(1.5rem,1.15rem+1vw,2rem)] tracking-normal md:tracking-[0.05em]">
+          {feature.name}
+        </h3>
+        <p className="text-feature-desc mt-1 font-mono">
           {feature.description}
         </p>
       </div>
@@ -34,7 +36,7 @@ export function FeatureCard({ audius, comparison, competitor }: FeatureCardProps
           />
         </div>
         <div className="flex-1" />
-        <div className="w-[140px] flex justify-center shrink-0">
+        <div className="w-[160px] sm:w-[200px] flex justify-center shrink-0">
           <StatusIndicator
             status={audiusStatus.status}
             displayValue={audiusStatus.displayValue}
@@ -56,7 +58,7 @@ export function FeatureCard({ audius, comparison, competitor }: FeatureCardProps
           />
         </div>
         <div className="flex-1" />
-        <div className="w-[140px] flex justify-center shrink-0">
+        <div className="w-[160px] sm:w-[200px] flex justify-center shrink-0">
           <StatusIndicator
             status={competitorStatus.status}
             displayValue={competitorStatus.displayValue}

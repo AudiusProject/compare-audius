@@ -16,7 +16,7 @@ export function PageHeader({ competitor, competitors }: PageHeaderProps) {
       </span>
       
       {/* Title with selector - stacked on mobile, inline on desktop */}
-      <h1 className="mt-3 text-fluid-display font-black uppercase tracking-tighter leading-[0.85] text-text-primary">
+      <h1 className="mt-3 text-[clamp(3.25rem,1.6rem+8.5vw,7rem)] font-titular-heavy uppercase leading-[0.85] text-text-primary md:text-fluid-display">
         <span className="block md:inline">
           Audius vs.
         </span>

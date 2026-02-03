@@ -24,6 +24,19 @@ export function Header({ competitors }: HeaderProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const media = window.matchMedia('(min-width: 1024px)');
+    const handleChange = () => {
+      if (media.matches) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    handleChange();
+    media.addEventListener('change', handleChange);
+    return () => media.removeEventListener('change', handleChange);
+  }, []);
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
@@ -39,7 +52,7 @@ export function Header({ competitors }: HeaderProps) {
           </Link>
           
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-10">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-10 font-titular-heavy">
             <CompareDropdown competitors={competitors} />
             <MoreDropdown />
             
@@ -48,7 +61,7 @@ export function Header({ competitors }: HeaderProps) {
               href={EXTERNAL_URLS.audiusApp}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 xl:px-5 py-2 bg-cta text-cta-text font-bold uppercase text-fluid-small tracking-widest hover:bg-audius-purple hover:text-text-primary transition-all whitespace-nowrap"
+              className="inline-flex items-center gap-2 px-4 xl:px-5 py-2 bg-cta text-cta-text font-bold uppercase text-fluid-body-lg tracking-widest hover:bg-audius-purple hover:text-text-primary transition-all whitespace-nowrap"
             >
               Open Audius
             </a>
