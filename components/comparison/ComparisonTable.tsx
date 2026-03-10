@@ -42,10 +42,12 @@ export function ComparisonTable({ audius, competitor, comparisons }: ComparisonT
             {comparisons.map((comparison) => (
               <div 
                 key={`feature-${comparison.feature.id}`}
-                className="h-[100px] p-4 lg:p-5 flex flex-col justify-center border-t border-border"
+                className="h-[112px] p-4 lg:p-5 flex flex-col justify-center border-t border-border"
               >
-                <h3 className="text-feature-name tracking-[0.05em]">{comparison.feature.name}</h3>
-                <p className="text-feature-desc text-xs lg:text-sm mt-0.5 line-clamp-2 lg:line-clamp-none">
+                <h3 className="text-[clamp(1.2rem,0.95rem+0.75vw,1.7rem)] font-extrabold leading-[1.08] tracking-normal text-text-primary">
+                  {comparison.feature.name}
+                </h3>
+                <p className="mt-1.5 text-[0.82rem] lg:text-[0.9rem] leading-[1.45] text-text-muted max-w-[30ch] line-clamp-2 lg:line-clamp-none">
                   {comparison.feature.description}
                 </p>
               </div>
@@ -57,7 +59,7 @@ export function ComparisonTable({ audius, competitor, comparisons }: ComparisonT
             {comparisons.map((comparison) => (
               <div 
                 key={`audius-${comparison.feature.id}`}
-                className="h-[100px] p-3 lg:p-5 flex items-center justify-center border-t border-border"
+                className="h-[112px] p-3 lg:p-5 flex items-center justify-center border-t border-border"
               >
                 <StatusCell 
                   status={comparison.audius.status}
@@ -73,7 +75,7 @@ export function ComparisonTable({ audius, competitor, comparisons }: ComparisonT
             {comparisons.map((comparison) => (
               <div 
                 key={`competitor-${comparison.feature.id}`}
-                className="h-[100px] p-3 lg:p-5 flex items-center justify-center border-t border-border"
+                className="h-[112px] p-3 lg:p-5 flex items-center justify-center border-t border-border"
               >
                 <StatusCell 
                   status={comparison.competitor.status}
@@ -100,7 +102,7 @@ function StatusCell({
   context?: string | null;
 }) {
   return (
-    <div className="flex flex-col items-center gap-2 text-center font-mono">
+    <div className="flex flex-col items-center gap-2 text-center">
       {status === 'custom' && displayValue && (
         <span className="text-base lg:text-lg font-semibold text-text-primary">
           {displayValue}
@@ -125,7 +127,7 @@ function StatusCell({
             <MinusIcon className="text-on-status w-4 h-4" />
           </div>
           {context && (
-            <span className="text-xs lg:text-status-context text-center max-w-[120px] lg:max-w-[200px]">
+            <span className="text-xs lg:text-[0.8rem] leading-[1.35] text-text-secondary text-center max-w-[120px] lg:max-w-[200px]">
               {context}
             </span>
           )}

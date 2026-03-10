@@ -60,8 +60,8 @@
   --color-border-light: rgb(255 255 255 / 0.05);
 
   /* Typography */
-  --tracking-tighter: -0.04em;
-  --tracking-widest: 0.1em;
+  --tracking-tighter: -0.02em;
+  --tracking-widest: 0.075em;
   --leading-tight: 1.2;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
     monospace;
@@ -79,9 +79,9 @@
   --text-fluid-title: clamp(1.5rem, 0.5rem + 3.5vw, 4rem);
   --text-fluid-heading: clamp(1.25rem, 0.5rem + 2vw, 2.5rem);
   --text-fluid-subheading: clamp(1rem, 0.5rem + 1.25vw, 1.75rem);
-  --text-fluid-body-lg: clamp(1rem, 0.875rem + 0.5vw, 1.5rem);
-  --text-fluid-body: clamp(0.9375rem, 0.875rem + 0.2vw, 1.125rem);
-  --text-fluid-small: clamp(0.625rem, 0.5rem + 0.2vw, 0.75rem);
+  --text-fluid-body-lg: clamp(1rem, 0.94rem + 0.3vw, 1.25rem);
+  --text-fluid-body: clamp(1rem, 0.96rem + 0.18vw, 1.125rem);
+  --text-fluid-small: clamp(0.75rem, 0.7rem + 0.18vw, 0.875rem);
 
   /* Spacing */
   --spacing-header-height: 44px;
@@ -133,6 +133,16 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-urbanist, 'Urbanist', 'Inter', sans-serif);
+    text-transform: none;
+  }
+
   ::selection {
     background-color: var(--color-audius-purple);
     color: var(--color-text-primary);
@@ -161,7 +171,7 @@
 /* Component Styles */
 @layer components {
   .container-narrow {
-    max-width: 1080px;
+    max-width: 72rem;
     margin-left: auto;
     margin-right: auto;
     padding-left: 16px;
@@ -169,16 +179,26 @@
   }
 
   .container-wide {
-    max-width: 1200px;
+    max-width: 80rem;
     margin-left: auto;
     margin-right: auto;
     padding-left: 16px;
     padding-right: 16px;
   }
 
+  .page-shell {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 80rem;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
   @media (min-width: 640px) {
     .container-narrow,
-    .container-wide {
+    .container-wide,
+    .page-shell {
       padding-left: 24px;
       padding-right: 24px;
     }
@@ -186,7 +206,8 @@
 
   @media (min-width: 1024px) {
     .container-narrow,
-    .container-wide {
+    .container-wide,
+    .page-shell {
       padding-left: 48px;
       padding-right: 48px;
     }
@@ -205,7 +226,7 @@
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 }
 
@@ -277,10 +298,11 @@
 
   .text-feature-name {
     font-size: clamp(2rem, 1.5rem + 2.8vw, 3rem);
-    font-weight: 400;
+    font-weight: 900;
     line-height: 1.1;
     color: var(--color-text-primary);
-    font-family: 'titular', 'Titular', 'Bebas Neue', sans-serif;
+    font-family: var(--font-urbanist, 'Urbanist', 'Inter', sans-serif);
+    letter-spacing: var(--tracking-tighter);
   }
 
   @media (min-width: 768px) {
@@ -294,7 +316,7 @@
     font-weight: 400;
     line-height: 1.5;
     color: var(--color-text-muted);
-    font-family: var(--font-mono);
+    font-family: var(--font-urbanist, 'Urbanist', 'Inter', sans-serif);
   }
 
   .text-status-context {
@@ -307,11 +329,10 @@
 
   .text-nav {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.2;
     color: var(--color-text-secondary);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
 
   .text-badge {
@@ -324,12 +345,12 @@
   }
 
   .font-titular-heavy {
-    font-family: 'titular', 'Titular', 'Bebas Neue', sans-serif;
-    font-weight: 800;
+    font-family: var(--font-urbanist, 'Urbanist', 'Inter', sans-serif);
+    font-weight: 900;
   }
 
   .font-titular {
-    font-family: 'titular', 'Titular', 'Bebas Neue', sans-serif;
+    font-family: var(--font-urbanist, 'Urbanist', 'Inter', sans-serif);
     font-weight: 400;
   }
 }

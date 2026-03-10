@@ -16,10 +16,10 @@ export function FeatureCard({ audius, comparison, competitor }: FeatureCardProps
     <div className="border border-border rounded-2xl overflow-hidden bg-surface-alt-85 backdrop-blur shadow-[var(--shadow-panel)]">
       {/* Feature header */}
       <div className="p-4 border-b border-border">
-        <h3 className="text-feature-name !text-[clamp(2rem,1.5rem+3vw,2.8rem)] md:!text-[clamp(1.5rem,1.15rem+1vw,2rem)] tracking-normal md:tracking-[0.05em]">
+        <h3 className="text-feature-name !text-[clamp(2rem,1.5rem+3vw,2.8rem)] md:!text-[clamp(1.5rem,1.15rem+1vw,2rem)]">
           {feature.name}
         </h3>
-        <p className="text-feature-desc mt-1 font-mono">
+        <p className="text-feature-desc mt-1">
           {feature.description}
         </p>
       </div>

@@ -11,7 +11,7 @@ export default async function PublicLayout({
   const competitors = await getCompetitors();
   
   return (
-    <div className="min-h-screen bg-surface text-text-primary font-sans flex flex-col relative">
+    <div className="min-h-screen bg-neutral-950 text-white selection:bg-audius-purple selection:text-white font-sans flex flex-col relative">
       <div
         className="noise-overlay fixed inset-0 pointer-events-none z-0 opacity-[0.04] mix-blend-overlay"
         aria-hidden="true"

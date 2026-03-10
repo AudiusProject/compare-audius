@@ -9,14 +9,14 @@ interface PageHeaderProps {
 
 export function PageHeader({ competitor, competitors }: PageHeaderProps) {
   return (
-    <div className="relative z-30 flex flex-col items-center py-8 sm:py-10 md:py-14 text-center animate-slide-up">
+    <div className="relative z-30 flex flex-col items-center py-8 sm:py-10 md:py-14 text-center">
       {/* Badge */}
-      <span className="text-fluid-small font-mono uppercase tracking-widest text-audius-purple">
+      <span className="text-fluid-small font-mono tracking-[0.08em] text-audius-purple">
         Compare
       </span>
       
       {/* Title with selector - stacked on mobile, inline on desktop */}
-      <h1 className="mt-3 text-[clamp(3.25rem,1.6rem+8.5vw,7rem)] font-titular-heavy uppercase leading-[0.85] text-text-primary md:text-fluid-display">
+      <h1 className="mt-3 text-fluid-display font-black tracking-tight leading-[0.9] text-text-primary text-balance">
         <span className="block md:inline">
           Audius vs.
         </span>
@@ -26,7 +26,7 @@ export function PageHeader({ competitor, competitors }: PageHeaderProps) {
       </h1>
       
       {/* Subtitle */}
-      <p className="mt-4 text-text-secondary font-mono uppercase tracking-widest text-fluid-small max-w-xl">
+      <p className="mt-4 text-text-secondary text-fluid-body max-w-xl">
         See how we stack up against the bigger fish.
       </p>
     </div>

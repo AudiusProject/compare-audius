@@ -4,7 +4,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { ChevronDownIcon, CheckIcon } from '@/components/ui/Icon';
+import { ChevronDownIcon } from '@/components/ui/Icon';
 import type { Platform } from '@/types';
 
 interface CompetitorSelectorProps {
@@ -50,19 +50,19 @@ export function CompetitorSelector({ current, options }: CompetitorSelectorProps
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          'inline-flex items-center gap-2 pb-1 font-titular-heavy',
+          'inline-flex items-center gap-1.5 pb-1 font-black tracking-tight',
           'border-b transition-all duration-200',
           isOpen 
-            ? 'border-audius-purple text-text-primary' 
-            : 'border-border-light text-audius-purple hover:text-text-primary hover:border-border'
+            ? 'border-audius-purple text-audius-purple' 
+            : 'border-white/10 text-text-primary hover:text-audius-purple hover:border-white/20'
         )}
         aria-expanded={isOpen}
-        aria-haspopup="listbox"
+        aria-haspopup="menu"
       >
         <span>{current.name}</span>
         <ChevronDownIcon 
           className={cn(
-            'w-6 h-6 md:w-7 md:h-7 transition-transform duration-200',
+            'h-5 w-5 md:h-6 md:w-6 transition-transform duration-200',
             isOpen && 'rotate-180'
           )} 
         />
@@ -71,44 +71,49 @@ export function CompetitorSelector({ current, options }: CompetitorSelectorProps
       {/* Dropdown menu */}
       <div 
         className={cn(
-          'absolute left-1/2 -translate-x-1/2 top-full mt-3 z-50',
-          'min-w-[220px] py-2 bg-surface-alt-95 backdrop-blur rounded-2xl border border-border tracking-normal font-mono',
-          'shadow-[var(--shadow-dropdown)]',
+          'absolute left-1/2 -ml-[180px] top-full mt-1 z-50',
+          'w-[360px] font-sans font-normal tracking-normal normal-case leading-normal',
           'transition-all duration-200 origin-top',
           isOpen 
             ? 'opacity-100 scale-100 translate-y-0' 
             : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
         )}
-        role="listbox"
+        role="menu"
       >
-        <div className="px-3 py-2 text-xs font-semibold text-text-muted uppercase tracking-widest">
-          Compare with
+        <div className="relative overflow-hidden rounded-2xl border border-white/10 py-2 shadow-2xl shadow-black/60">
+          <div className="absolute inset-0 bg-neutral-950/85 backdrop-blur-2xl" />
+          <div className="relative z-10">
+            <div className="px-2">
+              {options.map((option) => {
+                const isSelected = option.slug === current.slug;
+                
+                return (
+                  <button
+                    key={option.slug}
+                    onClick={() => handleSelect(option.slug)}
+                    className={cn(
+                      'flex w-full px-3 text-left rounded-xl transition-colors duration-150',
+                      'items-start gap-3 py-3',
+                      isSelected 
+                        ? 'bg-audius-purple/15 text-white' 
+                        : 'text-neutral-400 hover:bg-white/5 hover:text-white'
+                    )}
+                    role="menuitem"
+                  >
+                    <span className="flex min-w-0 flex-col">
+                      <span className="text-sm font-sans font-semibold text-white">
+                        {option.name}
+                      </span>
+                      <span className="mt-0.5 text-xs font-sans font-normal leading-relaxed text-neutral-500">
+                        Audius versus {option.name}, side-by-side feature comparison.
+                      </span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
-        
-        {options.map((option) => {
-          const isSelected = option.slug === current.slug;
-          
-          return (
-            <button
-              key={option.slug}
-              onClick={() => handleSelect(option.slug)}
-              className={cn(
-                'w-full px-3 py-2.5 text-left flex items-center justify-between gap-3',
-                'transition-colors duration-150 tracking-normal font-mono text-sm font-normal',
-                isSelected 
-                  ? 'bg-audius-purple/15 text-text-primary' 
-                  : 'text-text-secondary hover:bg-tint-05 hover:text-text-primary'
-              )}
-              role="option"
-              aria-selected={isSelected}
-            >
-              <span className="text-sm font-normal">{option.name}</span>
-              {isSelected && (
-                <CheckIcon className="w-5 h-5 text-audius-purple" />
-              )}
-            </button>
-          );
-        })}
       </div>
     </span>
   );

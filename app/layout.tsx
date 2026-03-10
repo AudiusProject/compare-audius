@@ -1,8 +1,15 @@
 // app/layout.tsx
 import type { Metadata } from 'next';
+import { Urbanist } from 'next/font/google';
 import './globals.css';
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/constants';
 import { LayoutStructuredData } from '@/components/seo/StructuredData';
+
+const urbanist = Urbanist({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  variable: '--font-urbanist',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -63,7 +70,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={urbanist.variable}>
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/inm5qft.css" />
         <LayoutStructuredData />
