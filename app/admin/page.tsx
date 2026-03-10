@@ -18,7 +18,7 @@ export default async function AdminDashboard() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-2">Dashboard</h1>
-      <p className="text-gray-500 mb-8">Welcome back, {session?.user?.name}</p>
+      <p className="text-text-secondary mb-8">Welcome back, {session?.user?.name}</p>
       
       {/* Stats cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -48,35 +48,35 @@ export default async function AdminDashboard() {
       <div className="flex gap-4 mb-8">
         <Link
           href="/admin/platforms/new"
-          className="px-4 py-2 bg-audius-purple text-white rounded-lg hover:bg-audius-purple-dark transition-colors"
+          className="px-4 py-2 bg-audius-purple text-text-primary rounded-lg hover:bg-audius-purple-dark transition-colors"
         >
           Add Platform
         </Link>
         <Link
           href="/admin/features/new"
-          className="px-4 py-2 bg-audius-purple text-white rounded-lg hover:bg-audius-purple-dark transition-colors"
+          className="px-4 py-2 bg-audius-purple text-text-primary rounded-lg hover:bg-audius-purple-dark transition-colors"
         >
           Add Feature
         </Link>
         <Link
           href="/admin/comparisons"
-          className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          className="px-4 py-2 border border-border rounded-lg hover:bg-tint-05 transition-colors"
         >
           Edit Comparisons
         </Link>
       </div>
       
       {/* Public Site Links */}
-      <div className="p-4 bg-blue-50 rounded-lg">
-        <h3 className="font-medium text-blue-900">Public Site Links</h3>
+      <div className="p-4 bg-surface-alt rounded-lg border border-border">
+        <h3 className="font-medium text-text-primary">Public Site Links</h3>
         <div className="mt-2 flex gap-4 text-sm">
-          <Link href="/" className="text-blue-600 hover:underline" target="_blank">
+          <Link href="/" className="text-audius-purple hover:underline" target="_blank">
             Home (/)
           </Link>
-          <Link href="/soundcloud" className="text-blue-600 hover:underline" target="_blank">
+          <Link href="/soundcloud" className="text-audius-purple hover:underline" target="_blank">
             SoundCloud
           </Link>
-          <Link href="/spotify" className="text-blue-600 hover:underline" target="_blank">
+          <Link href="/spotify" className="text-audius-purple hover:underline" target="_blank">
             Spotify
           </Link>
         </div>
@@ -99,13 +99,13 @@ function StatsCard({
   href: string;
 }) {
   return (
-    <Link href={href} className="block bg-white rounded-lg border border-gray-200 p-6 hover:border-audius-purple transition-colors">
-      <h3 className="text-sm font-medium text-gray-500 mb-1">{title}</h3>
+    <Link href={href} className="block bg-surface-alt rounded-lg border border-border p-6 hover:border-audius-purple transition-colors">
+      <h3 className="text-sm font-medium text-text-muted mb-1">{title}</h3>
       <p className="text-3xl font-bold mb-2">{total}</p>
       {published !== undefined && draft !== undefined && (
         <div className="flex gap-4 text-sm">
-          <span className="text-green-600">{published} published</span>
-          <span className="text-yellow-600">{draft} draft</span>
+          <span className="text-status-yes">{published} published</span>
+          <span className="text-status-warn">{draft} draft</span>
         </div>
       )}
     </Link>

@@ -13,10 +13,12 @@ export function FeatureCard({ audius, comparison, competitor }: FeatureCardProps
   const { feature, audius: audiusStatus, competitor: competitorStatus } = comparison;
   
   return (
-    <div className="border border-border rounded-xl overflow-hidden bg-white">
+    <div className="border border-border rounded-2xl overflow-hidden bg-surface-alt-85 backdrop-blur shadow-[var(--shadow-panel)]">
       {/* Feature header */}
       <div className="p-4 border-b border-border">
-        <h3 className="text-feature-name">{feature.name}</h3>
+        <h3 className="text-feature-name !text-[clamp(2rem,1.5rem+3vw,2.8rem)] md:!text-[clamp(1.5rem,1.15rem+1vw,2rem)]">
+          {feature.name}
+        </h3>
         <p className="text-feature-desc mt-1">
           {feature.description}
         </p>
@@ -24,17 +26,17 @@ export function FeatureCard({ audius, comparison, competitor }: FeatureCardProps
       
       {/* Audius section */}
       <div className="p-4 border-b border-border flex items-center gap-4">
-        <div className="relative w-[80px] h-[32px] shrink-0">
+        <div className="relative w-[80px] h-[32px] shrink-0 logo-white">
           <Image
             src={audius.logo}
             alt={audius.name}
             fill
-            className="object-contain object-left"
+            className="object-contain object-left logo-white"
             sizes="80px"
           />
         </div>
         <div className="flex-1" />
-        <div className="w-[140px] flex justify-center shrink-0">
+        <div className="w-[160px] sm:w-[200px] flex justify-center shrink-0">
           <StatusIndicator
             status={audiusStatus.status}
             displayValue={audiusStatus.displayValue}
@@ -46,17 +48,17 @@ export function FeatureCard({ audius, comparison, competitor }: FeatureCardProps
       
       {/* Competitor section */}
       <div className="p-4 flex items-center gap-4">
-        <div className="relative w-[80px] h-[32px] shrink-0">
+        <div className="relative w-[80px] h-[32px] shrink-0 logo-white">
           <Image
             src={competitor.logo}
             alt={competitor.name}
             fill
-            className="object-contain object-left"
+            className="object-contain object-left logo-white"
             sizes="80px"
           />
         </div>
         <div className="flex-1" />
-        <div className="w-[140px] flex justify-center shrink-0">
+        <div className="w-[160px] sm:w-[200px] flex justify-center shrink-0">
           <StatusIndicator
             status={competitorStatus.status}
             displayValue={competitorStatus.displayValue}

@@ -67,26 +67,26 @@ export function FeatureForm({ feature }: FeatureFormProps) {
     <form onSubmit={handleSubmit} className="max-w-xl">
       <div className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+          <label className="block text-sm font-medium text-text-secondary mb-1">Name</label>
           <input
             type="text"
             value={name}
             onChange={(e) => handleNameChange(e.target.value)}
             required
             maxLength={100}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-audius-purple focus:border-transparent"
+            className="w-full px-3 py-2 border border-border rounded-lg bg-surface-alt text-text-primary focus:ring-2 focus:ring-audius-purple focus:border-transparent"
           />
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+          <label className="block text-sm font-medium text-text-secondary mb-1">Description</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
             maxLength={500}
             rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-audius-purple focus:border-transparent"
+            className="w-full px-3 py-2 border border-border rounded-lg bg-surface-alt text-text-primary focus:ring-2 focus:ring-audius-purple focus:border-transparent"
           />
         </div>
       </div>
@@ -95,14 +95,14 @@ export function FeatureForm({ feature }: FeatureFormProps) {
         <button
           type="button"
           onClick={() => router.back()}
-          className="px-4 py-2 text-gray-600 hover:text-gray-900"
+          className="px-4 py-2 text-text-secondary hover:text-text-primary"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={saving}
-          className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 disabled:opacity-50"
+          className="px-4 py-2 bg-tint-10 text-text-primary rounded-lg hover:bg-tint-15 disabled:opacity-50"
         >
           {saving ? 'Saving...' : 'Save as Draft'}
         </button>
@@ -110,7 +110,7 @@ export function FeatureForm({ feature }: FeatureFormProps) {
           type="button"
           onClick={(e) => handleSubmit(e, true)}
           disabled={saving}
-          className="px-4 py-2 bg-audius-purple text-white rounded-lg hover:bg-audius-purple-dark disabled:opacity-50"
+          className="px-4 py-2 bg-audius-purple text-text-primary rounded-lg hover:bg-audius-purple-dark disabled:opacity-50"
         >
           {saving ? 'Saving...' : 'Save & Publish'}
         </button>

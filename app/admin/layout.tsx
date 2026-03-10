@@ -20,11 +20,11 @@ export default async function AdminLayout({
   
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-surface text-text-primary">
         {/* Sidebar - Fixed */}
-        <aside className="fixed top-0 left-0 w-64 h-screen bg-white border-r border-gray-200 flex flex-col">
+        <aside className="fixed top-0 left-0 w-64 h-screen bg-surface-alt border-r border-border flex flex-col">
           {/* Logo */}
-          <div className="p-4 border-b border-gray-200">
+          <div className="p-4 border-b border-border">
             <span className="text-xl font-bold text-audius-purple">Compare Admin</span>
           </div>
           
@@ -32,7 +32,7 @@ export default async function AdminLayout({
           <AdminNav />
           
           {/* User section */}
-          <div className="mt-auto p-4 border-t border-gray-200">
+          <div className="mt-auto p-4 border-t border-border">
             <div className="flex items-center gap-3 mb-3">
               {session.user?.image && (
                 <Image
@@ -44,8 +44,8 @@ export default async function AdminLayout({
                 />
               )}
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{session.user?.name}</p>
-                <p className="text-xs text-gray-500 truncate">{session.user?.email}</p>
+                <p className="text-sm font-medium text-text-primary truncate">{session.user?.name}</p>
+                <p className="text-xs text-text-muted truncate">{session.user?.email}</p>
               </div>
             </div>
             <form
@@ -58,7 +58,7 @@ export default async function AdminLayout({
             >
               <button
                 type="submit"
-                className="w-full text-sm text-gray-600 hover:text-gray-900 text-left"
+                className="w-full text-sm text-text-secondary hover:text-text-primary text-left"
               >
                 Sign out
               </button>

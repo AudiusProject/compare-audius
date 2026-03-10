@@ -149,9 +149,9 @@ export function ImageUpload({
           'flex flex-col items-center justify-center min-h-[140px] p-4',
           'cursor-pointer',
           // States
-          isDragging && 'border-audius-purple bg-purple-50',
-          !isDragging && !disabled && 'border-gray-300 hover:border-gray-400 hover:bg-gray-50',
-          disabled && 'border-gray-200 bg-gray-50 cursor-not-allowed opacity-60',
+          isDragging && 'border-audius-purple bg-audius-purple/10',
+          !isDragging && !disabled && 'border-border hover:border-border-light hover:bg-tint-05',
+          disabled && 'border-border bg-tint-05 cursor-not-allowed opacity-60',
           isUploading && 'cursor-wait'
         )}
         role="button"
@@ -169,12 +169,12 @@ export function ImageUpload({
           // Uploading state
           <div className="flex flex-col items-center gap-3">
             <div className="w-10 h-10 border-[3px] border-audius-purple border-t-transparent rounded-full animate-spin" />
-            <span className="text-sm text-gray-600 font-medium">Uploading...</span>
+            <span className="text-sm text-text-secondary font-medium">Uploading...</span>
           </div>
         ) : value ? (
           // Preview state
           <div className="flex flex-col items-center gap-3">
-            <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-white shadow-sm">
+            <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-surface-raised border border-border">
               <Image
                 src={value}
                 alt="Logo preview"
@@ -183,13 +183,13 @@ export function ImageUpload({
                 sizes="80px"
               />
             </div>
-            <span className="text-xs text-gray-500">Click or drag to replace</span>
+            <span className="text-xs text-text-muted">Click or drag to replace</span>
           </div>
         ) : (
           // Empty state
-          <div className="flex flex-col items-center gap-2 text-gray-500">
+          <div className="flex flex-col items-center gap-2 text-text-muted">
             <svg
-              className="w-12 h-12 text-gray-400"
+              className="w-12 h-12 text-text-secondary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -203,12 +203,12 @@ export function ImageUpload({
               />
             </svg>
             <div className="text-center">
-              <span className="text-sm font-medium text-gray-700">
+              <span className="text-sm font-medium text-text-secondary">
                 Drop image here
               </span>
-              <span className="text-sm text-gray-500"> or click to upload</span>
+              <span className="text-sm text-text-muted"> or click to upload</span>
             </div>
-            <span className="text-xs text-gray-400">PNG, JPG, WebP, SVG • Max 2MB</span>
+            <span className="text-xs text-text-muted">PNG, JPG, WebP, SVG • Max 2MB</span>
           </div>
         )}
 
@@ -226,7 +226,7 @@ export function ImageUpload({
 
       {/* Error Message */}
       {error && (
-        <div className="flex items-center gap-2 text-sm text-red-600" role="alert">
+        <div className="flex items-center gap-2 text-sm text-status-no" role="alert">
           <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
             <path
               fillRule="evenodd"
@@ -240,7 +240,7 @@ export function ImageUpload({
 
       {/* Manual URL Fallback */}
       <details className="text-sm group">
-        <summary className="text-gray-500 cursor-pointer hover:text-gray-700 select-none">
+        <summary className="text-text-muted cursor-pointer hover:text-text-primary select-none">
           <span className="ml-1">Or enter URL manually</span>
         </summary>
         <div className="mt-2">
@@ -251,9 +251,9 @@ export function ImageUpload({
             placeholder="https://example.com/logo.png"
             disabled={disabled}
             className={cn(
-              'w-full px-3 py-2 border border-gray-300 rounded-lg text-sm',
+              'w-full px-3 py-2 border border-border rounded-lg text-sm bg-surface-alt text-text-primary',
               'focus:outline-none focus:ring-2 focus:ring-audius-purple focus:border-transparent',
-              'disabled:bg-gray-50 disabled:text-gray-500'
+              'disabled:bg-tint-05 disabled:text-text-muted'
             )}
           />
         </div>

@@ -1,14 +1,14 @@
 // app/layout.tsx
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Urbanist } from 'next/font/google';
 import './globals.css';
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/constants';
 import { LayoutStructuredData } from '@/components/seo/StructuredData';
 
-const inter = Inter({ 
+const urbanist = Urbanist({
   subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
+  weight: ['400', '500', '600', '700', '800', '900'],
+  variable: '--font-urbanist',
 });
 
 export const metadata: Metadata = {
@@ -70,11 +70,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={urbanist.variable}>
       <head>
+        <link rel="stylesheet" href="https://use.typekit.net/inm5qft.css" />
         <LayoutStructuredData />
       </head>
-      <body style={{ fontFamily: 'var(--font-inter), var(--font-sans)' }}>
+      <body>
         {children}
       </body>
     </html>

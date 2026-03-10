@@ -70,7 +70,7 @@ export function PlatformForm({ platform }: PlatformFormProps) {
       <div className="space-y-6">
         {/* Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-text-secondary mb-1">
             Name
           </label>
           <input
@@ -79,13 +79,13 @@ export function PlatformForm({ platform }: PlatformFormProps) {
             onChange={(e) => handleNameChange(e.target.value)}
             required
             maxLength={50}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-audius-purple focus:border-transparent"
+            className="w-full px-3 py-2 border border-border rounded-lg bg-surface-alt text-text-primary focus:ring-2 focus:ring-audius-purple focus:border-transparent"
           />
         </div>
 
         {/* Slug */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-text-secondary mb-1">
             Slug
           </label>
           <input
@@ -94,16 +94,16 @@ export function PlatformForm({ platform }: PlatformFormProps) {
             onChange={(e) => setSlug(e.target.value)}
             required
             pattern="[a-z0-9-]+"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-audius-purple focus:border-transparent"
+            className="w-full px-3 py-2 border border-border rounded-lg bg-surface-alt text-text-primary focus:ring-2 focus:ring-audius-purple focus:border-transparent"
           />
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-text-muted">
             URL-safe identifier (lowercase, hyphens only)
           </p>
         </div>
 
         {/* Logo */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-text-secondary mb-2">
             Logo
           </label>
           <ImageUpload
@@ -119,14 +119,14 @@ export function PlatformForm({ platform }: PlatformFormProps) {
         <button
           type="button"
           onClick={() => router.back()}
-          className="px-4 py-2 text-gray-600 hover:text-gray-900"
+          className="px-4 py-2 text-text-secondary hover:text-text-primary"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={saving}
-          className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 disabled:opacity-50"
+          className="px-4 py-2 bg-tint-10 text-text-primary rounded-lg hover:bg-tint-15 disabled:opacity-50"
         >
           {saving ? 'Saving...' : 'Save as Draft'}
         </button>
@@ -134,7 +134,7 @@ export function PlatformForm({ platform }: PlatformFormProps) {
           type="button"
           onClick={(e) => handleSubmit(e, true)}
           disabled={saving}
-          className="px-4 py-2 bg-audius-purple text-white rounded-lg hover:bg-audius-purple-dark disabled:opacity-50"
+          className="px-4 py-2 bg-audius-purple text-text-primary rounded-lg hover:bg-audius-purple-dark disabled:opacity-50"
         >
           {saving ? 'Saving...' : 'Save & Publish'}
         </button>

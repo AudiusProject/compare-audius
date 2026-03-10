@@ -12,7 +12,7 @@ export default async function ComparisonsPage() {
     <div>
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Comparisons</h1>
-        <p className="text-gray-500 mt-1">
+        <p className="text-text-secondary mt-1">
           Edit how each platform compares on each feature
         </p>
       </div>

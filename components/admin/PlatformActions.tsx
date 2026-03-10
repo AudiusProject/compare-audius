@@ -54,7 +54,7 @@ export function PlatformActions({ platform }: PlatformActionsProps) {
       {!platform.isAudius && (
         <button
           onClick={handlePublishToggle}
-          className="text-sm text-gray-600 hover:text-gray-900"
+          className="text-sm text-text-secondary hover:text-text-primary"
         >
           {platform.isDraft ? 'Publish' : 'Unpublish'}
         </button>
@@ -73,7 +73,7 @@ export function PlatformActions({ platform }: PlatformActionsProps) {
           message={`Are you sure you want to delete "${platform.name}"? This will also delete all comparisons for this platform.`}
           onConfirm={handleDelete}
           trigger={
-            <button className="text-sm text-red-600 hover:underline">
+            <button className="text-sm text-status-no hover:underline">
               Delete
             </button>
           }

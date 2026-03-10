@@ -28,6 +28,8 @@ export async function generateMetadata(props: {
   const title = `Audius vs ${competitor.name} | Feature Comparison`;
   const description = `Compare Audius and ${competitor.name} side by side. See how streaming quality, artist tools, and features stack up. Discover which platform is right for you.`;
   const pageUrl = `${SITE_URL}/${params.competitor}`;
+  const ogImageUrl = `${pageUrl}/opengraph-image`;
+  const twitterImageUrl = `${pageUrl}/twitter-image`;
   
   return {
     title,
@@ -47,11 +49,20 @@ export async function generateMetadata(props: {
       url: pageUrl,
       siteName: SITE_NAME,
       type: 'website',
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: `Audius vs ${competitor.name}`,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: `Audius vs ${competitor.name}`,
       description: `Compare Audius and ${competitor.name}. See streaming quality, features, and more.`,
+      images: [twitterImageUrl],
     },
     alternates: {
       canonical: pageUrl,

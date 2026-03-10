@@ -28,8 +28,8 @@ export function AdminNav() {
                 className={cn(
                   'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors',
                   isActive
-                    ? 'bg-audius-purple/10 text-audius-purple font-medium'
-                    : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-audius-purple/15 text-audius-purple font-medium'
+                    : 'text-text-secondary hover:bg-tint-05'
                 )}
               >
                 <item.icon className="w-5 h-5" />

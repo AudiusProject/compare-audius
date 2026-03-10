@@ -83,15 +83,15 @@ export function FeatureComparisonCard({
   };
   
   return (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+    <div className="bg-surface-alt border border-border rounded-lg overflow-hidden">
       {/* Header */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
+        className="w-full px-4 py-3 flex items-center justify-between hover:bg-tint-05 transition-colors"
       >
         <div className="flex items-center gap-3">
           <svg
-            className={cn('w-5 h-5 text-gray-400 transition-transform', isExpanded && 'rotate-90')}
+            className={cn('w-5 h-5 text-text-muted transition-transform', isExpanded && 'rotate-90')}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -100,7 +100,7 @@ export function FeatureComparisonCard({
           </svg>
           <div className="text-left">
             <h3 className="font-medium">{feature.name}</h3>
-            <p className="text-sm text-gray-500">{feature.description}</p>
+            <p className="text-sm text-text-muted">{feature.description}</p>
           </div>
         </div>
         <StatusBadge isDraft={feature.isDraft} />
@@ -108,7 +108,7 @@ export function FeatureComparisonCard({
       
       {/* Expanded content */}
       {isExpanded && (
-        <div className="px-4 pb-4 border-t border-gray-200">
+        <div className="px-4 pb-4 border-t border-border">
           <div className="space-y-4 mt-4">
             {platforms.map(platform => {
               const comp = data[platform.id];
@@ -126,7 +126,7 @@ export function FeatureComparisonCard({
                       />
                       <span className="text-sm font-medium">
                         {platform.name}
-                        {platform.isDraft && <span className="text-yellow-600 ml-1">(Draft)</span>}
+                        {platform.isDraft && <span className="text-status-warn ml-1">(Draft)</span>}
                       </span>
                     </div>
                   </div>
@@ -144,7 +144,7 @@ export function FeatureComparisonCard({
                       value={comp.context ?? ''}
                       onChange={(e) => updateComparison(platform.id, { context: e.target.value })}
                       placeholder="Context (e.g., Premium Subscription Required)"
-                      className="flex-1 px-3 py-1.5 border border-gray-300 rounded-lg text-sm"
+                      className="flex-1 px-3 py-1.5 border border-border rounded-lg text-sm bg-surface text-text-primary"
                     />
                   )}
                   
@@ -155,7 +155,7 @@ export function FeatureComparisonCard({
                       value={comp.displayValue ?? ''}
                       onChange={(e) => updateComparison(platform.id, { displayValue: e.target.value })}
                       placeholder="Value (e.g., 320 kbps)"
-                      className="flex-1 px-3 py-1.5 border border-gray-300 rounded-lg text-sm"
+                      className="flex-1 px-3 py-1.5 border border-border rounded-lg text-sm bg-surface text-text-primary"
                     />
                   )}
                 </div>
@@ -168,7 +168,7 @@ export function FeatureComparisonCard({
             <button
               onClick={handleSave}
               disabled={saving}
-              className="px-4 py-2 bg-audius-purple text-white text-sm rounded-lg hover:bg-audius-purple-dark disabled:opacity-50"
+              className="px-4 py-2 bg-audius-purple text-text-primary text-sm rounded-lg hover:bg-audius-purple-dark disabled:opacity-50"
             >
               {saving ? 'Saving...' : 'Save Changes'}
             </button>

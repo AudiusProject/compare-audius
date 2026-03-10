@@ -12,18 +12,18 @@ interface ComparisonTableProps {
 export function ComparisonTable({ audius, competitor, comparisons }: ComparisonTableProps) {
   
   return (
-    <div className="relative">
+    <div className="relative z-10 animate-slide-up">
       {/* Sticky platform header row */}
-      <div className="sticky top-[var(--spacing-header-height)] z-20 bg-surface-alt pb-px">
-        {/* Background extension to cover any gaps */}
-        <div className="absolute inset-x-0 -top-4 h-4 bg-surface-alt" />
+      <div className="sticky top-[var(--spacing-header-height)] z-20 bg-surface-90 backdrop-blur pb-px">
+        {/* Background extension to mask content under header */}
+        <div className="absolute inset-x-0 -top-4 h-4 bg-surface" />
         
         <div className="grid grid-cols-[minmax(180px,1fr)_minmax(140px,1fr)_minmax(140px,1fr)] lg:grid-cols-[minmax(200px,320px)_minmax(200px,360px)_minmax(200px,360px)]">
           {/* Empty cell for feature column */}
-          <div className="h-[100px] lg:h-[120px] bg-surface-alt" />
+          <div className="h-[100px] lg:h-[120px] bg-surface" />
           
           {/* Audius platform header */}
-          <div className="h-[100px] lg:h-[120px] border-l border-r border-t border-border rounded-t-xl bg-white flex items-center justify-center overflow-hidden">
+          <div className="h-[100px] lg:h-[120px] border-l border-r border-border bg-surface-raised flex items-center justify-center overflow-hidden">
             <PlatformHeader platform={audius} />
           </div>
           
@@ -38,26 +38,28 @@ export function ComparisonTable({ audius, competitor, comparisons }: ComparisonT
       <div className="relative z-10">
         <div className="grid grid-cols-[minmax(180px,1fr)_minmax(140px,1fr)_minmax(140px,1fr)] lg:grid-cols-[minmax(200px,320px)_minmax(200px,360px)_minmax(200px,360px)]">
           {/* Feature column */}
-          <div className="bg-surface-alt">
+          <div className="bg-surface">
             {comparisons.map((comparison) => (
               <div 
                 key={`feature-${comparison.feature.id}`}
-                className="h-[100px] p-4 lg:p-5 flex flex-col justify-center border-t border-border"
+                className="h-[112px] p-4 lg:p-5 flex flex-col justify-center border-t border-border"
               >
-                <h3 className="text-feature-name text-sm lg:text-base">{comparison.feature.name}</h3>
-                <p className="text-feature-desc text-xs lg:text-sm mt-1 line-clamp-2 lg:line-clamp-none">
+                <h3 className="text-[clamp(1.2rem,0.95rem+0.75vw,1.7rem)] font-extrabold leading-[1.08] tracking-normal text-text-primary">
+                  {comparison.feature.name}
+                </h3>
+                <p className="mt-1.5 text-[0.82rem] lg:text-[0.9rem] leading-[1.45] text-text-muted max-w-[30ch] line-clamp-2 lg:line-clamp-none">
                   {comparison.feature.description}
                 </p>
               </div>
             ))}
           </div>
           
-          {/* Audius column - white background with borders */}
-          <div className="bg-white border-l border-r border-b border-border rounded-b-xl">
+          {/* Audius column - matches header styling */}
+          <div className="bg-surface-raised border-l border-r border-b border-border">
             {comparisons.map((comparison) => (
               <div 
                 key={`audius-${comparison.feature.id}`}
-                className="h-[100px] p-3 lg:p-5 flex items-center justify-center border-t border-border"
+                className="h-[112px] p-3 lg:p-5 flex items-center justify-center border-t border-border"
               >
                 <StatusCell 
                   status={comparison.audius.status}
@@ -73,7 +75,7 @@ export function ComparisonTable({ audius, competitor, comparisons }: ComparisonT
             {comparisons.map((comparison) => (
               <div 
                 key={`competitor-${comparison.feature.id}`}
-                className="h-[100px] p-3 lg:p-5 flex items-center justify-center border-t border-border"
+                className="h-[112px] p-3 lg:p-5 flex items-center justify-center border-t border-border"
               >
                 <StatusCell 
                   status={comparison.competitor.status}
@@ -109,23 +111,23 @@ function StatusCell({
       
       {status === 'yes' && (
         <div className="w-6 h-6 rounded-full bg-status-yes flex items-center justify-center">
-          <CheckIcon className="text-white w-4 h-4" />
+          <CheckIcon className="text-on-status w-4 h-4" />
         </div>
       )}
       
       {status === 'no' && (
         <div className="w-6 h-6 rounded-full bg-status-no flex items-center justify-center">
-          <XIcon className="text-white w-4 h-4" />
+          <XIcon className="text-on-status w-4 h-4" />
         </div>
       )}
       
       {status === 'partial' && (
         <>
           <div className="w-6 h-6 rounded-full bg-status-partial flex items-center justify-center">
-            <MinusIcon className="text-white w-4 h-4" />
+            <MinusIcon className="text-on-status w-4 h-4" />
           </div>
           {context && (
-            <span className="text-xs lg:text-status-context text-center max-w-[120px] lg:max-w-[200px]">
+            <span className="text-xs lg:text-[0.8rem] leading-[1.35] text-text-secondary text-center max-w-[120px] lg:max-w-[200px]">
               {context}
             </span>
           )}

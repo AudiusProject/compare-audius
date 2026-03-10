@@ -11,17 +11,17 @@ export default async function LoginPage(props: {
   // Note: Middleware handles redirect if already logged in
   
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
+    <div className="min-h-screen flex items-center justify-center bg-surface">
+      <div className="max-w-md w-full space-y-8 p-8 bg-surface-alt border border-border rounded-lg shadow">
         <div className="text-center">
           <h1 className="text-2xl font-bold">Admin Login</h1>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-text-secondary">
             Sign in with your Audius Google account
           </p>
         </div>
         
         {searchParams.error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+          <div className="bg-status-no-bg border border-status-no text-status-no px-4 py-3 rounded">
             {searchParams.error === 'AccessDenied' 
               ? 'Access denied. Only @audius.co emails are allowed.'
               : 'An error occurred. Please try again.'}
@@ -38,14 +38,14 @@ export default async function LoginPage(props: {
         >
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-border rounded-lg hover:bg-tint-05 transition-colors"
           >
             <GoogleIcon />
             <span>Sign in with Google</span>
           </button>
         </form>
         
-        <p className="text-center text-sm text-gray-500">
+        <p className="text-center text-sm text-text-muted">
           Only @audius.co email addresses can access the admin area.
         </p>
       </div>

@@ -13,26 +13,28 @@ interface CompareDropdownProps {
 export function CompareDropdown({ competitors }: CompareDropdownProps) {
   const router = useRouter();
   const pathname = usePathname();
-  
+
   // Determine current competitor from pathname
   const currentSlug = pathname === '/' ? DEFAULT_COMPETITOR : pathname.slice(1);
-  
+
   const sections: DropdownSection[] = [
     {
       items: competitors.map(competitor => ({
         id: competitor.slug,
-        label: `Audius vs. ${competitor.name}`,
+        label: competitor.name,
+        description: `Audius versus ${competitor.name}, side-by-side feature comparison.`,
         onClick: () => router.push(`/${competitor.slug}`),
         isActive: competitor.slug === currentSlug,
       })),
     },
   ];
-  
+
   return (
     <Dropdown
       trigger={<span>Compare</span>}
       sections={sections}
-      align="left"
+      align="right"
+      dropdownClassName="min-w-[360px]"
     />
   );
 }

@@ -20,17 +20,17 @@ export const EXTERNAL_URLS = {
   // Main Audius app
   audiusApp: 'https://audius.co',
   audiusMusic: 'https://audius.co/trending',
-  
+
   // More dropdown links
   blog: 'https://blog.audius.co',
   helpCenter: 'https://support.audius.co',
-  
+
   // Social links
   instagram: 'https://instagram.com/audiusmusic',
   twitter: 'https://twitter.com/audius',
   discord: 'https://discord.gg/audius',
   telegram: 'https://t.me/audius',
-  
+
   // Footer links
   download: 'https://audius.co/download',
   events: 'https://audius.co/events',

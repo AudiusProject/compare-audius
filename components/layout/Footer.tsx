@@ -1,221 +1,144 @@
 // components/layout/Footer.tsx
-import Image from 'next/image';
+import Link from 'next/link';
 import { EXTERNAL_URLS } from '@/lib/constants';
-import { 
-  InstagramIcon, 
-  TwitterIcon, 
-  DiscordIcon, 
-  TelegramIcon,
-  TikTokIcon
+import {
+  InstagramIcon,
+  TwitterIcon,
+  DiscordIcon,
+  TikTokIcon,
+  AudiusLogo,
+  AudiusGlyph,
 } from '@/components/ui/Icon';
 
-// Audius logo from CDN
-const AUDIUS_LOGO_URL = 'https://cdn.prod.website-files.com/67fec1eb88ef3de9adf4455c/6802c1954e5d6fc2ec61ccd4_y7vxxCf97wWfwEsRoz9xpn3cAsel2_X60gFP4PQnzF8.webp';
+const RESOURCE_LINKS = [
+  { label: 'Audius.co', href: EXTERNAL_URLS.audiusApp },
+  { label: 'Help Center', href: EXTERNAL_URLS.helpCenter },
+  { label: 'Dev Docs', href: 'https://docs.audius.org' },
+  { label: 'Blog', href: EXTERNAL_URLS.blog },
+];
+
+function SocialLinks({ className, size = 20 }: { className?: string; size?: number }) {
+  const iconSizeClass = size >= 20 ? 'w-5 h-5' : 'w-[18px] h-[18px]';
+
+  return (
+    <div className={`flex items-center gap-5 ${className || ''}`}>
+      <a
+        href={EXTERNAL_URLS.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-neutral-400 hover:text-white active:text-white focus-visible:outline-none focus-visible:text-white transition-colors"
+        aria-label="Instagram"
+      >
+        <InstagramIcon className={iconSizeClass} />
+      </a>
+      <a
+        href={EXTERNAL_URLS.discord}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-neutral-400 hover:text-white active:text-white focus-visible:outline-none focus-visible:text-white transition-colors"
+        aria-label="Discord"
+      >
+        <DiscordIcon className={iconSizeClass} />
+      </a>
+      <a
+        href="https://www.tiktok.com/@audius"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-neutral-400 hover:text-white active:text-white focus-visible:outline-none focus-visible:text-white transition-colors"
+        aria-label="TikTok"
+      >
+        <TikTokIcon className={iconSizeClass} />
+      </a>
+      <a
+        href={EXTERNAL_URLS.twitter}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-neutral-400 hover:text-white active:text-white focus-visible:outline-none focus-visible:text-white transition-colors"
+        aria-label="X (Twitter)"
+      >
+        <TwitterIcon className={iconSizeClass} />
+      </a>
+    </div>
+  );
+}
 
 export function Footer() {
   return (
-    <footer className="bg-white border-t border-border">
-      <div className="container-wide py-16">
-        {/* Main footer content */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6">
-          {/* Brand column */}
-          <div className="md:col-span-4">
-            <div className="mb-8">
-              <Image
-                src={AUDIUS_LOGO_URL}
-                alt="Audius"
-                width={166}
-                height={32}
-                className="object-contain"
-              />
+    <footer className="relative z-10 border-t border-white/10 bg-black">
+      <div className="page-shell">
+        {/* Main Footer Content */}
+        <div className="py-16 sm:py-20 lg:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+            {/* Logo & Tagline */}
+            <div className="lg:col-span-5">
+              <Link href="/" className="inline-block mb-6">
+                <AudiusLogo className="h-8 sm:h-10 w-auto text-white hover:text-audius-purple transition-colors duration-300" />
+              </Link>
+              <p className="text-neutral-500 text-sm leading-relaxed max-w-sm">
+                Find your people.
+                <br />
+                Grow your scene.
+              </p>
             </div>
-            
-            {/* Social links */}
-            <div>
-              <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-4">
+
+            {/* Resources */}
+            <div className="lg:col-span-4">
+              <h4 className="text-fluid-small font-bold tracking-[0.08em] text-white mb-6">
+                Resources
+              </h4>
+              <ul className="grid grid-cols-2 gap-x-8 gap-y-4">
+                {RESOURCE_LINKS.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-neutral-400 hover:text-white focus-visible:outline-none focus-visible:text-white transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Social */}
+            <div className="lg:col-span-3">
+              <h4 className="text-fluid-small font-bold tracking-[0.08em] text-white mb-6">
                 Follow Us
-              </h3>
-              <div className="flex gap-8 py-2">
-                <a 
-                  href={EXTERNAL_URLS.instagram} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  aria-label="Instagram"
-                  className="text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  <InstagramIcon className="w-7 h-7" />
-                </a>
-                <a 
-                  href={EXTERNAL_URLS.twitter} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  aria-label="Twitter"
-                  className="text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  <TwitterIcon className="w-7 h-7" />
-                </a>
-                <a 
-                  href={EXTERNAL_URLS.discord} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  aria-label="Discord"
-                  className="text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  <DiscordIcon className="w-7 h-7" />
-                </a>
-                <a 
-                  href={EXTERNAL_URLS.telegram} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  aria-label="Telegram"
-                  className="text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  <TelegramIcon className="w-7 h-7" />
-                </a>
-                <a 
-                  href="https://tiktok.com/@audius" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  aria-label="TikTok"
-                  className="text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  <TikTokIcon className="w-7 h-7" />
-                </a>
-              </div>
+              </h4>
+              <SocialLinks className="flex-wrap" size={20} />
             </div>
-          </div>
-          
-          {/* Audius column */}
-          <div className="md:col-span-2 md:col-start-6">
-            <ul className="space-y-2.5">
-              <li>
-                <a 
-                  href={EXTERNAL_URLS.audiusMusic} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-base text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  Audius Music
-                </a>
-              </li>
-              <li>
-                <a 
-                  href={EXTERNAL_URLS.download} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-base text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  Download
-                </a>
-              </li>
-              <li>
-                <a 
-                  href={EXTERNAL_URLS.helpCenter} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-base text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  Help Center
-                </a>
-              </li>
-            </ul>
-          </div>
-          
-          {/* Resources column */}
-          <div className="md:col-span-2">
-            <ul className="space-y-2.5">
-              <li>
-                <a 
-                  href={EXTERNAL_URLS.blog} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-base text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a 
-                  href={EXTERNAL_URLS.events} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-base text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  Events
-                </a>
-              </li>
-              <li>
-                <a 
-                  href={EXTERNAL_URLS.merchStore} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-base text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  Merch Store
-                </a>
-              </li>
-            </ul>
-          </div>
-          
-          {/* Company column */}
-          <div className="md:col-span-2">
-            <ul className="space-y-2.5">
-              <li>
-                <a 
-                  href={EXTERNAL_URLS.brandPress} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-base text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  Brand / Press
-                </a>
-              </li>
-              <li>
-                <a 
-                  href={EXTERNAL_URLS.engineering} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-base text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  Engineering
-                </a>
-              </li>
-              <li>
-                <a 
-                  href={EXTERNAL_URLS.openAudioFoundation} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-base text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  Open Audio Foundation
-                </a>
-              </li>
-            </ul>
           </div>
         </div>
-        
-        {/* Bottom row */}
-        <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-text-muted">
-            © {new Date().getFullYear()} Audius Music. All rights reserved.
-          </p>
-          <div className="flex gap-16 text-sm">
-            <a 
-              href={EXTERNAL_URLS.termsOfService} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-text-muted hover:text-text-primary transition-colors"
-            >
-              Terms of Service
-            </a>
-            <a 
-              href={EXTERNAL_URLS.privacyPolicy} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-text-muted hover:text-text-primary transition-colors"
-            >
-              Privacy Policy
-            </a>
+
+        {/* Footer Bottom */}
+        <div className="border-t border-white/5 py-6 sm:py-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-3 text-neutral-600">
+              <AudiusGlyph className="w-4 h-4" />
+              <span className="text-fluid-small font-mono tracking-[0.08em]">
+                &copy; {new Date().getFullYear()} Audius, Inc.
+              </span>
+            </div>
+            <div className="flex items-center gap-6 text-fluid-small font-mono tracking-[0.08em] text-neutral-600">
+              <a
+                href={EXTERNAL_URLS.privacyPolicy}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white focus-visible:outline-none focus-visible:text-white transition-colors"
+              >
+                Privacy
+              </a>
+              <a
+                href={EXTERNAL_URLS.termsOfService}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white focus-visible:outline-none focus-visible:text-white transition-colors"
+              >
+                Terms
+              </a>
+            </div>
           </div>
         </div>
       </div>

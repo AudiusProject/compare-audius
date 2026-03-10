@@ -11,13 +11,18 @@ interface ComparisonCardsProps {
 export function ComparisonCards({ audius, competitor, comparisons }: ComparisonCardsProps) {
   return (
     <div className="space-y-4">
-      {comparisons.map((comparison) => (
-        <FeatureCard
+      {comparisons.map((comparison, index) => (
+        <div
           key={comparison.feature.id}
-          audius={audius}
-          comparison={comparison}
-          competitor={competitor}
-        />
+          className="animate-slide-up"
+          style={{ animationDelay: `${index * 70}ms` }}
+        >
+          <FeatureCard
+            audius={audius}
+            comparison={comparison}
+            competitor={competitor}
+          />
+        </div>
       ))}
     </div>
   );
