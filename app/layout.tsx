@@ -72,6 +72,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={urbanist.variable}>
       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
+        <link rel="shortcut icon" href="/favicon/favicon.ico" />
+        <link rel="icon" href="/favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+        <link rel="icon" href="/favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+        <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180" />
+        <link rel="manifest" href="/favicon/site.webmanifest" />
+        <meta name="msapplication-TileColor" content="#C67CFF" />
+        <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+        <meta name="theme-color" content="#C67CFF" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
         <link rel="stylesheet" href="https://use.typekit.net/inm5qft.css" />
         <LayoutStructuredData />
       </head>

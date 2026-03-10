@@ -124,18 +124,23 @@ export function Dropdown({
       {/* Dropdown panel */}
       <div 
         className={cn(
-          'absolute z-50 mt-1 transition-all duration-200 origin-top',
+          'absolute z-50 mt-1',
           alignmentClasses[align],
           isOpen 
-            ? 'opacity-100 scale-100 translate-y-0' 
-            : 'opacity-0 scale-95 -translate-y-2 pointer-events-none',
+            ? 'visible pointer-events-auto'
+            : 'invisible pointer-events-none',
           dropdownClassName
         )}
         role="menu"
       >
         <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/60 py-2">
           <div className="absolute inset-0 bg-neutral-950/85 backdrop-blur-2xl" />
-          <div className="relative z-10">
+          <div
+            className={cn(
+              'relative z-10 origin-top transition-all duration-200',
+              isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-2'
+            )}
+          >
             {sections.map((section, sectionIndex) => (
               <div key={`${section.title || 'section'}-${sectionIndex}`}>
                 {/* Section divider (not for first section) */}
@@ -151,7 +156,7 @@ export function Dropdown({
                 )}
                 
                 {/* Items */}
-                <div className="px-2">
+                <div className="px-2 space-y-1">
                   {section.items.map((item) => (
                     <DropdownItemComponent 
                       key={item.id} 

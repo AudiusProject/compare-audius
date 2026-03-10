@@ -73,17 +73,21 @@ export function CompetitorSelector({ current, options }: CompetitorSelectorProps
         className={cn(
           'absolute left-1/2 -ml-[180px] top-full mt-1 z-50',
           'w-[360px] font-sans font-normal tracking-normal normal-case leading-normal',
-          'transition-all duration-200 origin-top',
           isOpen 
-            ? 'opacity-100 scale-100 translate-y-0' 
-            : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
+            ? 'visible pointer-events-auto'
+            : 'invisible pointer-events-none'
         )}
         role="menu"
       >
         <div className="relative overflow-hidden rounded-2xl border border-white/10 py-2 shadow-2xl shadow-black/60">
           <div className="absolute inset-0 bg-neutral-950/85 backdrop-blur-2xl" />
-          <div className="relative z-10">
-            <div className="px-2">
+          <div
+            className={cn(
+              'relative z-10 origin-top transition-all duration-200',
+              isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-2'
+            )}
+          >
+            <div className="px-2 space-y-1">
               {options.map((option) => {
                 const isSelected = option.slug === current.slug;
                 
