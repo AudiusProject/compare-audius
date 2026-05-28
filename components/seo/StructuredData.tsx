@@ -3,6 +3,22 @@ import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/constants';
 import type { Platform, FeatureComparison } from '@/types';
 
 /**
+ * Serialize an object for embedding inside an inline <script> tag.
+ *
+ * `JSON.stringify` alone is unsafe here: admin-edited strings can contain
+ * `</script>`, `<!--`, or the JS-only line terminators U+2028 / U+2029, all of
+ * which let an attacker break out of the script context. Escaping `<`, `>`, `&`,
+ * and those line terminators keeps the output valid JSON while preventing any
+ * HTML- or JS-parser confusion.
+ */
+const JSONLD_UNSAFE = new RegExp('[<>&\\u2028\\u2029]', 'g');
+function safeJsonLd(schema: unknown): string {
+  return JSON.stringify(schema).replace(JSONLD_UNSAFE, (ch) => {
+    return '\\u' + ch.charCodeAt(0).toString(16).padStart(4, '0');
+  });
+}
+
+/**
  * Base Organization schema for Audius
  */
 export function OrganizationSchema() {
@@ -24,7 +40,7 @@ export function OrganizationSchema() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
     />
   );
 }
@@ -49,7 +65,7 @@ export function WebSiteSchema() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
     />
   );
 }
@@ -65,7 +81,7 @@ interface ComparisonSchemaProps {
 
 export function ComparisonSchema({ competitor, comparisons }: ComparisonSchemaProps) {
   const pageUrl = `${SITE_URL}/${competitor.slug}`;
-  
+
   // Create FAQPage schema - each feature comparison becomes a Q&A
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -73,7 +89,7 @@ export function ComparisonSchema({ competitor, comparisons }: ComparisonSchemaPr
     mainEntity: comparisons.map((comparison) => {
       const audiusStatus = formatStatus(comparison.audius.status, comparison.audius.displayValue, comparison.audius.context);
       const competitorStatus = formatStatus(comparison.competitor.status, comparison.competitor.displayValue, comparison.competitor.context);
-      
+
       return {
         '@type': 'Question',
         name: `Does Audius or ${competitor.name} have better ${comparison.feature.name}?`,
@@ -132,15 +148,15 @@ export function ComparisonSchema({ competitor, comparisons }: ComparisonSchemaPr
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(faqSchema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(itemListSchema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(webPageSchema) }}
       />
     </>
   );
