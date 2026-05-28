@@ -50,7 +50,7 @@ export function PlatformActions({ platform }: PlatformActionsProps) {
   };
   
   return (
-    <div className="flex items-center gap-2 justify-end">
+    <div className="flex items-center gap-3 justify-end">
       {!platform.isAudius && (
         <button
           onClick={handlePublishToggle}
@@ -59,14 +59,14 @@ export function PlatformActions({ platform }: PlatformActionsProps) {
           {platform.isDraft ? 'Publish' : 'Unpublish'}
         </button>
       )}
-      
+
       <Link
         href={`/admin/platforms/${platform.id}`}
         className="text-sm text-audius-purple hover:underline"
       >
         Edit
       </Link>
-      
+
       {!platform.isAudius && (
         <DeleteConfirm
           title="Delete Platform"

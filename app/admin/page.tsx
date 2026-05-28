@@ -21,7 +21,7 @@ export default async function AdminDashboard() {
       <p className="text-text-secondary mb-8">Welcome back, {session?.user?.name}</p>
       
       {/* Stats cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
         <StatsCard
           title="Platforms"
           total={platforms.length}
@@ -45,22 +45,22 @@ export default async function AdminDashboard() {
       
       {/* Quick actions */}
       <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
-      <div className="flex gap-4 mb-8">
+      <div className="flex flex-wrap gap-3 mb-8">
         <Link
           href="/admin/platforms/new"
-          className="px-4 py-2 bg-audius-purple text-text-primary rounded-lg hover:bg-audius-purple-dark transition-colors"
+          className="px-4 py-2 bg-audius-purple text-text-primary text-sm font-medium rounded-lg hover:bg-audius-purple-dark transition-colors whitespace-nowrap"
         >
           Add Platform
         </Link>
         <Link
           href="/admin/features/new"
-          className="px-4 py-2 bg-audius-purple text-text-primary rounded-lg hover:bg-audius-purple-dark transition-colors"
+          className="px-4 py-2 bg-audius-purple text-text-primary text-sm font-medium rounded-lg hover:bg-audius-purple-dark transition-colors whitespace-nowrap"
         >
           Add Feature
         </Link>
         <Link
           href="/admin/comparisons"
-          className="px-4 py-2 border border-border rounded-lg hover:bg-tint-05 transition-colors"
+          className="px-4 py-2 border border-border text-sm font-medium rounded-lg hover:bg-tint-05 transition-colors whitespace-nowrap"
         >
           Edit Comparisons
         </Link>

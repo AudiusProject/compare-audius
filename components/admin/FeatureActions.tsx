@@ -56,7 +56,7 @@ export function FeatureActions({ feature, canPublish }: FeatureActionsProps) {
   };
   
   return (
-    <div className="flex items-center gap-2 justify-end">
+    <div className="flex items-center gap-3 justify-end">
       <button
         onClick={handlePublishToggle}
         disabled={feature.isDraft && !canPublish}

@@ -301,7 +301,7 @@ export function DataIO() {
         <button
           onClick={handleExport}
           disabled={isExporting}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-audius-purple text-text-primary text-sm font-medium rounded-lg hover:bg-audius-purple-dark transition-colors disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-audius-purple text-text-primary text-sm font-medium rounded-lg hover:bg-audius-purple-dark transition-colors disabled:opacity-50 whitespace-nowrap"
         >
           <DownloadGlyph />
           {isExporting ? 'Exporting…' : 'Export JSON'}
@@ -309,13 +309,15 @@ export function DataIO() {
         <button
           onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
-          className="inline-flex items-center gap-2 px-4 py-2 border border-border text-sm font-medium rounded-lg hover:bg-tint-05 transition-colors disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-4 py-2 border border-border text-sm font-medium rounded-lg hover:bg-tint-05 transition-colors disabled:opacity-50 whitespace-nowrap"
         >
           <UploadGlyph />
           {isUploading ? 'Reading file…' : 'Upload JSON…'}
         </button>
         {fileName && diff && (
-          <span className="text-xs text-text-secondary">{fileName}</span>
+          <span className="text-xs text-text-secondary truncate w-full sm:w-auto sm:max-w-[260px]">
+            {fileName}
+          </span>
         )}
         <input
           ref={fileInputRef}
@@ -777,8 +779,8 @@ function FieldRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid grid-cols-[110px_1fr] gap-x-3 gap-y-1 items-start">
-      <label className="text-xs text-text-secondary pt-1.5 flex items-center gap-1.5">
+    <div className="grid grid-cols-1 sm:grid-cols-[110px_1fr] gap-x-3 gap-y-1 items-start">
+      <label className="text-xs text-text-secondary sm:pt-1.5 flex items-center gap-1.5">
         {label}
         {changed && (
           <span
@@ -972,7 +974,7 @@ function SummaryCards({
 }) {
   return (
     <div className="rounded-lg border border-border bg-surface-alt overflow-hidden">
-      <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-border">
+      <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-border">
         <Stat label="To create" value={totals.created} valueClass="text-status-yes" />
         <Stat label="To update" value={totals.updated} valueClass="text-status-warn" />
         <Stat label="Identical" value={totals.skipped} muted />
@@ -1112,7 +1114,7 @@ function CollapsedList({
         </svg>
         {label}
       </summary>
-      <ul className="mt-2 ml-4 text-xs text-text-secondary grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-1">
+      <ul className="mt-2 ml-4 text-xs text-text-secondary grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-1">
         {items.map((s) => (
           <li key={s.key} className="font-mono truncate">
             {s.label}
@@ -1214,15 +1216,17 @@ function ApplyBar({
   onApply: () => void;
 }) {
   return (
-    <div className="fixed bottom-0 left-64 right-0 z-40 border-t border-border bg-surface-alt/95 backdrop-blur supports-[backdrop-filter]:bg-surface-alt/80">
-      <div className="px-8 py-3 flex items-center justify-between gap-4">
+    // Fixed to the viewport. Left edge is 0 on narrow screens (sidebar is in
+    // a drawer) and 64 on md+ (where the sidebar is visible).
+    <div className="fixed bottom-0 left-0 md:left-64 right-0 z-40 border-t border-border bg-surface-alt/95 backdrop-blur supports-[backdrop-filter]:bg-surface-alt/80">
+      <div className="px-4 md:px-8 py-3 flex items-center justify-between gap-3">
         <div className="text-sm min-w-0">
           {selected > 0 ? (
             <span className="text-text-secondary">
               <span className="text-text-primary font-semibold">{selected}</span>{' '}
               {pluralize(selected, 'change', { hideNumber: true })} selected
               {missing > 0 && (
-                <span className="text-text-muted">
+                <span className="text-text-muted hidden sm:inline">
                   {' '}
                   · {pluralize(missing, 'missing row')} will be kept
                 </span>
@@ -1236,20 +1240,28 @@ function ApplyBar({
           <button
             onClick={onCancel}
             disabled={isApplying}
-            className="px-4 py-2 text-sm text-text-secondary hover:text-text-primary rounded-lg hover:bg-tint-05 transition-colors disabled:opacity-50 whitespace-nowrap"
+            className="px-3 sm:px-4 py-2 text-sm text-text-secondary hover:text-text-primary rounded-lg hover:bg-tint-05 transition-colors disabled:opacity-50 whitespace-nowrap"
           >
             Cancel
           </button>
           <button
             onClick={onApply}
             disabled={isApplying || selected === 0}
-            className="px-5 py-2 bg-audius-purple text-text-primary text-sm font-medium rounded-lg hover:bg-audius-purple-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+            className="px-4 sm:px-5 py-2 bg-audius-purple text-text-primary text-sm font-medium rounded-lg hover:bg-audius-purple-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
           >
-            {isApplying
-              ? 'Applying…'
-              : selected > 0
-                ? `Apply ${selected} ${pluralize(selected, 'change', { hideNumber: true })}`
-                : 'Apply'}
+            {isApplying ? (
+              'Applying…'
+            ) : selected > 0 ? (
+              <>
+                {/* Long label on roomy viewports, short label otherwise */}
+                <span className="hidden sm:inline">
+                  Apply {selected} {pluralize(selected, 'change', { hideNumber: true })}
+                </span>
+                <span className="sm:hidden">Apply ({selected})</span>
+              </>
+            ) : (
+              'Apply'
+            )}
           </button>
         </div>
       </div>

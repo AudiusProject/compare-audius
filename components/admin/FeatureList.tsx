@@ -95,6 +95,16 @@ export function FeatureList({ features: initialFeatures, completeness }: Feature
     }
   };
 
+  // Drag handlers are shared between both layouts.
+  const rowHandlers = (index: number) => ({
+    draggable: true,
+    onDragStart: (e: React.DragEvent) => handleDragStart(e, index),
+    onDragOver: (e: React.DragEvent) => handleDragOver(e, index),
+    onDragLeave: handleDragLeave,
+    onDrop: (e: React.DragEvent) => handleDrop(e, index),
+    onDragEnd: handleDragEnd,
+  });
+
   return (
     <div className="bg-surface-alt rounded-lg border border-border overflow-hidden">
       {saving && (
@@ -102,37 +112,90 @@ export function FeatureList({ features: initialFeatures, completeness }: Feature
           Saving order...
         </div>
       )}
-      <table className="w-full">
+
+      {/* ---------- Card layout (default) ---------- */}
+      <ul className="lg:hidden divide-y divide-border">
+        {features.map((feature, index) => {
+          const comp = completeness.find((c) => c.featureId === feature.id)!;
+          const isDragging = draggedIndex === index;
+          const isDragOver = dragOverIndex === index;
+
+          return (
+            <li
+              key={feature.id}
+              {...rowHandlers(index)}
+              className={cn(
+                'flex items-start gap-3 p-4 transition-colors',
+                feature.isDraft ? 'bg-tint-05' : '',
+                isDragging && 'opacity-50',
+                isDragOver && 'bg-audius-purple/10',
+              )}
+            >
+              <span className="mt-1 cursor-grab active:cursor-grabbing flex-shrink-0">
+                <DragHandle />
+              </span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="font-medium text-text-primary">{feature.name}</div>
+                    <p className="text-sm text-text-muted mt-0.5">{feature.description}</p>
+                  </div>
+                  <StatusBadge isDraft={feature.isDraft} />
+                </div>
+                <div className="mt-3 flex items-center justify-between gap-3 flex-wrap">
+                  <span
+                    className={cn(
+                      'text-xs',
+                      comp.complete ? 'text-status-yes' : 'text-status-warn',
+                    )}
+                  >
+                    {comp.count}/{comp.total} comparisons
+                  </span>
+                  <FeatureActions feature={feature} canPublish={comp.complete} />
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
+      {/* ---------- Table layout (lg+) ---------- */}
+      <table className="hidden lg:table w-full">
         <thead className="bg-surface border-b border-border">
           <tr>
             <th className="w-10 px-2 py-3"></th>
-            <th className="px-4 py-3 text-left text-sm font-medium text-text-muted">Name</th>
-            <th className="px-4 py-3 text-left text-sm font-medium text-text-muted">Description</th>
-            <th className="px-4 py-3 text-left text-sm font-medium text-text-muted">Status</th>
-            <th className="px-4 py-3 text-left text-sm font-medium text-text-muted">Comparisons</th>
-            <th className="px-4 py-3 text-right text-sm font-medium text-text-muted">Actions</th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wide">
+              Name
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wide">
+              Description
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wide">
+              Status
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wide whitespace-nowrap">
+              Comparisons
+            </th>
+            <th className="px-4 py-3 text-right text-xs font-medium text-text-muted uppercase tracking-wide">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
           {features.map((feature, index) => {
-            const comp = completeness.find(c => c.featureId === feature.id)!;
+            const comp = completeness.find((c) => c.featureId === feature.id)!;
             const isDragging = draggedIndex === index;
             const isDragOver = dragOverIndex === index;
 
             return (
               <tr
                 key={feature.id}
-                draggable
-                onDragStart={(e) => handleDragStart(e, index)}
-                onDragOver={(e) => handleDragOver(e, index)}
-                onDragLeave={handleDragLeave}
-                onDrop={(e) => handleDrop(e, index)}
-                onDragEnd={handleDragEnd}
+                {...rowHandlers(index)}
                 className={cn(
                   'transition-colors',
                   feature.isDraft ? 'bg-tint-05' : '',
                   isDragging && 'opacity-50',
-                  isDragOver && 'bg-audius-purple/10'
+                  isDragOver && 'bg-audius-purple/10',
                 )}
               >
                 <td className="px-2 py-3 cursor-grab active:cursor-grabbing">
@@ -145,12 +208,12 @@ export function FeatureList({ features: initialFeatures, completeness }: Feature
                 <td className="px-4 py-3">
                   <StatusBadge isDraft={feature.isDraft} />
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-4 py-3 whitespace-nowrap">
                   <span className={comp.complete ? 'text-status-yes' : 'text-status-warn'}>
                     {comp.count}/{comp.total}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-right">
+                <td className="px-4 py-3 text-right whitespace-nowrap">
                   <FeatureActions feature={feature} canPublish={comp.complete} />
                 </td>
               </tr>

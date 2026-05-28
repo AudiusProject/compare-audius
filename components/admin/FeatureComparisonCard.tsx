@@ -117,51 +117,62 @@ export function FeatureComparisonCard({
             {platforms.map(platform => {
               const comp = data[platform.id];
               return (
-                <div key={platform.id} className="flex items-start gap-4">
+                <div
+                  key={platform.id}
+                  className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4"
+                >
                   {/* Platform logo + name */}
-                  <div className="w-32 flex-shrink-0">
+                  <div className="md:w-32 flex-shrink-0">
                     <div className="flex items-center gap-2">
                       <Image
                         src={platform.logo}
                         alt={platform.name}
                         width={24}
                         height={24}
-                        className="object-contain"
+                        className="object-contain flex-shrink-0"
                       />
-                      <span className="text-sm font-medium">
+                      <span className="text-sm font-medium truncate">
                         {platform.name}
-                        {platform.isDraft && <span className="text-status-warn ml-1">(Draft)</span>}
+                        {platform.isDraft && (
+                          <span className="text-status-warn ml-1">(Draft)</span>
+                        )}
                       </span>
                     </div>
                   </div>
-                  
-                  {/* Status select */}
-                  <StatusSelect
-                    value={comp.status}
-                    onChange={(status) => updateComparison(platform.id, { status })}
-                  />
-                  
-                  {/* Context field for partial */}
-                  {comp.status === 'partial' && (
-                    <input
-                      type="text"
-                      value={comp.context ?? ''}
-                      onChange={(e) => updateComparison(platform.id, { context: e.target.value })}
-                      placeholder="Context (e.g., Premium Subscription Required)"
-                      className="flex-1 px-3 py-1.5 border border-border rounded-lg text-sm bg-surface text-text-primary"
+
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 flex-1 min-w-0">
+                    {/* Status select */}
+                    <StatusSelect
+                      value={comp.status}
+                      onChange={(status) => updateComparison(platform.id, { status })}
                     />
-                  )}
-                  
-                  {/* Display value for custom */}
-                  {comp.status === 'custom' && (
-                    <input
-                      type="text"
-                      value={comp.displayValue ?? ''}
-                      onChange={(e) => updateComparison(platform.id, { displayValue: e.target.value })}
-                      placeholder="Value (e.g., 320 kbps)"
-                      className="flex-1 px-3 py-1.5 border border-border rounded-lg text-sm bg-surface text-text-primary"
-                    />
-                  )}
+
+                    {/* Context field for partial */}
+                    {comp.status === 'partial' && (
+                      <input
+                        type="text"
+                        value={comp.context ?? ''}
+                        onChange={(e) =>
+                          updateComparison(platform.id, { context: e.target.value })
+                        }
+                        placeholder="Context (e.g., Premium Subscription Required)"
+                        className="flex-1 min-w-0 px-3 py-1.5 border border-border rounded-lg text-sm bg-surface text-text-primary"
+                      />
+                    )}
+
+                    {/* Display value for custom */}
+                    {comp.status === 'custom' && (
+                      <input
+                        type="text"
+                        value={comp.displayValue ?? ''}
+                        onChange={(e) =>
+                          updateComparison(platform.id, { displayValue: e.target.value })
+                        }
+                        placeholder="Value (e.g., 320 kbps)"
+                        className="flex-1 min-w-0 px-3 py-1.5 border border-border rounded-lg text-sm bg-surface text-text-primary"
+                      />
+                    )}
+                  </div>
                 </div>
               );
             })}

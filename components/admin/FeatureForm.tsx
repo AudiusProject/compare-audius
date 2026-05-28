@@ -91,7 +91,7 @@ export function FeatureForm({ feature }: FeatureFormProps) {
         </div>
       </div>
       
-      <div className="mt-8 flex gap-3">
+      <div className="mt-8 flex flex-wrap gap-3">
         <button
           type="button"
           onClick={() => router.back()}
