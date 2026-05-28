@@ -1,22 +1,26 @@
 // app/admin/layout.tsx
 
-import { auth, signOut } from '@/auth';
+import { signOut } from '@/auth';
 import { redirect } from 'next/navigation';
 import { AdminNav } from '@/components/admin/AdminNav';
 import { ToastProvider } from '@/components/admin/Toast';
 import Image from 'next/image';
 import { getRequestOrigin } from '@/lib/origin';
+import { getEffectiveSession } from '@/lib/api-helpers';
 
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  
+  const session = await getEffectiveSession();
+
   if (!session) {
     redirect('/login');
   }
+
+  const authBypassed =
+    process.env.NODE_ENV !== 'production' && process.env.DEV_SKIP_AUTH === 'true';
   
   return (
     <ToastProvider>
@@ -68,6 +72,11 @@ export default async function AdminLayout({
         
         {/* Main content - offset by sidebar width */}
         <main className="ml-64 min-h-screen">
+          {authBypassed && (
+            <div className="bg-status-warn/15 border-b border-status-warn/40 text-status-warn px-8 py-2 text-xs font-medium">
+              DEV_SKIP_AUTH is on — authentication is bypassed. Do not run this build in production.
+            </div>
+          )}
           <div className="p-8">
             {children}
           </div>

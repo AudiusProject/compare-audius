@@ -1,11 +1,11 @@
 // app/admin/page.tsx
 
-import { auth } from '@/auth';
+import { getEffectiveSession } from '@/lib/api-helpers';
 import { getAllPlatforms, getAllFeatures, getAllComparisons } from '@/lib/data';
 import Link from 'next/link';
 
 export default async function AdminDashboard() {
-  const session = await auth();
+  const session = await getEffectiveSession();
   const platforms = await getAllPlatforms();
   const features = await getAllFeatures();
   const comparisons = await getAllComparisons();

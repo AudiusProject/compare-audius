@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 
-type Status = 'yes' | 'no' | 'partial' | 'custom';
+export type Status = 'yes' | 'no' | 'partial' | 'custom' | 'skip';
 
 interface StatusSelectProps {
   value: Status;
@@ -22,6 +22,7 @@ export function StatusSelect({ value, onChange, disabled }: StatusSelectProps) {
         'disabled:opacity-50 disabled:cursor-not-allowed'
       )}
     >
+      <option value="skip">— (skip / blank)</option>
       <option value="yes">Yes</option>
       <option value="no">No</option>
       <option value="partial">Partial</option>

@@ -1,13 +1,17 @@
 // types/index.ts
 
 /**
- * Comparison status types
+ * Comparison status types. Keep in sync with the `status` enum on the
+ * `comparisons` table in db/schema.ts.
  * - yes: Feature fully available (green checkmark)
  * - no: Feature not available (red X)
  * - partial: Feature partially available with context (gray dash)
  * - custom: Custom display value instead of icon (e.g., "320 kbps")
+ * - skip: Explicitly blank — filtered out of getComparisonData() so the
+ *         feature row doesn't appear on the public page for that platform.
+ *         Never reaches the public UI.
  */
-export type ComparisonStatus = 'yes' | 'no' | 'partial' | 'custom';
+export type ComparisonStatus = 'yes' | 'no' | 'partial' | 'custom' | 'skip';
 
 /**
  * Platform (Audius, Spotify, SoundCloud)

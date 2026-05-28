@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
+import { getEffectiveSession } from '@/lib/api-helpers';
 import { cloudinary } from '@/lib/cloudinary';
 
 // Allowed MIME types for upload
@@ -15,7 +15,7 @@ const MAX_SIZE = 2 * 1024 * 1024;
 
 export async function POST(request: NextRequest) {
   // 1. Verify authentication
-  const session = await auth();
+  const session = await getEffectiveSession();
   if (!session) {
     return NextResponse.json(
       { error: 'Unauthorized' },

@@ -28,7 +28,11 @@ export const comparisons = sqliteTable('comparisons', {
   id: text('id').primaryKey(),
   platformId: text('platform_id').notNull().references(() => platforms.id, { onDelete: 'cascade' }),
   featureId: text('feature_id').notNull().references(() => features.id, { onDelete: 'cascade' }),
-  status: text('status', { enum: ['yes', 'no', 'partial', 'custom'] }).notNull(),
+  // 'skip' means "no comparison for this (platform, feature) pair" — it's
+  // filtered out of getComparisonData() and won't appear on the public page,
+  // same as if the row didn't exist. Used to explicitly mark cells as blank
+  // without leaving holes that can be accidentally re-created as 'no'.
+  status: text('status', { enum: ['yes', 'no', 'partial', 'custom', 'skip'] }).notNull(),
   displayValue: text('display_value'),
   context: text('context'),
   createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),

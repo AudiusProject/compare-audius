@@ -144,7 +144,9 @@ export async function getComparisonData(competitorSlug: string): Promise<Feature
   const featureList = await getFeatures(); // Already filtered to published
   const allComparisons = await getAllComparisons();
 
-  // Filter to features that have comparisons for BOTH Audius and the competitor
+  // Filter to features that have comparisons for BOTH Audius and the competitor.
+  // A row with status 'skip' is treated as if the row didn't exist — it's the
+  // explicit "leave this cell blank" signal from the admin.
   const result: FeatureComparison[] = [];
 
   for (const feature of featureList) {
@@ -155,8 +157,10 @@ export async function getComparisonData(competitorSlug: string): Promise<Feature
       c => c.platformId === competitor.id && c.featureId === feature.id
     );
 
-    // Only include features with comparisons for both platforms
-    if (audiusComparison && competitorComparison) {
+    const audiusActive = audiusComparison && audiusComparison.status !== 'skip';
+    const competitorActive = competitorComparison && competitorComparison.status !== 'skip';
+
+    if (audiusActive && competitorActive) {
       result.push({
         feature,
         audius: audiusComparison,

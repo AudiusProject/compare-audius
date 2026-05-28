@@ -11,7 +11,7 @@ import type { Feature, Platform, Comparison } from '@/db/schema';
 
 interface ComparisonData {
   platformId: string;
-  status: 'yes' | 'no' | 'partial' | 'custom';
+  status: 'yes' | 'no' | 'partial' | 'custom' | 'skip';
   displayValue: string | null;
   context: string | null;
 }
@@ -39,7 +39,11 @@ export function FeatureComparisonCard({
       const existing = comparisons.find(c => c.platformId === platform.id);
       initial[platform.id] = {
         platformId: platform.id,
-        status: (existing?.status as ComparisonData['status']) ?? 'no',
+        // Default to 'skip' for untouched cells. Previously this was 'no', which
+        // meant saving any feature card silently created a "this platform doesn't
+        // have it" row for every platform you hadn't filled in, polluting the
+        // public comparison pages.
+        status: (existing?.status as ComparisonData['status']) ?? 'skip',
         displayValue: existing?.displayValue ?? null,
         context: existing?.context ?? null,
       };
