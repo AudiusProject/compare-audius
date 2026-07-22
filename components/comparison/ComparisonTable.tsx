@@ -1,138 +1,107 @@
 // components/comparison/ComparisonTable.tsx
+import type { CSSProperties } from 'react';
 import { PlatformHeader } from './PlatformHeader';
-import type { Platform, FeatureComparison, ComparisonStatus } from '@/types';
-import { CheckIcon, XIcon, MinusIcon } from '@/components/ui/Icon';
+import { StatusIndicator } from './StatusIndicator';
+import { cn } from '@/lib/utils';
+import type { Platform, ComparisonRow } from '@/types';
 
 interface ComparisonTableProps {
-  audius: Platform;
-  competitor: Platform;
-  comparisons: FeatureComparison[];
+  /** Column order: [audius, ...competitors] */
+  platforms: Platform[];
+  rows: ComparisonRow[];
 }
 
-export function ComparisonTable({ audius, competitor, comparisons }: ComparisonTableProps) {
-  
-  return (
-    <div className="relative z-10 animate-slide-up">
-      {/* Sticky platform header row */}
-      <div className="sticky top-[var(--spacing-header-height)] z-20 bg-surface-90 backdrop-blur pb-px">
-        {/* Background extension to mask content under header */}
-        <div className="absolute inset-x-0 -top-4 h-4 bg-surface" />
-        
-        <div className="grid grid-cols-[minmax(180px,1fr)_minmax(140px,1fr)_minmax(140px,1fr)] lg:grid-cols-[minmax(200px,320px)_minmax(200px,360px)_minmax(200px,360px)]">
-          {/* Empty cell for feature column */}
-          <div className="h-[100px] lg:h-[120px] bg-surface" />
-          
-          {/* Audius platform header */}
-          <div className="h-[100px] lg:h-[120px] border-l border-r border-border bg-surface-raised flex items-center justify-center overflow-hidden">
-            <PlatformHeader platform={audius} />
-          </div>
-          
-          {/* Competitor platform header */}
-          <div className="h-[100px] lg:h-[120px] bg-surface-alt flex items-center justify-center overflow-hidden">
-            <PlatformHeader platform={competitor} />
-          </div>
-        </div>
-      </div>
-      
-      {/* Feature rows container */}
-      <div className="relative z-10">
-        <div className="grid grid-cols-[minmax(180px,1fr)_minmax(140px,1fr)_minmax(140px,1fr)] lg:grid-cols-[minmax(200px,320px)_minmax(200px,360px)_minmax(200px,360px)]">
-          {/* Feature column */}
-          <div className="bg-surface">
-            {comparisons.map((comparison) => (
-              <div 
-                key={`feature-${comparison.feature.id}`}
-                className="h-[112px] p-4 lg:p-5 flex flex-col justify-center border-t border-border"
-              >
-                <h3 className="text-[clamp(1.2rem,0.95rem+0.75vw,1.7rem)] font-extrabold leading-[1.08] tracking-normal text-text-primary">
-                  {comparison.feature.name}
-                </h3>
-                <p className="mt-1.5 text-[0.82rem] lg:text-[0.9rem] leading-[1.45] text-text-muted max-w-[30ch] line-clamp-2 lg:line-clamp-none">
-                  {comparison.feature.description}
-                </p>
-              </div>
-            ))}
-          </div>
-          
-          {/* Audius column - matches header styling */}
-          <div className="bg-surface-raised border-l border-r border-b border-border">
-            {comparisons.map((comparison) => (
-              <div 
-                key={`audius-${comparison.feature.id}`}
-                className="h-[112px] p-3 lg:p-5 flex items-center justify-center border-t border-border"
-              >
-                <StatusCell 
-                  status={comparison.audius.status}
-                  displayValue={comparison.audius.displayValue}
-                  context={comparison.audius.context}
-                />
-              </div>
-            ))}
-          </div>
-          
-          {/* Competitor column */}
-          <div className="bg-surface-alt">
-            {comparisons.map((comparison) => (
-              <div 
-                key={`competitor-${comparison.feature.id}`}
-                className="h-[112px] p-3 lg:p-5 flex items-center justify-center border-t border-border"
-              >
-                <StatusCell 
-                  status={comparison.competitor.status}
-                  displayValue={comparison.competitor.displayValue}
-                  context={comparison.competitor.context}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+/**
+ * Styling for a platform value column. Column 0 (Audius) is the raised hero
+ * column — distinguished by background only, so every grid line (row and
+ * column) uses the same border color.
+ */
+function valueColumnClasses(index: number, count: number): string {
+  return cn(
+    index === 0 ? 'bg-surface-raised' : 'bg-surface-alt',
+    'border-l border-border',
+    index === count - 1 && 'border-r border-border'
   );
 }
 
-// Inline status cell component
-function StatusCell({ 
-  status, 
-  displayValue, 
-  context 
-}: { 
-  status: ComparisonStatus;
-  displayValue?: string | null;
-  context?: string | null;
-}) {
+export function ComparisonTable({ platforms, rows }: ComparisonTableProps) {
+  const gridStyle = { '--compare-cols': platforms.length } as CSSProperties;
+  const columnNames = platforms.map((p) => p.name).join(' vs ');
+
   return (
-    <div className="flex flex-col items-center gap-2 text-center">
-      {status === 'custom' && displayValue && (
-        <span className="text-base lg:text-lg font-semibold text-text-primary">
-          {displayValue}
-        </span>
-      )}
-      
-      {status === 'yes' && (
-        <div className="w-6 h-6 rounded-full bg-status-yes flex items-center justify-center">
-          <CheckIcon className="text-on-status w-4 h-4" />
-        </div>
-      )}
-      
-      {status === 'no' && (
-        <div className="w-6 h-6 rounded-full bg-status-no flex items-center justify-center">
-          <XIcon className="text-on-status w-4 h-4" />
-        </div>
-      )}
-      
-      {status === 'partial' && (
-        <>
-          <div className="w-6 h-6 rounded-full bg-status-partial flex items-center justify-center">
-            <MinusIcon className="text-on-status w-4 h-4" />
+    <div
+      role="table"
+      aria-label={`Feature comparison: ${columnNames}`}
+      className="relative z-10 animate-slide-up"
+      style={gridStyle}
+    >
+      {/* Sticky platform header row */}
+      <div
+        role="rowgroup"
+        className="sticky top-[var(--spacing-header-height)] z-20 bg-surface-90 backdrop-blur pb-px"
+      >
+        {/* Background extension to mask content under header */}
+        <div className="absolute inset-x-0 -top-4 h-4 bg-surface" aria-hidden />
+
+        <div role="row" className="compare-grid">
+          <div role="columnheader" className="h-[100px] lg:h-[120px] bg-surface">
+            <span className="sr-only">Feature</span>
           </div>
-          {context && (
-            <span className="text-xs lg:text-[0.8rem] leading-[1.35] text-text-secondary text-center max-w-[120px] lg:max-w-[200px]">
-              {context}
-            </span>
-          )}
-        </>
-      )}
+
+          {platforms.map((platform, index) => (
+            <div
+              key={platform.id}
+              role="columnheader"
+              className={cn(
+                'h-[100px] lg:h-[120px] flex items-center justify-center overflow-hidden',
+                valueColumnClasses(index, platforms.length)
+              )}
+            >
+              <PlatformHeader
+                platform={platform}
+                size={platforms.length > 2 ? 'md' : 'lg'}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Feature rows — each row is a grid sharing the same template, so
+          columns stay aligned while rows size to their content */}
+      <div role="rowgroup" className="border-b border-border">
+        {rows.map((row) => (
+          <div key={row.feature.id} role="row" className="compare-grid">
+            <div
+              role="rowheader"
+              className="bg-surface min-h-[92px] py-4 pr-4 lg:pr-6 flex flex-col justify-center border-t border-border"
+            >
+              <h3 className="text-[1.05rem] lg:text-[1.15rem] font-bold leading-[1.2] tracking-normal text-text-primary text-balance">
+                {row.feature.name}
+              </h3>
+              <p className="mt-1 text-[0.78rem] lg:text-[0.82rem] leading-[1.45] text-text-muted max-w-[28ch]">
+                {row.feature.description}
+              </p>
+            </div>
+
+            {row.cells.map((cell, index) => (
+              <div
+                key={`${row.feature.id}-${platforms[index].id}`}
+                role="cell"
+                className={cn(
+                  'min-h-[92px] p-3 lg:p-4 flex items-center justify-center border-t border-border',
+                  valueColumnClasses(index, platforms.length)
+                )}
+              >
+                <StatusIndicator
+                  status={cell.status}
+                  displayValue={cell.displayValue}
+                  context={cell.context}
+                />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

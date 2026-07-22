@@ -1,27 +1,24 @@
 // components/comparison/ComparisonCards.tsx
 import { FeatureCard } from './FeatureCard';
-import type { Platform, FeatureComparison } from '@/types';
+import type { Platform, ComparisonRow } from '@/types';
 
 interface ComparisonCardsProps {
-  audius: Platform;
-  competitor: Platform;
-  comparisons: FeatureComparison[];
+  /** Row order: [audius, ...competitors] */
+  platforms: Platform[];
+  rows: ComparisonRow[];
 }
 
-export function ComparisonCards({ audius, competitor, comparisons }: ComparisonCardsProps) {
+export function ComparisonCards({ platforms, rows }: ComparisonCardsProps) {
   return (
     <div className="space-y-4">
-      {comparisons.map((comparison, index) => (
+      {rows.map((row, index) => (
         <div
-          key={comparison.feature.id}
+          key={row.feature.id}
           className="animate-slide-up"
-          style={{ animationDelay: `${index * 70}ms` }}
+          // Cap the stagger so late cards don't wait around off-screen
+          style={{ animationDelay: `${Math.min(index, 6) * 60}ms` }}
         >
-          <FeatureCard
-            audius={audius}
-            comparison={comparison}
-            competitor={competitor}
-          />
+          <FeatureCard platforms={platforms} row={row} />
         </div>
       ))}
     </div>
