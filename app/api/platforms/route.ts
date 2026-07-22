@@ -4,6 +4,7 @@ import { NextRequest } from 'next/server';
 import { db } from '@/db';
 import { platforms } from '@/db/schema';
 import { requireAuth, successResponse, errorResponse } from '@/lib/api-helpers';
+import { validatePlatformSlug } from '@/lib/compare';
 import { nanoid } from 'nanoid';
 
 // GET /api/platforms - List all platforms
@@ -27,6 +28,11 @@ export async function POST(request: NextRequest) {
     // Validation
     if (!name || !slug || !logo) {
       return errorResponse('Name, slug, and logo are required');
+    }
+
+    const slugError = validatePlatformSlug(slug, { isAudius });
+    if (slugError) {
+      return errorResponse(slugError);
     }
     
     const newPlatform = {
