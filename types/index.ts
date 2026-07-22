@@ -56,20 +56,31 @@ export interface Comparison {
 }
 
 /**
- * Computed type for rendering a feature row
- * Contains the feature and both platform comparisons
+ * One rendered row of a comparison page: a feature plus one comparison cell
+ * per selected platform. `cells` is index-aligned with
+ * ComparisonData.platforms (cells[0] is always Audius).
  */
-export interface FeatureComparison {
+export interface ComparisonRow {
   feature: Feature;
-  audius: Comparison;
-  competitor: Comparison;
+  cells: Comparison[];
 }
 
 /**
- * Props for comparison page components
+ * Everything a comparison page needs. A row is only present when EVERY
+ * selected platform has a non-skip comparison for that feature (lowest
+ * common denominator).
  */
-export interface ComparisonPageProps {
-  competitor: Platform;
+export interface ComparisonData {
+  audius: Platform;
+  /** Selected competitors, in URL order */
   competitors: Platform[];
-  comparisons: FeatureComparison[];
+  /** [audius, ...competitors] — the column order */
+  platforms: Platform[];
+  rows: ComparisonRow[];
+  /**
+   * Unselected competitors that would keep at least one row if added to this
+   * comparison (i.e. they have a non-skip cell on ≥1 current row). Drives the
+   * "+" menu — empty means the + button is hidden entirely.
+   */
+  addableCompetitors: Platform[];
 }

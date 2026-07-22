@@ -4,15 +4,11 @@ import { db } from '@/db';
 import { platforms, features, comparisons } from '@/db/schema';
 import { eq, and, asc } from 'drizzle-orm';
 import type { Platform, Feature, Comparison } from '@/db/schema';
+import type { ComparisonData, ComparisonRow } from '@/types';
 
 // Re-export types for components
 export type { Platform, Feature, Comparison };
-
-export interface FeatureComparison {
-  feature: Feature;
-  audius: Comparison;
-  competitor: Comparison;
-}
+export type { ComparisonData, ComparisonRow };
 
 /**
  * Get all published platforms
@@ -125,51 +121,65 @@ export async function getComparison(platformId: string, featureId: string): Prom
 }
 
 /**
- * Get full comparison data for a competitor (public site)
- * Only includes published features that have comparisons for BOTH platforms.
- * Features without comparison data for either platform are omitted.
+ * Get full comparison data for one or more competitors (public site).
+ *
+ * A feature row is included only when EVERY selected platform (Audius plus
+ * all competitors) has a comparison whose status isn't 'skip' — the lowest
+ * common denominator. A 'skip' row is the admin's explicit "leave this cell
+ * blank" signal and is treated as if the row didn't exist.
  */
-export async function getComparisonData(competitorSlug: string): Promise<FeatureComparison[]> {
-  const audius = await getAudius();
-  const competitor = await getPlatform(competitorSlug);
-
-  if (!competitor) {
-    throw new Error(`Unknown competitor: ${competitorSlug}`);
+export async function getComparisonData(competitorSlugs: string[]): Promise<ComparisonData> {
+  if (competitorSlugs.length === 0) {
+    throw new Error('getComparisonData requires at least one competitor slug');
   }
 
-  if (competitor.isDraft) {
-    throw new Error(`Competitor is in draft mode: ${competitorSlug}`);
+  const [allPlatforms, featureList, allComparisons] = await Promise.all([
+    getPlatforms(), // Already filtered to published
+    getFeatures(), // Already filtered to published
+    getAllComparisons(),
+  ]);
+
+  const audius = allPlatforms.find(p => p.isAudius);
+  if (!audius) throw new Error('Audius platform not found');
+
+  const competitors = competitorSlugs.map(slug => {
+    const platform = allPlatforms.find(p => p.slug === slug && !p.isAudius);
+    if (!platform) throw new Error(`Unknown or unpublished competitor: ${slug}`);
+    return platform;
+  });
+
+  const platforms = [audius, ...competitors];
+
+  const byPlatformFeature = new Map<string, Comparison>();
+  for (const comparison of allComparisons) {
+    byPlatformFeature.set(`${comparison.platformId}:${comparison.featureId}`, comparison);
   }
 
-  const featureList = await getFeatures(); // Already filtered to published
-  const allComparisons = await getAllComparisons();
-
-  // Filter to features that have comparisons for BOTH Audius and the competitor.
-  // A row with status 'skip' is treated as if the row didn't exist — it's the
-  // explicit "leave this cell blank" signal from the admin.
-  const result: FeatureComparison[] = [];
-
+  const rows: ComparisonRow[] = [];
   for (const feature of featureList) {
-    const audiusComparison = allComparisons.find(
-      c => c.platformId === audius.id && c.featureId === feature.id
-    );
-    const competitorComparison = allComparisons.find(
-      c => c.platformId === competitor.id && c.featureId === feature.id
-    );
-
-    const audiusActive = audiusComparison && audiusComparison.status !== 'skip';
-    const competitorActive = competitorComparison && competitorComparison.status !== 'skip';
-
-    if (audiusActive && competitorActive) {
-      result.push({
-        feature,
-        audius: audiusComparison,
-        competitor: competitorComparison,
-      });
+    const cells: Comparison[] = [];
+    for (const platform of platforms) {
+      const cell = byPlatformFeature.get(`${platform.id}:${feature.id}`);
+      if (!cell || cell.status === 'skip') break;
+      cells.push(cell);
+    }
+    if (cells.length === platforms.length) {
+      rows.push({ feature, cells });
     }
   }
 
-  return result;
+  // Competitors worth offering in the "+" menu: adding one must keep at
+  // least one row (it has a non-skip cell on some feature we already show).
+  const selectedIds = new Set(platforms.map(p => p.id));
+  const addableCompetitors = allPlatforms.filter(candidate => {
+    if (candidate.isAudius || selectedIds.has(candidate.id)) return false;
+    return rows.some(row => {
+      const cell = byPlatformFeature.get(`${candidate.id}:${row.feature.id}`);
+      return cell !== undefined && cell.status !== 'skip';
+    });
+  });
+
+  return { audius, competitors, platforms, rows, addableCompetitors };
 }
 
 /**
