@@ -31,7 +31,7 @@ export function PageHeader({ competitors, allCompetitors, addableCompetitors }: 
 
       {/* Subtitle */}
       <p className="mt-4 text-text-secondary text-fluid-body max-w-xl">
-        See how we stack up against the bigger fish.
+        See how we stack up against our competitors.
       </p>
     </div>
   );
