@@ -1,9 +1,10 @@
 // components/ui/Dropdown.tsx
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { useDropdown } from './useDropdown';
 import { ChevronDownIcon } from './Icon';
 
 export interface DropdownItem {
@@ -40,49 +41,26 @@ export function Dropdown({
   footer,
   isActive,
 }: DropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const {
+    isOpen,
+    setIsOpen,
+    containerRef: dropdownRef,
+    onTriggerKeyDown,
+    onMenuKeyDown,
+  } = useDropdown<HTMLDivElement>();
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const open = () => {
+  // Hover open/close keeps a small grace period so the pointer can travel
+  // from trigger to panel without the menu vanishing
+  const hoverOpen = () => {
     if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
     setIsOpen(true);
   };
 
-  const close = () => {
+  const hoverClose = () => {
     closeTimeoutRef.current = setTimeout(() => setIsOpen(false), 120);
   };
-  
-  // Close on outside click
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    }
-    
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-  
-  // Close on Escape
-  useEffect(() => {
-    function handleEscape(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        setIsOpen(false);
-      }
-    }
-    
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, []);
 
-  useEffect(() => {
-    return () => {
-      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
-    };
-  }, []);
-  
   const alignmentClasses = {
     left: 'left-0',
     right: 'right-0',
@@ -93,14 +71,15 @@ export function Dropdown({
     <div
       ref={dropdownRef}
       className={cn('relative inline-block', className)}
-      onMouseEnter={open}
-      onMouseLeave={close}
+      onMouseEnter={hoverOpen}
+      onMouseLeave={hoverClose}
     >
       {/* Trigger button - matches header nav styling */}
       <button
         onClick={() => setIsOpen(!isOpen)}
+        onKeyDown={onTriggerKeyDown}
         aria-expanded={isOpen}
-        aria-haspopup="true"
+        aria-haspopup="menu"
         className={cn(
           'relative flex items-center gap-1.5 py-2',
           'text-fluid-small font-bold tracking-[0.08em] transition-colors duration-150 focus-visible:outline-none',
@@ -132,6 +111,7 @@ export function Dropdown({
           dropdownClassName
         )}
         role="menu"
+        onKeyDown={onMenuKeyDown}
       >
         <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/60 py-2">
           <div className="absolute inset-0 bg-neutral-950/85 backdrop-blur-2xl" />
@@ -199,6 +179,7 @@ function DropdownItemComponent({
   
   const itemClassName = cn(
     'flex w-full px-3 text-left rounded-xl transition-colors duration-150',
+    'focus-visible:outline-none focus-visible:bg-white/10 focus-visible:text-white',
     hasDescription ? 'items-start gap-3 py-3' : 'items-center gap-2.5 py-2.5',
     item.isActive
       ? 'bg-audius-purple/15 text-white'
