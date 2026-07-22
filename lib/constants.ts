@@ -13,6 +13,21 @@ export const SITE_DESCRIPTION = 'See how Audius compares to Spotify, SoundCloud,
 export const DEFAULT_COMPETITOR = 'soundcloud';
 
 /**
+ * Maximum competitors in one comparison (columns = this + 1 for Audius)
+ */
+export const MAX_COMPETITORS = 3;
+
+/**
+ * Multi-platform combos that are indexable (self-canonical, in the sitemap,
+ * statically generated). Order within each combo is the canonical URL order —
+ * permutations redirect to it. Every other combo renders but is noindex with
+ * a canonical pointing at the first competitor's 1v1 page.
+ */
+export const CURATED_COMBOS: string[][] = [
+  ['spotify', 'soundcloud'],
+];
+
+/**
  * External URLs used throughout the site
  * Verify all URLs before launch
  */

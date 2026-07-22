@@ -1,6 +1,7 @@
 // components/seo/StructuredData.tsx
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/constants';
-import type { Platform, FeatureComparison } from '@/types';
+import { buildComparePath } from '@/lib/compare';
+import type { Platform, ComparisonRow, Comparison } from '@/types';
 
 /**
  * Serialize an object for embedding inside an inline <script> tag.
@@ -71,58 +72,67 @@ export function WebSiteSchema() {
 }
 
 /**
- * Comparison page structured data using ItemList schema
- * Represents the feature comparison as a list of items
+ * Comparison page structured data (FAQPage + ItemList + WebPage), generalized
+ * to any number of competitors. 1v1 pages keep the original phrasing so any
+ * existing rich results are preserved.
  */
 interface ComparisonSchemaProps {
-  competitor: Platform;
-  comparisons: FeatureComparison[];
+  /** Selected competitors, in URL order */
+  competitors: Platform[];
+  rows: ComparisonRow[];
 }
 
-export function ComparisonSchema({ competitor, comparisons }: ComparisonSchemaProps) {
-  const pageUrl = `${SITE_URL}/${competitor.slug}`;
+export function ComparisonSchema({ competitors, rows }: ComparisonSchemaProps) {
+  const pageUrl = `${SITE_URL}${buildComparePath(competitors.map((c) => c.slug))}`;
+  const vsTitle = ['Audius', ...competitors.map((c) => c.name)].join(' vs ');
+  const proseNames = listNames(['Audius', ...competitors.map((c) => c.name)]);
+  const single = competitors.length === 1 ? competitors[0] : null;
 
-  // Create FAQPage schema - each feature comparison becomes a Q&A
+  // FAQPage schema - each feature comparison becomes a Q&A
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: comparisons.map((comparison) => {
-      const audiusStatus = formatStatus(comparison.audius.status, comparison.audius.displayValue, comparison.audius.context);
-      const competitorStatus = formatStatus(comparison.competitor.status, comparison.competitor.displayValue, comparison.competitor.context);
+    mainEntity: rows.map((row) => {
+      const statuses = row.cells.map((cell, index) => {
+        const name = index === 0 ? 'Audius' : competitors[index - 1].name;
+        return `${name}: ${formatStatus(cell.status, cell.displayValue, cell.context)}`;
+      });
 
       return {
         '@type': 'Question',
-        name: `Does Audius or ${competitor.name} have better ${comparison.feature.name}?`,
+        name: single
+          ? `Does Audius or ${single.name} have better ${row.feature.name}?`
+          : `How do ${proseNames} compare on ${row.feature.name}?`,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `${comparison.feature.description} Audius: ${audiusStatus}. ${competitor.name}: ${competitorStatus}.`,
+          text: `${row.feature.description} ${statuses.join('. ')}.`,
         },
       };
     }),
   };
 
-  // Create ItemList schema for the comparison table
+  // ItemList schema for the comparison table
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: `Audius vs ${competitor.name} Feature Comparison`,
-    description: `Compare ${comparisons.length} features between Audius and ${competitor.name}`,
+    name: `${vsTitle} Feature Comparison`,
+    description: `Compare ${rows.length} features between ${proseNames}`,
     url: pageUrl,
-    numberOfItems: comparisons.length,
-    itemListElement: comparisons.map((comparison, index) => ({
+    numberOfItems: rows.length,
+    itemListElement: rows.map((row, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      name: comparison.feature.name,
-      description: comparison.feature.description,
+      name: row.feature.name,
+      description: row.feature.description,
     })),
   };
 
-  // Create WebPage schema
+  // WebPage schema
   const webPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: `Audius vs ${competitor.name} | Feature Comparison`,
-    description: `Compare Audius and ${competitor.name} side by side. See how streaming quality, artist tools, and features stack up.`,
+    name: `${vsTitle} | Feature Comparison`,
+    description: `Compare ${proseNames} side by side. See how streaming quality, artist tools, and features stack up.`,
     url: pageUrl,
     isPartOf: {
       '@type': 'WebSite',
@@ -136,11 +146,11 @@ export function ComparisonSchema({ competitor, comparisons }: ComparisonSchemaPr
         applicationCategory: 'Music Streaming Service',
         url: 'https://audius.co',
       },
-      {
+      ...competitors.map((competitor) => ({
         '@type': 'SoftwareApplication',
         name: competitor.name,
         applicationCategory: 'Music Streaming Service',
-      },
+      })),
     ],
   };
 
@@ -163,18 +173,32 @@ export function ComparisonSchema({ competitor, comparisons }: ComparisonSchemaPr
 }
 
 /**
+ * "Audius, Spotify, and SoundCloud" (Oxford comma for 3+)
+ */
+function listNames(names: string[]): string {
+  if (names.length <= 2) return names.join(' and ');
+  return `${names.slice(0, -1).join(', ')}, and ${names[names.length - 1]}`;
+}
+
+/**
  * Format comparison status for human-readable text
  */
-function formatStatus(status: string, displayValue: string | null, context: string | null): string {
+function formatStatus(
+  status: Comparison['status'],
+  displayValue: string | null,
+  context: string | null
+): string {
+  // Context can accompany any visible status, not just partial
+  const withContext = (base: string) => (context ? `${base} (${context})` : base);
   switch (status) {
     case 'yes':
-      return 'Yes, fully supported';
+      return withContext('Yes, fully supported');
     case 'no':
-      return 'No, not available';
+      return withContext('No, not available');
     case 'partial':
       return context ? `Partially (${context})` : 'Partially supported';
     case 'custom':
-      return displayValue || 'Available';
+      return withContext(displayValue || 'Available');
     default:
       return 'Unknown';
   }

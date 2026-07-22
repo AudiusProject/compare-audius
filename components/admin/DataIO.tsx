@@ -710,10 +710,11 @@ function ComparisonFields({
   const wasMap = getChangedFields(changes);
   const handleStatus = (status: ComparisonStatus) => {
     // Mirror the convention from FeatureComparisonCard: clear the fields that
-    // aren't relevant for the new status.
+    // aren't relevant for the new status. Context is valid on any visible
+    // status — only 'skip' clears it.
     const patch: Partial<ComparisonExport> = { status };
     if (status !== 'custom') patch.displayValue = null;
-    if (status !== 'partial') patch.context = null;
+    if (status === 'skip') patch.context = null;
     onChange(patch);
   };
   return (
@@ -740,12 +741,12 @@ function ComparisonFields({
           />
         </FieldRow>
       )}
-      {value.status === 'partial' && (
+      {value.status !== 'skip' && (
         <FieldRow
           label="Context"
           changed={wasMap.has('context')}
           wasValue={wasMap.get('context')}
-          hint="caveat shown under the partial indicator"
+          hint="optional note shown under the indicator"
         >
           <TextInput
             value={value.context ?? ''}

@@ -1,32 +1,33 @@
 // app/llms-full.txt/route.ts
 import { NextResponse } from 'next/server';
-import { getPlatforms, getFeatures, getCompetitors, getComparisonData, getAudius } from '@/lib/data';
+import { getPlatforms, getFeatures, getCompetitors, getComparisonData } from '@/lib/data';
 import { SITE_URL, SITE_NAME } from '@/lib/constants';
 
 // Revalidate every hour to pick up new platforms/features
 export const revalidate = 3600;
 
 function formatStatus(status: string, displayValue: string | null, context: string | null): string {
+  // Context can accompany any visible status, not just partial
+  const withContext = (base: string) => (context ? `${base} (${context})` : base);
   switch (status) {
     case 'yes':
-      return 'YES';
+      return withContext('YES');
     case 'no':
-      return 'NO';
+      return withContext('NO');
     case 'partial':
       return context ? `PARTIAL (${context})` : 'PARTIAL';
     case 'custom':
-      return displayValue || 'Available';
+      return withContext(displayValue || 'Available');
     default:
       return 'Unknown';
   }
 }
 
 export async function GET() {
-  const [platforms, features, competitors, audius] = await Promise.all([
+  const [platforms, features, competitors] = await Promise.all([
     getPlatforms(),
     getFeatures(),
     getCompetitors(),
-    getAudius(),
   ]);
 
   // Build platform descriptions
@@ -51,19 +52,21 @@ export async function GET() {
   const comparisonTables: string[] = [];
 
   for (const competitor of competitors) {
-    const comparisons = await getComparisonData(competitor.slug);
+    const { rows } = await getComparisonData([competitor.slug]);
 
-    const tableRows = comparisons.map(c => {
-      const audiusStatus = formatStatus(c.audius.status, c.audius.displayValue, c.audius.context);
-      const competitorStatus = formatStatus(c.competitor.status, c.competitor.displayValue, c.competitor.context);
-      return `| ${c.feature.name} | ${audiusStatus} | ${competitorStatus} |`;
+    const tableRows = rows.map(row => {
+      const [audiusCell, competitorCell] = row.cells;
+      const audiusStatus = formatStatus(audiusCell.status, audiusCell.displayValue, audiusCell.context);
+      const competitorStatus = formatStatus(competitorCell.status, competitorCell.displayValue, competitorCell.context);
+      return `| ${row.feature.name} | ${audiusStatus} | ${competitorStatus} |`;
     }).join('\n');
 
-    const audiusWins = comparisons.filter(c => {
+    const audiusWins = rows.filter(row => {
+      const [audiusCell, competitorCell] = row.cells;
       // Count Audius wins (yes > partial > no, custom values compared)
-      if (c.audius.status === 'yes' && c.competitor.status !== 'yes') return true;
-      if (c.audius.status === 'yes' && c.competitor.status === 'yes') return false;
-      if (c.audius.status === 'partial' && c.competitor.status === 'no') return true;
+      if (audiusCell.status === 'yes' && competitorCell.status !== 'yes') return true;
+      if (audiusCell.status === 'yes' && competitorCell.status === 'yes') return false;
+      if (audiusCell.status === 'partial' && competitorCell.status === 'no') return true;
       return false;
     }).length;
 
@@ -73,7 +76,7 @@ export async function GET() {
 |---------|--------|${''.padEnd(competitor.name.length, '-')}|
 ${tableRows}
 
-**Summary**: Audius leads on ${audiusWins}/${comparisons.length} features in this comparison.`);
+**Summary**: Audius leads on ${audiusWins}/${rows.length} features in this comparison.`);
   }
 
   const content = `# ${SITE_NAME} - Complete Feature Comparison Data

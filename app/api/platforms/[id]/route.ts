@@ -5,6 +5,7 @@ import { db } from '@/db';
 import { platforms } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { requireAuth, successResponse, errorResponse, revalidatePublicPages } from '@/lib/api-helpers';
+import { validatePlatformSlug } from '@/lib/compare';
 
 // GET /api/platforms/[id]
 export async function GET(
@@ -37,7 +38,20 @@ export async function PUT(
   try {
     const body = await request.json();
     const { name, slug, logo, isAudius, isDraft } = body;
-    
+
+    if (slug !== undefined) {
+      const existing = await db.select().from(platforms).where(eq(platforms.id, id));
+      if (!existing[0]) {
+        return errorResponse('Platform not found', 404);
+      }
+      const slugError = validatePlatformSlug(slug, {
+        isAudius: isAudius ?? existing[0].isAudius,
+      });
+      if (slugError) {
+        return errorResponse(slugError);
+      }
+    }
+
     const updateData: Record<string, unknown> = { updatedAt: new Date() };
     if (name !== undefined) updateData.name = name;
     if (slug !== undefined) updateData.slug = slug;

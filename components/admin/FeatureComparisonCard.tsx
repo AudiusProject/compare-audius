@@ -66,7 +66,9 @@ export function FeatureComparisonCard({
         featureId: feature.id,
         status: d.status,
         displayValue: d.status === 'custom' ? d.displayValue : null,
-        context: d.status === 'partial' ? d.context : null,
+        // Context is allowed on any visible status (yes/no/partial/custom) —
+        // it renders as subtext under the indicator on the public page.
+        context: d.status === 'skip' ? null : d.context,
       }));
       
       const res = await fetch('/api/comparisons', {
@@ -147,19 +149,6 @@ export function FeatureComparisonCard({
                       onChange={(status) => updateComparison(platform.id, { status })}
                     />
 
-                    {/* Context field for partial */}
-                    {comp.status === 'partial' && (
-                      <input
-                        type="text"
-                        value={comp.context ?? ''}
-                        onChange={(e) =>
-                          updateComparison(platform.id, { context: e.target.value })
-                        }
-                        placeholder="Context (e.g., Premium Subscription Required)"
-                        className="flex-1 min-w-0 px-3 py-1.5 border border-border rounded-lg text-sm bg-surface text-text-primary"
-                      />
-                    )}
-
                     {/* Display value for custom */}
                     {comp.status === 'custom' && (
                       <input
@@ -169,6 +158,23 @@ export function FeatureComparisonCard({
                           updateComparison(platform.id, { displayValue: e.target.value })
                         }
                         placeholder="Value (e.g., 320 kbps)"
+                        className="flex-1 min-w-0 px-3 py-1.5 border border-border rounded-lg text-sm bg-surface text-text-primary"
+                      />
+                    )}
+
+                    {/* Optional context for any visible status */}
+                    {comp.status !== 'skip' && (
+                      <input
+                        type="text"
+                        value={comp.context ?? ''}
+                        onChange={(e) =>
+                          updateComparison(platform.id, { context: e.target.value })
+                        }
+                        placeholder={
+                          comp.status === 'partial'
+                            ? 'Context (e.g., Premium Subscription Required)'
+                            : 'Context — optional (e.g., Via third-party tools)'
+                        }
                         className="flex-1 min-w-0 px-3 py-1.5 border border-border rounded-lg text-sm bg-surface text-text-primary"
                       />
                     )}
