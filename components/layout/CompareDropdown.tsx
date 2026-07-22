@@ -4,6 +4,7 @@
 import { useRouter, usePathname } from 'next/navigation';
 import { Dropdown, type DropdownSection } from '@/components/ui/Dropdown';
 import { DEFAULT_COMPETITOR } from '@/lib/constants';
+import { parseCompareSegment } from '@/lib/compare';
 import type { Platform } from '@/types';
 
 interface CompareDropdownProps {
@@ -14,8 +15,11 @@ export function CompareDropdown({ competitors }: CompareDropdownProps) {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Determine current competitor from pathname
-  const currentSlug = pathname === '/' ? DEFAULT_COMPETITOR : pathname.slice(1);
+  // Slugs in the current comparison ("/" shows the default competitor;
+  // multi-segment paths like /spotify-vs-soundcloud contain several)
+  const currentSlugs = pathname === '/'
+    ? [DEFAULT_COMPETITOR]
+    : parseCompareSegment(pathname.slice(1));
 
   const sections: DropdownSection[] = [
     {
@@ -24,7 +28,7 @@ export function CompareDropdown({ competitors }: CompareDropdownProps) {
         label: competitor.name,
         description: `Audius versus ${competitor.name}, side-by-side feature comparison.`,
         onClick: () => router.push(`/${competitor.slug}`),
-        isActive: competitor.slug === currentSlug,
+        isActive: currentSlugs.includes(competitor.slug),
       })),
     },
   ];
