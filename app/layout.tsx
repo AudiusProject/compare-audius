@@ -4,6 +4,7 @@ import { Urbanist } from 'next/font/google';
 import './globals.css';
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/constants';
 import { LayoutStructuredData } from '@/components/seo/StructuredData';
+import { Analytics } from '@vercel/analytics/next';
 
 const urbanist = Urbanist({
   subsets: ['latin'],
@@ -88,6 +89,7 @@ export default function RootLayout({
       </head>
       <body>
         {children}
+        <Analytics />
       </body>
     </html>
   );
